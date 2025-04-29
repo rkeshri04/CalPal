@@ -18,6 +18,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
+  const SPOONACULAR_API_KEY = process.env.EXPO_PUBLIC_SPOONACULAR_API_KEY;
 
   useEffect(() => {
     if (visible && !permission?.granted) {
@@ -31,7 +32,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
     }
   }, [visible, permission, requestPermission]);
 
-  // Debounced search with Open Food Facts API
+  // Debounced search with Spoonacular API
   useEffect(() => {
     if (!search.trim()) {
       setSearchResults([]);
@@ -49,15 +50,8 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
 
     searchTimeout.current = setTimeout(async () => {
       try {
-        // Official Open Food Facts v2 search API usage per docs:
-        // https://openfoodfacts.github.io/openfoodfacts-server/api/
-        const url = `https://world.openfoodfacts.org/api/v2/search?fields=code,product_name,brands,image_front_url&page_size=10&sort_by=unique_scans_n&search_terms=${encodeURIComponent(search)}`;
-        const response = await fetch(url, {
-          headers: {
-            // Use a descriptive User-Agent as recommended by OFF docs
-            'User-Agent': 'SnackZap/0.9.0 (rishabhkeshri.snackzap@gmail.com)',
-          },
-        });
+        const url = `https://api.spoonacular.com/food/products/search?query=${encodeURIComponent(search)}&number=10&apiKey=${SPOONACULAR_API_KEY}`;
+        const response = await fetch(url);
 
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -67,7 +61,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
 
         if (data.products && Array.isArray(data.products)) {
           const filteredProducts = data.products.filter(
-            (product: any) => product.code && product.product_name
+            (product: any) => product.id && product.title
           );
           setSearchResults(filteredProducts);
         } else {
@@ -76,7 +70,6 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
         setSearchLoading(false);
       } catch (error) {
         setSearchError('Failed to fetch products. Please try again.');
-        console.log('Error fetching products:', error);
         setSearchLoading(false);
       }
     }, 400);
@@ -98,7 +91,8 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
     setSearch('');
     setSearchResults([]);
     Keyboard.dismiss();
-    onScanned(product.code);
+    // Use UPC if available, else fallback to id
+    onScanned(product.upc || String(product.id));
   };
 
   if (!permission) {
@@ -193,16 +187,16 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
             )}
             <FlatList
               data={searchResults}
-              keyExtractor={(item) => item.code}
+              keyExtractor={(item) => String(item.id)}
               renderItem={({ item }) => (
                 <Pressable
                   style={[styles.resultRow, { backgroundColor: Colors[colorScheme].background }]}
                   onPress={() => handleProductSelect(item)}
                 >
-                  {item.image_front_url ? (
+                  {item.image ? (
                     <View style={styles.resultImageWrapper}>
                       <Image
-                        source={{ uri: item.image_front_url }}
+                        source={{ uri: item.image }}
                         style={styles.resultImage}
                       />
                     </View>
@@ -211,10 +205,10 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
                   )}
                   <View style={{ flex: 1 }}>
                     <ThemedText style={styles.resultTitle} numberOfLines={1}>
-                      {item.product_name}
+                      {item.title}
                     </ThemedText>
                     <ThemedText style={styles.resultBrand} numberOfLines={1}>
-                      {item.brands}
+                      {item.brand}
                     </ThemedText>
                   </View>
                 </Pressable>

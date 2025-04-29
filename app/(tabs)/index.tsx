@@ -11,6 +11,7 @@ import { Colors } from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Tip, TimeFrame } from '../../types/main';
+import Constants from 'expo-constants';
 
 const { width } = Dimensions.get('window');
 
@@ -23,6 +24,7 @@ export default function HomeScreen() {
   const [selectedTimeFrame, setSelectedTimeFrame] = useState<TimeFrame>('1W');
   const [selectedTip, setSelectedTip] = useState<Tip | null>(null);
   const [tipModalVisible, setTipModalVisible] = useState(false);
+  const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY || Constants.expoConfig?.extra?.SPOONACULAR_API_KEY;
 
   useEffect(() => {
     dispatch<any>(loadLogsFromStorage());
@@ -56,30 +58,31 @@ export default function HomeScreen() {
     setScannerVisible(false);
     setLoadingProduct(true);
     try {
-      // Fetch product info from Open Food Facts
-      const apiKey = process.env.EXPO_PUBLIC_OPENFOODFACTS_API_KEY;
-      const url = `https://world.openfoodfacts.org/api/v2/product/${barcode}.json?fields=product_name,product_quantity,nutriments,brands,code,ecoscore_score,image_front_url`;
-      const res = await fetch(url, {
-        headers: apiKey ? { 'User-Agent': apiKey } : {},
-      });
+      // Use Spoonacular's UPC endpoint for barcode lookup
+      const url = `https://api.spoonacular.com/food/products/upc/${barcode}?apiKey=${SPOONACULAR_API_KEY}`;
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error('Not found');
+      }
       const data = await res.json();
       setLoadingProduct(false);
-      if (!data.product) {
+
+      if (!data || !data.title) {
         Alert.alert('Not found', 'No product found for this barcode. Please enter details manually.');
         promptManual(barcode);
         return;
       }
-      const product = data.product;
-      const name = product.product_name || 'Unknown Food';
-      const image: string = product.image_front_url ?? '';
+
+      const name = data.title || 'Unknown Food';
+      const image: string = data.image ?? '';
       let weight: number = 0;
-      if (typeof product.product_quantity === 'number') {
-        weight = product.product_quantity;
-      } else if (typeof product.nutriments?.serving_size === 'string') {
-        const match = product.nutriments.serving_size.match(/\d+/);
+      if (typeof data.serving_size === 'number') {
+        weight = data.serving_size;
+      } else if (typeof data.serving_size === 'string') {
+        const match = data.serving_size.match(/\d+/);
         weight = match ? parseFloat(match[0]) : 0;
       }
-      // No price in Open Food Facts, so prompt for cost
+      // No price in Spoonacular, so prompt for cost
       Alert.prompt('Enter Cost', `How much did \"${name}\" cost?`, [
         {
           text: 'Cancel', style: 'cancel',

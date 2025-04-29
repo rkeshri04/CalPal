@@ -10,10 +10,11 @@ export interface Tip {
     long: string;
 }
 export type SearchProduct = {
-    code: string;
-    product_name: string;
-    brands?: string;
-    image_front_url?: string;
+    id: number; // Spoonacular uses numeric IDs
+    title: string;
+    brand?: string;
+    image?: string;
+    upc?: string;
 };
 
 export type TimeFrame = '1D' | '1W' | '1M' | 'All';
