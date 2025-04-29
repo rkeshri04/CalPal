@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FlatList, View, Button, Alert, ActivityIndicator, StyleSheet, Pressable, Image, Modal, Dimensions, Text, ScrollView } from 'react-native'; // Added Modal, Dimensions
-import { loadLogsFromSupabase, saveLogToSupabase, addLog, LogEntry } from '@/store/logsSlice';
+import { FlatList, View, Alert, ActivityIndicator, StyleSheet, Pressable, Image, Modal, Dimensions, Text, ScrollView, KeyboardAvoidingView, Platform, TextInput, Animated } from 'react-native';
 import { RootState } from '@/store';
 import { BarcodeScannerModal } from '@/components/BarcodeScannerModal';
 import { ThemedText } from '@/components/ThemedText';
@@ -10,9 +9,12 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tip, TimeFrame } from '../../types/main';
-import Constants from 'expo-constants';
-import { supabase } from '../../supabaseClient';
+import { LogEntry } from '@/store/logsSlice';
+import { useRouter } from 'expo-router';
+import { loadLogsFromStorage, saveLogsToStorage, addLog } from '@/store/logsSlice';
+import * as SecureStore from 'expo-secure-store';
 
 const { width } = Dimensions.get('window');
 const timeFrames: TimeFrame[] = ['1D', '1W', '1M', 'All'];
@@ -26,31 +28,20 @@ export default function HomeScreen() {
   const [selectedTimeFrame, setSelectedTimeFrame] = useState<TimeFrame>('1W');
   const [selectedTip, setSelectedTip] = useState<Tip | null>(null);
   const [tipModalVisible, setTipModalVisible] = useState(false);
-  const [session, setSession] = useState<any>(null);
   const [fabMenuVisible, setFabMenuVisible] = useState(false);
   const fabMenuOptions = [
     { label: 'Scan Barcode', action: () => { setFabMenuVisible(false); setScannerVisible(true); } },
     { label: 'Add Food Manually', action: () => { setFabMenuVisible(false); promptManual(''); } },
   ];
-  const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY || Constants.expoConfig?.extra?.SPOONACULAR_API_KEY;
+  const router = useRouter();
 
   useEffect(() => {
-    const getSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      setSession(data.session);
-      if (data.session) {
-        dispatch<any>(loadLogsFromSupabase(data.session));
-      }
-    };
-    getSession();
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      if (session) {
-        dispatch<any>(loadLogsFromSupabase(session));
-      }
-    });
-    return () => listener.subscription.unsubscribe();
+    dispatch<any>(loadLogsFromStorage());
   }, [dispatch]);
+
+  useEffect(() => {
+    saveLogsToStorage(logs);
+  }, [logs]);
 
   const getFilteredLogs = (timeFrame: TimeFrame): LogEntry[] => {
     const now = new Date();
@@ -107,6 +98,7 @@ export default function HomeScreen() {
                 text: 'Add',
                 onPress: (weightValue?: string) => {
                   const entry = {
+                    id: Date.now().toString(),
                     name,
                     image,
                     barcode,
@@ -118,9 +110,7 @@ export default function HomeScreen() {
                     protein: protein ? Number(protein) : undefined,
                     date: new Date().toISOString(),
                   };
-                  if (session) {
-                    dispatch<any>(saveLogToSupabase(entry, session));
-                  }
+                  dispatch<any>(addLog(entry));
                 },
               },
             ], 'plain-text');
@@ -134,41 +124,51 @@ export default function HomeScreen() {
     }
   };
 
+  const [manualModalVisible, setManualModalVisible] = useState(false);
+  const [manualForm, setManualForm] = useState({
+    name: '',
+    barcode: '',
+    image: '',
+    cost: '',
+    weight: '',
+    calories: '',
+    fat: '',
+    carbs: '',
+    protein: '',
+  });
+
+  const handleManualSubmit = () => {
+    const entry = {
+      id: Date.now().toString(),
+      name: manualForm.name || 'Unknown Food',
+      barcode: manualForm.barcode || '',
+      image: manualForm.image || '',
+      cost: parseFloat(manualForm.cost) || 0,
+      weight: parseFloat(manualForm.weight) || 0,
+      calories: parseFloat(manualForm.calories) || 0,
+      fat: parseFloat(manualForm.fat) || 0,
+      carbs: parseFloat(manualForm.carbs) || 0,
+      protein: parseFloat(manualForm.protein) || 0,
+      date: new Date().toISOString(),
+    };
+    dispatch<any>(addLog(entry));
+    setManualModalVisible(false);
+    setManualForm({
+      name: '',
+      barcode: '',
+      image: '',
+      cost: '',
+      weight: '',
+      calories: '',
+      fat: '',
+      carbs: '',
+      protein: '',
+    });
+  };
+
   function promptManual(barcode: string) {
-    let cost = '';
-    let weight = '';
-    Alert.prompt('Enter Cost', 'How much did it cost?', [
-      {
-        text: 'Cancel', style: 'cancel',
-      },
-      {
-        text: 'Next',
-        onPress: (costValue?: string) => {
-          cost = costValue ?? '';
-          Alert.prompt('Enter Weight (g)', 'How much did it weigh?', [
-            {
-              text: 'Cancel', style: 'cancel',
-            },
-            {
-              text: 'Add',
-              onPress: (weightValue?: string) => {
-                weight = weightValue ?? '';
-                const entry = {
-                  name: 'Scanned Food',
-                  barcode,
-                  cost: parseFloat(cost) || 0,
-                  weight: parseFloat(weight) || 0,
-                  date: new Date().toISOString(),
-                };
-                if (session) {
-                  dispatch<any>(saveLogToSupabase(entry, session));
-                }
-              },
-            },
-          ], 'plain-text');
-        },
-      },
-    ], 'plain-text');
+    setManualModalVisible(true);
+    setManualForm(f => ({ ...f, barcode }));
   }
 
   // Group logs by date for pills
@@ -340,6 +340,69 @@ export default function HomeScreen() {
               <ThemedText style={{ color: Colors[colorScheme].background }}>Close</ThemedText>
             </Pressable>
           </ThemedView>
+        </View>
+      </Modal>
+
+      {/* Manual Add Modal as a bottom sheet overlay */}
+      <Modal
+        visible={manualModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setManualModalVisible(false)}
+      >
+        <View style={styles.bottomSheetOverlay}>
+          <Animated.View style={[styles.bottomSheet, { backgroundColor: Colors[colorScheme].background }]}> 
+            <View style={{ alignItems: 'center', marginBottom: 8 }}>
+              <View style={styles.sheetHandle} />
+              <Text style={[styles.manualModalTitle, { color: Colors[colorScheme].tint }]}>Add Food Manually</Text>
+            </View>
+            <ScrollView style={{ width: '100%' }} contentContainerStyle={{ alignItems: 'center', paddingBottom: 40 }}>
+              <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                placeholder="Name*" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.name} onChangeText={(v: string) => setManualForm(f => ({ ...f, name: v }))} />
+              <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                placeholder="Barcode (optional)" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.barcode} onChangeText={(v: string) => setManualForm(f => ({ ...f, barcode: v }))} />
+              <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                placeholder="Image URL (optional)" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.image} onChangeText={(v: string) => setManualForm(f => ({ ...f, image: v }))} />
+              <View style={styles.nutrientRow}>
+                <MaterialCommunityIcons name="currency-usd" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
+                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Cost*" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.cost} onChangeText={(v: string) => setManualForm(f => ({ ...f, cost: v }))} keyboardType="decimal-pad" />
+              </View>
+              <View style={styles.nutrientRow}>
+                <MaterialCommunityIcons name="weight-gram" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
+                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Weight (g)*" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.weight} onChangeText={(v: string) => setManualForm(f => ({ ...f, weight: v }))} keyboardType="decimal-pad" />
+              </View>
+              <View style={styles.nutrientRow}>
+                <MaterialCommunityIcons name="fire" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
+                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Calories" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.calories} onChangeText={(v: string) => setManualForm(f => ({ ...f, calories: v }))} keyboardType="decimal-pad" />
+              </View>
+              <View style={styles.nutrientRow}>
+                <MaterialCommunityIcons name="food-drumstick" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
+                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Protein (g)" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.protein} onChangeText={(v: string) => setManualForm(f => ({ ...f, protein: v }))} keyboardType="decimal-pad" />
+              </View>
+              <View style={styles.nutrientRow}>
+                <MaterialCommunityIcons name="bread-slice" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
+                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Carbs (g)" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.carbs} onChangeText={(v: string) => setManualForm(f => ({ ...f, carbs: v }))} keyboardType="decimal-pad" />
+              </View>
+              <View style={styles.nutrientRow}>
+                <MaterialCommunityIcons name="water" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
+                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Fat (g)" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.fat} onChangeText={(v: string) => setManualForm(f => ({ ...f, fat: v }))} keyboardType="decimal-pad" />
+              </View>
+            </ScrollView>
+            <View style={{ flexDirection: 'row', marginTop: 16, justifyContent: 'center' }}>
+              <Pressable style={[styles.manualButton, { backgroundColor: Colors[colorScheme].tabIconDefault }]} onPress={() => setManualModalVisible(false)}>
+                <Text style={{ color: Colors[colorScheme].text }}>Cancel</Text>
+              </Pressable>
+              <Pressable style={[styles.manualButton, { backgroundColor: Colors[colorScheme].tint, marginLeft: 12 }]} onPress={handleManualSubmit}>
+                <Text style={{ color: Colors[colorScheme].background, fontWeight: 'bold' }}>Add</Text>
+              </Pressable>
+            </View>
+          </Animated.View>
         </View>
       </Modal>
 
@@ -543,5 +606,68 @@ const styles = StyleSheet.create({
   macroValue: {
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  bottomSheetOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  bottomSheet: {
+    width: '100%',
+    borderTopLeftRadius: 18,
+    borderTopRightRadius: 18,
+    padding: 20,
+    alignItems: 'center',
+    elevation: 10,
+    minHeight: 480,
+    maxHeight: '90%',
+  },
+  sheetHandle: {
+    width: 40,
+    height: 5,
+    borderRadius: 3,
+    backgroundColor: '#ccc',
+    marginBottom: 10,
+  },
+  manualInput: {
+    width: '95%',
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    marginBottom: 10,
+    fontSize: 16,
+  },
+  manualInputNutrient: {
+    flex: 1,
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    marginBottom: 10,
+    fontSize: 16,
+    marginLeft: 8,
+  },
+  nutrientRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '95%',
+    marginBottom: 4,
+  },
+  nutrientIcon: {
+    marginLeft: 2,
+  },
+  manualModalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    color: '#333',
+  },
+  manualButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 28,
+    borderRadius: 10,
+    alignItems: 'center',
   },
 });
