@@ -14,8 +14,16 @@ import { LogEntry } from '@/store/logsSlice';
 import { useRouter } from 'expo-router';
 import { loadLogsFromStorage, saveLogsToStorage, addLog } from '@/store/logsSlice';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
-// import Modal from 'react-native-modal';
-// import * as ImagePicker from 'expo-image-picker';
+import {
+  loadUserProfileFromStorage,
+  saveUserProfileToStorage,
+  setUserProfile,
+  addBmiEntry,
+  setLastPrompt,
+} from '@/store/userProfileSlice';
+import { LineChart } from 'react-native-chart-kit';
+import { Collapsible } from '@/components/Collapsible';
+import { FoodLogModal } from '@/components/FoodLogModal';
 
 const timeFrames: TimeFrame[] = ['1D', '1W', '1M', 'All'];
 
@@ -34,6 +42,108 @@ export default function HomeScreen() {
     { label: 'Add Food Manually', action: () => { setFabMenuVisible(false); promptManual(''); } },
   ];
   const router = useRouter();
+  const userProfile = useSelector((state: RootState) => state.userProfile.profile);
+  const [profileModalVisible, setProfileModalVisible] = useState(false);
+  const [profileForm, setProfileForm] = useState({ age: '', height: '', weight: '', feet: '', inches: '' });
+  const [unitSystem, setUnitSystem] = useState<'us' | 'metric'>('us');
+  const [bmi, setBmi] = useState<number | null>(null);
+  const [bmiColor, setBmiColor] = useState<string>('#4caf50');
+  const [profileLoaded, setProfileLoaded] = useState(false);
+
+  // Load user profile on mount
+  useEffect(() => {
+    dispatch<any>(loadUserProfileFromStorage()).then(() => setProfileLoaded(true));
+  }, [dispatch]);
+
+  // Show modal if profile missing (wait for load)
+  useEffect(() => {
+    if (profileLoaded && !userProfile) {
+      setProfileModalVisible(true);
+    }
+  }, [userProfile, profileLoaded]);
+
+  // Weekly prompt for weight/height update
+  useEffect(() => {
+    if (userProfile && userProfile.lastPrompt) {
+      const last = new Date(userProfile.lastPrompt);
+      const now = new Date();
+      const diff = (now.getTime() - last.getTime()) / (1000 * 60 * 60 * 24);
+      if (diff >= 7) {
+        Alert.alert(
+          'Update your stats',
+          'Would you like to log your current weight and height?',
+          [
+            { text: 'No' },
+            {
+              text: 'Yes',
+              onPress: () => setProfileModalVisible(true),
+            },
+          ]
+        );
+        dispatch<any>(setLastPrompt(now.toISOString()));
+        saveUserProfileToStorage({ ...userProfile, lastPrompt: now.toISOString() });
+      }
+    }
+  }, [userProfile]);
+
+  // Calculate BMI and color
+  useEffect(() => {
+    let h = 0;
+    let w = 0;
+    if (unitSystem === 'us') {
+      const feet = parseFloat(profileForm.feet);
+      const inches = parseFloat(profileForm.inches);
+      h = (feet * 12 + inches) * 2.54; // convert to cm
+      w = parseFloat(profileForm.weight) * 0.453592; // lbs to kg
+    } else {
+      h = parseFloat(profileForm.height);
+      w = parseFloat(profileForm.weight);
+    }
+    if (h > 0 && w > 0) {
+      const bmiVal = w / ((h / 100) * (h / 100));
+      setBmi(bmiVal);
+      if (bmiVal < 18.5) setBmiColor('#2196f3');
+      else if (bmiVal < 25) setBmiColor('#4caf50');
+      else if (bmiVal < 30) setBmiColor('#ff9800');
+      else setBmiColor('#f44336');
+    } else {
+      setBmi(null);
+      setBmiColor('#4caf50');
+    }
+  }, [profileForm.height, profileForm.weight, profileForm.feet, profileForm.inches, unitSystem]);
+
+  // Handle profile submit
+  const handleProfileSubmit = () => {
+    const age = parseInt(profileForm.age);
+    let height = 0;
+    let weight = 0;
+    if (unitSystem === 'us') {
+      const feet = parseFloat(profileForm.feet);
+      const inches = parseFloat(profileForm.inches);
+      height = (feet * 12 + inches) * 2.54; // cm
+      weight = parseFloat(profileForm.weight) * 0.453592; // kg
+    } else {
+      height = parseFloat(profileForm.height);
+      weight = parseFloat(profileForm.weight);
+    }
+    if (!age || !height || !weight) return;
+    const bmiVal = weight / ((height / 100) * (height / 100));
+    const now = new Date().toISOString();
+    const newProfile = {
+      age,
+      height,
+      weight,
+      unitSystem,
+      bmiHistory: [
+        ...(userProfile?.bmiHistory || []),
+        { date: now, bmi: bmiVal, weight, height },
+      ],
+      lastPrompt: now,
+    };
+    dispatch<any>(setUserProfile(newProfile));
+    saveUserProfileToStorage(newProfile);
+    setProfileModalVisible(false);
+  };
 
   useEffect(() => {
     dispatch<any>(loadLogsFromStorage());
@@ -274,6 +384,107 @@ export default function HomeScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}> 
+      {/* Profile Modal */}
+      <Modal visible={profileModalVisible} animationType="slide" transparent>
+        <View style={styles.modalOverlay}>
+          <ThemedView style={[styles.modalContent, { backgroundColor: Colors[colorScheme].card }]}> 
+            <ThemedText type="subtitle" style={styles.modalTitle}>Enter Your Details</ThemedText>
+            <View style={{ flexDirection: 'row', marginBottom: 10, gap: 10 }}>
+              <Pressable
+                style={{ flex: 1, backgroundColor: unitSystem === 'us' ? Colors[colorScheme].tint : Colors[colorScheme].card, borderRadius: 8, padding: 8, alignItems: 'center', borderWidth: 1, borderColor: Colors[colorScheme].tint }}
+                onPress={() => setUnitSystem('us')}
+              >
+                <Text style={{ color: unitSystem === 'us' ? Colors[colorScheme].background : Colors[colorScheme].text, fontWeight: 'bold' }}>US Standard</Text>
+              </Pressable>
+              <Pressable
+                style={{ flex: 1, backgroundColor: unitSystem === 'metric' ? Colors[colorScheme].tint : Colors[colorScheme].card, borderRadius: 8, padding: 8, alignItems: 'center', borderWidth: 1, borderColor: Colors[colorScheme].tint }}
+                onPress={() => setUnitSystem('metric')}
+              >
+                <Text style={{ color: unitSystem === 'metric' ? Colors[colorScheme].background : Colors[colorScheme].text, fontWeight: 'bold' }}>Metric</Text>
+              </Pressable>
+            </View>
+            <TextInput
+              style={[styles.manualInput, { backgroundColor: Colors[colorScheme].background, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+              placeholder="Age"
+              placeholderTextColor={Colors[colorScheme].icon}
+              value={profileForm.age}
+              onChangeText={v => setProfileForm(f => ({ ...f, age: v }))}
+              keyboardType="number-pad"
+            />
+            {unitSystem === 'us' ? (
+              <View style={{ flexDirection: 'row', gap: 8, width: '100%' }}>
+                <TextInput
+                  style={[styles.manualInput, { flex: 1, backgroundColor: Colors[colorScheme].background, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Height (ft)"
+                  placeholderTextColor={Colors[colorScheme].icon}
+                  value={profileForm.feet}
+                  onChangeText={v => setProfileForm(f => ({ ...f, feet: v }))}
+                  keyboardType="number-pad"
+                />
+                <TextInput
+                  style={[styles.manualInput, { flex: 1, backgroundColor: Colors[colorScheme].background, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Height (in)"
+                  placeholderTextColor={Colors[colorScheme].icon}
+                  value={profileForm.inches}
+                  onChangeText={v => setProfileForm(f => ({ ...f, inches: v }))}
+                  keyboardType="number-pad"
+                />
+              </View>
+            ) : (
+              <TextInput
+                style={[styles.manualInput, { backgroundColor: Colors[colorScheme].background, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                placeholder="Height (cm)"
+                placeholderTextColor={Colors[colorScheme].icon}
+                value={profileForm.height}
+                onChangeText={v => setProfileForm(f => ({ ...f, height: v }))}
+                keyboardType="decimal-pad"
+              />
+            )}
+            <TextInput
+              style={[styles.manualInput, { backgroundColor: Colors[colorScheme].background, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+              placeholder={unitSystem === 'us' ? 'Weight (lbs)' : 'Weight (kg)'}
+              placeholderTextColor={Colors[colorScheme].icon}
+              value={profileForm.weight}
+              onChangeText={v => setProfileForm(f => ({ ...f, weight: v }))}
+              keyboardType="decimal-pad"
+            />
+            {bmi && (
+              <View style={{ alignItems: 'center', marginVertical: 12 }}>
+                <ThemedText style={{ fontSize: 18, fontWeight: 'bold', color: bmiColor }}>BMI: {bmi.toFixed(1)}</ThemedText>
+                {bmi > 25 && (
+                  <ThemedText style={{ color: '#f44336', marginTop: 4 }}>time to lock in and get the dream body!</ThemedText>
+                )}
+                <LineChart
+                  data={{
+                    labels: (userProfile?.bmiHistory || []).map(e => e.date.slice(5, 10)),
+                    datasets: [
+                      { data: (userProfile?.bmiHistory || []).map(e => e.bmi).concat(bmi) },
+                    ],
+                  }}
+                  width={260}
+                  height={120}
+                  chartConfig={{
+                    backgroundGradientFrom: Colors[colorScheme].card,
+                    backgroundGradientTo: Colors[colorScheme].card,
+                    color: () => bmiColor,
+                    labelColor: () => Colors[colorScheme].text,
+                    propsForDots: { r: '4', strokeWidth: '2', stroke: bmiColor },
+                  }}
+                  bezier
+                  style={{ borderRadius: 12, marginTop: 8 }}
+                />
+              </View>
+            )}
+            <Pressable style={[styles.manualButton, { backgroundColor: Colors[colorScheme].tint, marginTop: 10 }]} onPress={handleProfileSubmit}>
+              <Text style={{ color: Colors[colorScheme].background, fontWeight: 'bold' }}>Save</Text>
+            </Pressable>
+            <Text style={{ fontSize: 12, color: Colors[colorScheme].icon, marginTop: 16, textAlign: 'center' }}>
+              No data is stored or sent anywhere. Everything is stored locally.
+            </Text>
+          </ThemedView>
+        </View>
+      </Modal>
+
       {/* Summary Section */}
       <ThemedView style={[styles.sectionContainer, {marginTop:20}]}>
         <ThemedText type="title">Summary ({selectedTimeFrame})</ThemedText>
@@ -336,20 +547,22 @@ export default function HomeScreen() {
       </ThemedView>
 
       {/* Log Cards Section for selected day */}
-      <ThemedView style={styles.sectionContainer}>
-        {selectedLogDate && logsByDate.find(([d]) => d === selectedLogDate)?.[1].length ? (
-          <FlatList
-            data={logsByDate.find(([d]) => d === selectedLogDate)?.[1] || []}
-            keyExtractor={item => item.id}
-            renderItem={renderLogCard}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.logListContent}
-          />
-        ) : (
-          <ThemedText style={styles.emptyLogText}>No logs for this day.</ThemedText>
-        )}
-      </ThemedView>
+      <Collapsible title="View scanned foods">
+        <ThemedView style={[styles.sectionContainer, {marginLeft: 0}]}>
+          {selectedLogDate && logsByDate.find(([d]) => d === selectedLogDate)?.[1].length ? (
+            <FlatList
+              data={logsByDate.find(([d]) => d === selectedLogDate)?.[1] || []}
+              keyExtractor={item => item.id}
+              renderItem={renderLogCard}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.logListContent}
+            />
+          ) : (
+            <ThemedText style={styles.emptyLogText}>No logs for this day.</ThemedText>
+          )}
+        </ThemedView>
+      </Collapsible>
 
       {/* Actions Section - FAB */}
       {loadingProduct && <ActivityIndicator size="large" style={styles.activityIndicatorAbsolute} />}
@@ -413,162 +626,24 @@ export default function HomeScreen() {
         </View>
       </Modal> */}
 
-      {/* Manual Add Modal as a bottom sheet overlay */}
-      <Modal
+      <FoodLogModal
         visible={manualModalVisible}
-        animationType="slide"
-        transparent
-        onRequestClose={() => setManualModalVisible(false)}
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={{ flex: 1, justifyContent: 'flex-end', margin: 0 }}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
-        >
-          <Animated.View style={[styles.bottomSheet, { backgroundColor: Colors[colorScheme].background }]}> 
-            <View style={{ alignItems: 'center', marginBottom: 8 }}>
-              <View style={styles.sheetHandle} />
-              <Text style={[styles.manualModalTitle, { color: Colors[colorScheme].tint }]}>Add Food Manually</Text>
-            </View>
-            <ScrollView style={{ width: '100%' }} contentContainerStyle={{ alignItems: 'center', paddingBottom: 40 }}>
-              {/* <Pressable style={styles.imagePickerButton} onPress={() => handlePickImage(setManualForm)}>
-                <Ionicons name="image-outline" size={22} color={Colors[colorScheme].tint} />
-                <Text style={{ color: Colors[colorScheme].tint, marginLeft: 8 }}>Pick Image</Text>
-              </Pressable> */}
-              {/* <Pressable style={styles.imagePickerButton} onPress={() => handleTakePhoto(setManualForm)}>
-                <Ionicons name="camera-outline" size={22} color={Colors[colorScheme].tint} />
-                <Text style={{ color: Colors[colorScheme].tint, marginLeft: 8 }}>Take Photo</Text>
-              </Pressable> */}
-              {manualForm.image ? (
-                <Image source={{ uri: manualForm.image }} style={styles.pickedImage} />
-              ) : null}
-              <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                placeholder="Name*" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.name} onChangeText={(v: string) => setManualForm(f => ({ ...f, name: v }))} />
-              {/* <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                placeholder="Barcode (optional)" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.barcode} onChangeText={(v: string) => setManualForm(f => ({ ...f, barcode: v }))} />
-              <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                placeholder="Image URL (optional)" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.image} onChangeText={(v: string) => setManualForm(f => ({ ...f, image: v }))} /> */}
-              <View style={styles.nutrientRow}>
-                <MaterialCommunityIcons name="currency-usd" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
-                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                  placeholder="Cost*" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.cost} onChangeText={(v: string) => setManualForm(f => ({ ...f, cost: v }))} keyboardType="decimal-pad" />
-              </View>
-              <View style={styles.nutrientRow}>
-                <MaterialCommunityIcons name="weight-gram" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
-                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                  placeholder="Weight (g)*" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.weight} onChangeText={(v: string) => setManualForm(f => ({ ...f, weight: v }))} keyboardType="decimal-pad" />
-              </View>
-              <View style={styles.nutrientRow}>
-                <MaterialCommunityIcons name="fire" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
-                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                  placeholder="Calories" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.calories} onChangeText={(v: string) => setManualForm(f => ({ ...f, calories: v }))} keyboardType="decimal-pad" />
-              </View>
-              <View style={styles.nutrientRow}>
-                <MaterialCommunityIcons name="food-drumstick" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
-                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                  placeholder="Protein (g)" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.protein} onChangeText={(v: string) => setManualForm(f => ({ ...f, protein: v }))} keyboardType="decimal-pad" />
-              </View>
-              <View style={styles.nutrientRow}>
-                <MaterialCommunityIcons name="bread-slice" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
-                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                  placeholder="Carbs (g)" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.carbs} onChangeText={(v: string) => setManualForm(f => ({ ...f, carbs: v }))} keyboardType="decimal-pad" />
-              </View>
-              <View style={styles.nutrientRow}>
-                <MaterialCommunityIcons name="water" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
-                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                  placeholder="Fat (g)" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.fat} onChangeText={(v: string) => setManualForm(f => ({ ...f, fat: v }))} keyboardType="decimal-pad" />
-              </View>
-            </ScrollView>
-            <View style={{ flexDirection: 'row', marginTop: 16, justifyContent: 'center' }}>
-              <Pressable style={[styles.manualButton, { backgroundColor: Colors[colorScheme].tabIconDefault }]} onPress={() => setManualModalVisible(false)}>
-                <Text style={{ color: Colors[colorScheme].text }}>Cancel</Text>
-              </Pressable>
-              <Pressable style={[styles.manualButton, { backgroundColor: Colors[colorScheme].tint, marginLeft: 12 }]} onPress={handleManualSubmit}>
-                <Text style={{ color: Colors[colorScheme].background, fontWeight: 'bold' }}>Add</Text>
-              </Pressable>
-            </View>
-          </Animated.View>
-        </KeyboardAvoidingView>
-      </Modal>
-
-      {/* Edit Modal */}
-      <Modal
+        onClose={() => setManualModalVisible(false)}
+        onSubmit={handleManualSubmit}
+        form={manualForm}
+        setForm={setManualForm}
+        isEdit={false}
+        title="Add Food Manually"
+      />
+      <FoodLogModal
         visible={editModalVisible}
-        animationType="slide"
-        transparent
-        onRequestClose={() => setManualModalVisible(false)}
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={{ flex: 1, justifyContent: 'flex-end', margin: 0 }}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
-        >
-          <Animated.View style={[styles.bottomSheet, { backgroundColor: Colors[colorScheme].background }]}> 
-            <View style={{ alignItems: 'center', marginBottom: 8 }}>
-              <View style={styles.sheetHandle} />
-              <Text style={[styles.manualModalTitle, { color: Colors[colorScheme].tint }]}>Edit Food Log</Text>
-            </View>
-            <ScrollView style={{ width: '100%' }} contentContainerStyle={{ alignItems: 'center', paddingBottom: 40 }}>
-              {/* <Pressable style={styles.imagePickerButton} onPress={() => handlePickImage(setEditForm)}>
-                <Ionicons name="image-outline" size={22} color={Colors[colorScheme].tint} />
-                <Text style={{ color: Colors[colorScheme].tint, marginLeft: 8 }}>Pick Image</Text>
-              </Pressable>
-              <Pressable style={styles.imagePickerButton} onPress={() => handleTakePhoto(setEditForm)}>
-                <Ionicons name="camera-outline" size={22} color={Colors[colorScheme].tint} />
-                <Text style={{ color: Colors[colorScheme].tint, marginLeft: 8 }}>Take Photo</Text>
-              </Pressable> */}
-              {editForm.image ? (
-                <Image source={{ uri: editForm.image }} style={styles.pickedImage} />
-              ) : null}
-              <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                placeholder="Name*" placeholderTextColor={Colors[colorScheme].icon} value={editForm.name} onChangeText={(v: string) => setEditForm(f => ({ ...f, name: v }))} />
-              {/* <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                placeholder="Barcode (optional)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.barcode} onChangeText={(v: string) => setEditForm(f => ({ ...f, barcode: v }))} /> */}
-              {/* <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                placeholder="Image URL (optional)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.image} onChangeText={(v: string) => setEditForm(f => ({ ...f, image: v }))} /> */}
-              <View style={styles.nutrientRow}>
-                <MaterialCommunityIcons name="currency-usd" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
-                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                  placeholder="Cost*" placeholderTextColor={Colors[colorScheme].icon} value={editForm.cost} onChangeText={(v: string) => setEditForm(f => ({ ...f, cost: v }))} keyboardType="decimal-pad" />
-              </View>
-              <View style={styles.nutrientRow}>
-                <MaterialCommunityIcons name="weight-gram" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
-                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                  placeholder="Weight (g)*" placeholderTextColor={Colors[colorScheme].icon} value={editForm.weight} onChangeText={(v: string) => setEditForm(f => ({ ...f, weight: v }))} keyboardType="decimal-pad" />
-              </View>
-              <View style={styles.nutrientRow}>
-                <MaterialCommunityIcons name="fire" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
-                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                  placeholder="Calories" placeholderTextColor={Colors[colorScheme].icon} value={editForm.calories} onChangeText={(v: string) => setEditForm(f => ({ ...f, calories: v }))} keyboardType="decimal-pad" />
-              </View>
-              <View style={styles.nutrientRow}>
-                <MaterialCommunityIcons name="food-drumstick" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
-                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                  placeholder="Protein (g)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.protein} onChangeText={(v: string) => setEditForm(f => ({ ...f, protein: v }))} keyboardType="decimal-pad" />
-              </View>
-              <View style={styles.nutrientRow}>
-                <MaterialCommunityIcons name="bread-slice" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
-                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                  placeholder="Carbs (g)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.carbs} onChangeText={(v: string) => setEditForm(f => ({ ...f, carbs: v }))} keyboardType="decimal-pad" />
-              </View>
-              <View style={styles.nutrientRow}>
-                <MaterialCommunityIcons name="water" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
-                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                  placeholder="Fat (g)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.fat} onChangeText={(v: string) => setEditForm(f => ({ ...f, fat: v }))} keyboardType="decimal-pad" />
-              </View>
-            </ScrollView>
-            <View style={{ flexDirection: 'row', marginTop: 16, justifyContent: 'center' }}>
-              <Pressable style={[styles.manualButton, { backgroundColor: Colors[colorScheme].tabIconDefault }]} onPress={() => setEditModalVisible(false)}>
-                <Text style={{ color: Colors[colorScheme].text }}>Cancel</Text>
-              </Pressable>
-              <Pressable style={[styles.manualButton, { backgroundColor: Colors[colorScheme].tint, marginLeft: 12 }]} onPress={handleEditSubmit}>
-                <Text style={{ color: Colors[colorScheme].background, fontWeight: 'bold' }}>Save</Text>
-              </Pressable>
-            </View>
-          </Animated.View>
-        </KeyboardAvoidingView>
-      </Modal>
-
+        onClose={() => setEditModalVisible(false)}
+        onSubmit={handleEditSubmit}
+        form={editForm}
+        setForm={setEditForm}
+        isEdit={true}
+        title="Edit Food Log"
+      />
     </View>
   );
 }
