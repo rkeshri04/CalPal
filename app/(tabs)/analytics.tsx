@@ -37,8 +37,8 @@ export default function AnalyticsScreen() {
   const mostRecent = logs.length ? logs[0] : null;
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: Colors[colorScheme].background }} contentContainerStyle={styles.container}>
-      <Text style={[styles.title, { color: Colors[colorScheme].text }]}>Tips for You</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors[colorScheme].background }} >
+      {/* <Text style={[styles.title, { color: Colors[colorScheme].text }]}>Tips for You</Text> */}
       <View style={styles.tipsGrid}>
         {tips.map((tip, idx) => (
           <View key={tip.id} style={[styles.tipCard, { backgroundColor: Colors[colorScheme].card }]}> 
@@ -46,7 +46,7 @@ export default function AnalyticsScreen() {
           </View>
         ))}
       </View>
-      <Collapsible title="Your Log Analysis">
+      {/* <Collapsible title="Your Log Analysis">
         <View style={styles.analysisGrid}>
           <View style={[styles.analysisCard, { backgroundColor: Colors[colorScheme].card }]}> 
             <Text style={[styles.analysisItem,  { color: Colors[colorScheme].text}]}>Total Foods Logged</Text>
@@ -99,8 +99,8 @@ export default function AnalyticsScreen() {
             </View>
           )}
         </View>
-      </Collapsible>
-    </ScrollView>
+      </Collapsible> */}
+    </SafeAreaView>
   );
 }
 

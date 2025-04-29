@@ -260,7 +260,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}> 
+    <View style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}> 
       {/* Summary Section */}
       <ThemedView style={styles.sectionContainer}>
         <ThemedText type="title">Summary ({selectedTimeFrame})</ThemedText>
@@ -407,7 +407,7 @@ export default function HomeScreen() {
         transparent={true}
         onRequestClose={() => setManualModalVisible(false)}
       >
-        <View style={styles.bottomSheetOverlay}>
+        <KeyboardAvoidingView style={styles.bottomSheetOverlay}>
           <Animated.View style={[styles.bottomSheet, { backgroundColor: Colors[colorScheme].background }]}> 
             <View style={{ alignItems: 'center', marginBottom: 8 }}>
               <View style={styles.sheetHandle} />
@@ -416,10 +416,10 @@ export default function HomeScreen() {
             <ScrollView style={{ width: '100%' }} contentContainerStyle={{ alignItems: 'center', paddingBottom: 40 }}>
               <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
                 placeholder="Name*" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.name} onChangeText={(v: string) => setManualForm(f => ({ ...f, name: v }))} />
-              <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+              {/* <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
                 placeholder="Barcode (optional)" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.barcode} onChangeText={(v: string) => setManualForm(f => ({ ...f, barcode: v }))} />
               <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                placeholder="Image URL (optional)" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.image} onChangeText={(v: string) => setManualForm(f => ({ ...f, image: v }))} />
+                placeholder="Image URL (optional)" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.image} onChangeText={(v: string) => setManualForm(f => ({ ...f, image: v }))} /> */}
               <View style={styles.nutrientRow}>
                 <MaterialCommunityIcons name="currency-usd" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
                 <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
@@ -460,7 +460,7 @@ export default function HomeScreen() {
               </Pressable>
             </View>
           </Animated.View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
 
       {/* Edit Modal (similar to manual add) */}
@@ -479,10 +479,10 @@ export default function HomeScreen() {
             <ScrollView style={{ width: '100%' }} contentContainerStyle={{ alignItems: 'center', paddingBottom: 40 }}>
               <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
                 placeholder="Name*" placeholderTextColor={Colors[colorScheme].icon} value={editForm.name} onChangeText={(v: string) => setEditForm(f => ({ ...f, name: v }))} />
-              <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                placeholder="Barcode (optional)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.barcode} onChangeText={(v: string) => setEditForm(f => ({ ...f, barcode: v }))} />
-              <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
-                placeholder="Image URL (optional)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.image} onChangeText={(v: string) => setEditForm(f => ({ ...f, image: v }))} />
+              {/* <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                placeholder="Barcode (optional)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.barcode} onChangeText={(v: string) => setEditForm(f => ({ ...f, barcode: v }))} /> */}
+              {/* <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                placeholder="Image URL (optional)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.image} onChangeText={(v: string) => setEditForm(f => ({ ...f, image: v }))} /> */}
               <View style={styles.nutrientRow}>
                 <MaterialCommunityIcons name="currency-usd" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
                 <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
@@ -526,23 +526,19 @@ export default function HomeScreen() {
         </View>
       </Modal>
 
-    </SafeAreaView>
+    </View>
   );
 }
 
-const cardMargin = 8;
-const cardSize = (width / 2) - (16 * 2); // Screen width / 2 columns - (horizontal padding * 2)
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   sectionContainer: {
-    paddingHorizontal: 16,
+    marginTop: 20
   },
   sectionTitle: {
-    marginBottom: 12,
-    paddingTop: 12,
   },
   summaryValues: {
     flexDirection: 'row',
