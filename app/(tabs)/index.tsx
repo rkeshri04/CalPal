@@ -10,19 +10,11 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { Tip, TimeFrame } from '../../types/main';
 
-type TimeFrame = '1D' | '1W' | '1M' | 'All';
-
-interface Tip {
-  id: string;
-  short: string;
-  long: string; // Added field for detailed info
-}
-
-const { width } = Dimensions.get('window'); // Get screen width for card sizing
+const { width } = Dimensions.get('window');
 
 export default function HomeScreen() {
-  // ...existing state and hooks...
   const dispatch = useDispatch();
   const logs = useSelector((state: RootState) => state.logs.entries);
   const colorScheme = useColorScheme() ?? 'light';
@@ -32,7 +24,6 @@ export default function HomeScreen() {
   const [selectedTip, setSelectedTip] = useState<Tip | null>(null);
   const [tipModalVisible, setTipModalVisible] = useState(false);
 
-  // ...existing useEffects and functions...
   useEffect(() => {
     dispatch<any>(loadLogsFromStorage());
   }, [dispatch]);
@@ -50,7 +41,6 @@ export default function HomeScreen() {
       case '1W':
         return logs.filter(l => (now.getTime() - new Date(l.date).getTime()) < 7 * oneDay);
       case '1M':
-        // Approximation: 30 days
         return logs.filter(l => (now.getTime() - new Date(l.date).getTime()) < 30 * oneDay);
       case 'All':
       default:
