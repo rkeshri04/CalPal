@@ -1,23 +1,22 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FlatList, View, Alert, ActivityIndicator, StyleSheet, Pressable, Image, Modal, Dimensions, Text, ScrollView, KeyboardAvoidingView, Platform, TextInput, Animated } from 'react-native';
+import { FlatList, View, Alert, ActivityIndicator, StyleSheet, Pressable, Image, Text, Modal, ScrollView, KeyboardAvoidingView, Platform, TextInput, Animated } from 'react-native';
 import { RootState } from '@/store';
 import { BarcodeScannerModal } from '@/components/BarcodeScannerModal';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tip, TimeFrame } from '../../types/main';
 import { LogEntry } from '@/store/logsSlice';
 import { useRouter } from 'expo-router';
 import { loadLogsFromStorage, saveLogsToStorage, addLog } from '@/store/logsSlice';
-import * as SecureStore from 'expo-secure-store';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+// import Modal from 'react-native-modal';
+// import * as ImagePicker from 'expo-image-picker';
 
-const { width } = Dimensions.get('window');
 const timeFrames: TimeFrame[] = ['1D', '1W', '1M', 'All'];
 
 export default function HomeScreen() {
@@ -259,6 +258,20 @@ export default function HomeScreen() {
     ]);
   };
 
+  // Image picker handler
+  // const handlePickImage = useCallback(async (setForm: any) => {
+  //   const result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images, quality: 0.7 });
+  //   if (!result.canceled && result.assets && result.assets.length > 0) {
+  //     setForm((f: any) => ({ ...f, image: result.assets[0].uri }));
+  //   }
+  // }, []);
+  // const handleTakePhoto = useCallback(async (setForm: any) => {
+  //   const result = await ImagePicker.launchCameraAsync({ quality: 0.7 });
+  //   if (!result.canceled && result.assets && result.assets.length > 0) {
+  //     setForm((f: any) => ({ ...f, image: result.assets[0].uri }));
+  //   }
+  // }, []);
+
   return (
     <View style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}> 
       {/* Summary Section */}
@@ -376,7 +389,7 @@ export default function HomeScreen() {
         <Ionicons name={fabMenuVisible ? 'close' : 'add'} size={32} color={Colors[colorScheme].background} />
       </Pressable>
 
-      {/* Tip Detail Modal */}
+      {/* Tip Detail Modal
       <Modal
         animationType="fade" // Simple fade for now
         transparent={true}
@@ -398,22 +411,37 @@ export default function HomeScreen() {
             </Pressable>
           </ThemedView>
         </View>
-      </Modal>
+      </Modal> */}
 
       {/* Manual Add Modal as a bottom sheet overlay */}
       <Modal
         visible={manualModalVisible}
         animationType="slide"
-        transparent={true}
+        transparent
         onRequestClose={() => setManualModalVisible(false)}
       >
-        <KeyboardAvoidingView style={styles.bottomSheetOverlay}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1, justifyContent: 'flex-end', margin: 0 }}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+        >
           <Animated.View style={[styles.bottomSheet, { backgroundColor: Colors[colorScheme].background }]}> 
             <View style={{ alignItems: 'center', marginBottom: 8 }}>
               <View style={styles.sheetHandle} />
               <Text style={[styles.manualModalTitle, { color: Colors[colorScheme].tint }]}>Add Food Manually</Text>
             </View>
             <ScrollView style={{ width: '100%' }} contentContainerStyle={{ alignItems: 'center', paddingBottom: 40 }}>
+              {/* <Pressable style={styles.imagePickerButton} onPress={() => handlePickImage(setManualForm)}>
+                <Ionicons name="image-outline" size={22} color={Colors[colorScheme].tint} />
+                <Text style={{ color: Colors[colorScheme].tint, marginLeft: 8 }}>Pick Image</Text>
+              </Pressable> */}
+              {/* <Pressable style={styles.imagePickerButton} onPress={() => handleTakePhoto(setManualForm)}>
+                <Ionicons name="camera-outline" size={22} color={Colors[colorScheme].tint} />
+                <Text style={{ color: Colors[colorScheme].tint, marginLeft: 8 }}>Take Photo</Text>
+              </Pressable> */}
+              {manualForm.image ? (
+                <Image source={{ uri: manualForm.image }} style={styles.pickedImage} />
+              ) : null}
               <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
                 placeholder="Name*" placeholderTextColor={Colors[colorScheme].icon} value={manualForm.name} onChangeText={(v: string) => setManualForm(f => ({ ...f, name: v }))} />
               {/* <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
@@ -467,16 +495,31 @@ export default function HomeScreen() {
       <Modal
         visible={editModalVisible}
         animationType="slide"
-        transparent={true}
-        onRequestClose={() => setEditModalVisible(false)}
+        transparent
+        onRequestClose={() => setManualModalVisible(false)}
       >
-        <View style={styles.bottomSheetOverlay}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1, justifyContent: 'flex-end', margin: 0 }}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+        >
           <Animated.View style={[styles.bottomSheet, { backgroundColor: Colors[colorScheme].background }]}> 
             <View style={{ alignItems: 'center', marginBottom: 8 }}>
               <View style={styles.sheetHandle} />
               <Text style={[styles.manualModalTitle, { color: Colors[colorScheme].tint }]}>Edit Food Log</Text>
             </View>
             <ScrollView style={{ width: '100%' }} contentContainerStyle={{ alignItems: 'center', paddingBottom: 40 }}>
+              {/* <Pressable style={styles.imagePickerButton} onPress={() => handlePickImage(setEditForm)}>
+                <Ionicons name="image-outline" size={22} color={Colors[colorScheme].tint} />
+                <Text style={{ color: Colors[colorScheme].tint, marginLeft: 8 }}>Pick Image</Text>
+              </Pressable>
+              <Pressable style={styles.imagePickerButton} onPress={() => handleTakePhoto(setEditForm)}>
+                <Ionicons name="camera-outline" size={22} color={Colors[colorScheme].tint} />
+                <Text style={{ color: Colors[colorScheme].tint, marginLeft: 8 }}>Take Photo</Text>
+              </Pressable> */}
+              {editForm.image ? (
+                <Image source={{ uri: editForm.image }} style={styles.pickedImage} />
+              ) : null}
               <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
                 placeholder="Name*" placeholderTextColor={Colors[colorScheme].icon} value={editForm.name} onChangeText={(v: string) => setEditForm(f => ({ ...f, name: v }))} />
               {/* <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
@@ -523,7 +566,7 @@ export default function HomeScreen() {
               </Pressable>
             </View>
           </Animated.View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
 
     </View>
@@ -725,19 +768,23 @@ const styles = StyleSheet.create({
   },
   bottomSheetOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'flex-end',
     alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    margin: 0, 
   },
   bottomSheet: {
     width: '100%',
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
     padding: 20,
     alignItems: 'center',
     elevation: 10,
     minHeight: 480,
     maxHeight: '90%',
+    backgroundColor: '#fff',
   },
   sheetHandle: {
     width: 40,
@@ -785,5 +832,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 28,
     borderRadius: 10,
     alignItems: 'center',
+  },
+  imagePickerButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginBottom: 8,
+    backgroundColor: '#f7f7f7',
+  },
+  pickedImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 12,
+    marginBottom: 12,
+    marginTop: 4,
   },
 });
