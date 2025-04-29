@@ -15,6 +15,7 @@ import { LogEntry } from '@/store/logsSlice';
 import { useRouter } from 'expo-router';
 import { loadLogsFromStorage, saveLogsToStorage, addLog } from '@/store/logsSlice';
 import * as SecureStore from 'expo-secure-store';
+import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 
 const { width } = Dimensions.get('window');
 const timeFrames: TimeFrame[] = ['1D', '1W', '1M', 'All'];
@@ -189,6 +190,17 @@ export default function HomeScreen() {
 
   const renderLogCard = ({ item }: { item: LogEntry }) => (
     <ThemedView style={[styles.logCard, { backgroundColor: Colors[colorScheme].card }]}> 
+      <View style={{ position: 'absolute', top: 6, right: 6, zIndex: 2 }}>
+        <Menu>
+          <MenuTrigger>
+            <Ionicons name="ellipsis-horizontal" size={20} color={Colors[colorScheme].icon} />
+          </MenuTrigger>
+          <MenuOptions customStyles={{ optionsContainer: { borderRadius: 10, width: 120 } }}>
+            <MenuOption onSelect={() => handleEdit(item)} text="Edit" />
+            <MenuOption onSelect={() => handleDelete(item.id)} text="Delete" />
+          </MenuOptions>
+        </Menu>
+      </View>
       {item.image ? (
         <Image source={{ uri: item.image }} style={styles.cardImage} />
       ) : (
@@ -201,6 +213,51 @@ export default function HomeScreen() {
       <ThemedText style={styles.cardText}>Fat: {item.fat ? item.fat.toFixed(1) : '--'}g | Carbs: {item.carbs ? item.carbs.toFixed(1) : '--'}g | Protein: {item.protein ? item.protein.toFixed(1) : '--'}g</ThemedText>
     </ThemedView>
   );
+
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editForm, setEditForm] = useState(manualForm);
+  const [editId, setEditId] = useState<string | null>(null);
+
+  const handleEdit = (log: LogEntry) => {
+    setEditForm({
+      name: log.name,
+      barcode: log.barcode,
+      image: log.image || '',
+      cost: log.cost.toString(),
+      weight: log.weight.toString(),
+      calories: log.calories?.toString() || '',
+      fat: log.fat?.toString() || '',
+      carbs: log.carbs?.toString() || '',
+      protein: log.protein?.toString() || '',
+    });
+    setEditId(log.id);
+    setEditModalVisible(true);
+  };
+  const handleEditSubmit = () => {
+    if (!editId) return;
+    const updated = {
+      id: editId,
+      name: editForm.name,
+      barcode: editForm.barcode,
+      image: editForm.image,
+      cost: parseFloat(editForm.cost) || 0,
+      weight: parseFloat(editForm.weight) || 0,
+      calories: parseFloat(editForm.calories) || 0,
+      fat: parseFloat(editForm.fat) || 0,
+      carbs: parseFloat(editForm.carbs) || 0,
+      protein: parseFloat(editForm.protein) || 0,
+      date: logs.find(l => l.id === editId)?.date || new Date().toISOString(),
+    };
+    dispatch<any>({ type: 'logs/setLogs', payload: logs.map(l => l.id === editId ? updated : l) });
+    setEditModalVisible(false);
+    setEditId(null);
+  };
+  const handleDelete = (id: string) => {
+    Alert.alert('Delete', 'Are you sure you want to delete this log?', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Delete', style: 'destructive', onPress: () => dispatch<any>({ type: 'logs/setLogs', payload: logs.filter(l => l.id !== id) }) },
+    ]);
+  };
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}> 
@@ -400,6 +457,69 @@ export default function HomeScreen() {
               </Pressable>
               <Pressable style={[styles.manualButton, { backgroundColor: Colors[colorScheme].tint, marginLeft: 12 }]} onPress={handleManualSubmit}>
                 <Text style={{ color: Colors[colorScheme].background, fontWeight: 'bold' }}>Add</Text>
+              </Pressable>
+            </View>
+          </Animated.View>
+        </View>
+      </Modal>
+
+      {/* Edit Modal (similar to manual add) */}
+      <Modal
+        visible={editModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setEditModalVisible(false)}
+      >
+        <View style={styles.bottomSheetOverlay}>
+          <Animated.View style={[styles.bottomSheet, { backgroundColor: Colors[colorScheme].background }]}> 
+            <View style={{ alignItems: 'center', marginBottom: 8 }}>
+              <View style={styles.sheetHandle} />
+              <Text style={[styles.manualModalTitle, { color: Colors[colorScheme].tint }]}>Edit Food Log</Text>
+            </View>
+            <ScrollView style={{ width: '100%' }} contentContainerStyle={{ alignItems: 'center', paddingBottom: 40 }}>
+              <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                placeholder="Name*" placeholderTextColor={Colors[colorScheme].icon} value={editForm.name} onChangeText={(v: string) => setEditForm(f => ({ ...f, name: v }))} />
+              <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                placeholder="Barcode (optional)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.barcode} onChangeText={(v: string) => setEditForm(f => ({ ...f, barcode: v }))} />
+              <TextInput style={[styles.manualInput, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                placeholder="Image URL (optional)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.image} onChangeText={(v: string) => setEditForm(f => ({ ...f, image: v }))} />
+              <View style={styles.nutrientRow}>
+                <MaterialCommunityIcons name="currency-usd" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
+                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Cost*" placeholderTextColor={Colors[colorScheme].icon} value={editForm.cost} onChangeText={(v: string) => setEditForm(f => ({ ...f, cost: v }))} keyboardType="decimal-pad" />
+              </View>
+              <View style={styles.nutrientRow}>
+                <MaterialCommunityIcons name="weight-gram" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
+                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Weight (g)*" placeholderTextColor={Colors[colorScheme].icon} value={editForm.weight} onChangeText={(v: string) => setEditForm(f => ({ ...f, weight: v }))} keyboardType="decimal-pad" />
+              </View>
+              <View style={styles.nutrientRow}>
+                <MaterialCommunityIcons name="fire" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
+                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Calories" placeholderTextColor={Colors[colorScheme].icon} value={editForm.calories} onChangeText={(v: string) => setEditForm(f => ({ ...f, calories: v }))} keyboardType="decimal-pad" />
+              </View>
+              <View style={styles.nutrientRow}>
+                <MaterialCommunityIcons name="food-drumstick" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
+                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Protein (g)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.protein} onChangeText={(v: string) => setEditForm(f => ({ ...f, protein: v }))} keyboardType="decimal-pad" />
+              </View>
+              <View style={styles.nutrientRow}>
+                <MaterialCommunityIcons name="bread-slice" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
+                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Carbs (g)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.carbs} onChangeText={(v: string) => setEditForm(f => ({ ...f, carbs: v }))} keyboardType="decimal-pad" />
+              </View>
+              <View style={styles.nutrientRow}>
+                <MaterialCommunityIcons name="water" size={22} color={Colors[colorScheme].tint} style={styles.nutrientIcon} />
+                <TextInput style={[styles.manualInputNutrient, { backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }]}
+                  placeholder="Fat (g)" placeholderTextColor={Colors[colorScheme].icon} value={editForm.fat} onChangeText={(v: string) => setEditForm(f => ({ ...f, fat: v }))} keyboardType="decimal-pad" />
+              </View>
+            </ScrollView>
+            <View style={{ flexDirection: 'row', marginTop: 16, justifyContent: 'center' }}>
+              <Pressable style={[styles.manualButton, { backgroundColor: Colors[colorScheme].tabIconDefault }]} onPress={() => setEditModalVisible(false)}>
+                <Text style={{ color: Colors[colorScheme].text }}>Cancel</Text>
+              </Pressable>
+              <Pressable style={[styles.manualButton, { backgroundColor: Colors[colorScheme].tint, marginLeft: 12 }]} onPress={handleEditSubmit}>
+                <Text style={{ color: Colors[colorScheme].background, fontWeight: 'bold' }}>Save</Text>
               </Pressable>
             </View>
           </Animated.View>
