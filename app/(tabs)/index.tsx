@@ -275,7 +275,7 @@ export default function HomeScreen() {
   return (
     <View style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}> 
       {/* Summary Section */}
-      <ThemedView style={styles.sectionContainer}>
+      <ThemedView style={[styles.sectionContainer, {marginTop:20}]}>
         <ThemedText type="title">Summary ({selectedTimeFrame})</ThemedText>
         <View style={styles.summaryValues}>
           <View style={styles.summaryItem}>
@@ -303,7 +303,7 @@ export default function HomeScreen() {
               key={frame}
               style={[
                 styles.timeFrameButton,
-                { backgroundColor: selectedTimeFrame === frame ? Colors[colorScheme].tint : Colors[colorScheme].tabIconDefault }
+                { backgroundColor: selectedTimeFrame === frame ? Colors[colorScheme].tint : Colors[colorScheme].card, borderColor:Colors[colorScheme].tint   }
               ]}
               onPress={() => setSelectedTimeFrame(frame)}
             >
@@ -319,7 +319,7 @@ export default function HomeScreen() {
       </ThemedView>
 
       {/* Pills for recent log dates */}
-      <ThemedView style={styles.sectionContainer}>
+      <ThemedView style={[styles.sectionContainer, {marginTop: 20}]}>
         <ThemedText type="subtitle">Recent Days</ThemedText>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.pillScroll} contentContainerStyle={{ paddingVertical: 8 }}>
           {logsByDate.map(([date]) => (
@@ -491,7 +491,7 @@ export default function HomeScreen() {
         </KeyboardAvoidingView>
       </Modal>
 
-      {/* Edit Modal (similar to manual add) */}
+      {/* Edit Modal */}
       <Modal
         visible={editModalVisible}
         animationType="slide"
@@ -579,9 +579,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionContainer: {
-    marginTop: 20
-  },
-  sectionTitle: {
+    marginLeft: 12,
   },
   summaryValues: {
     flexDirection: 'row',
