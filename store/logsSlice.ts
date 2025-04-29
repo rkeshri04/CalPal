@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import * as SecureStore from 'expo-secure-store';
 import { AppDispatch } from './index';
-
-const LOGS_KEY = 'logs';
+import { supabase } from '../supabaseClient';
+import { Session } from '@supabase/supabase-js';
 
 export type LogEntry = {
   id: string;
@@ -11,6 +10,10 @@ export type LogEntry = {
   barcode: string;
   cost: number;
   weight: number;
+  calories?: number;
+  fat?: number;
+  carbs?: number;
+  protein?: number;
   date: string;
 };
 
@@ -41,16 +44,27 @@ const logsSlice = createSlice({
 export const { addLog, setLogs, clearLogs } = logsSlice.actions;
 export default logsSlice.reducer;
 
-export const loadLogsFromStorage = () => async (dispatch: AppDispatch) => {
-  const data = await SecureStore.getItemAsync(LOGS_KEY);
-  if (data) {
-    try {
-      const logs = JSON.parse(data);
-      dispatch(setLogs(logs));
-    } catch {}
+// Load logs from Supabase for the current user
+export const loadLogsFromSupabase = (session: Session) => async (dispatch: AppDispatch) => {
+  if (!session?.user?.id) return;
+  const { data, error } = await supabase
+    .from('food_logs')
+    .select('*')
+    .eq('user_id', session.user.id)
+    .order('date', { ascending: false });
+  if (!error && data) {
+    dispatch(setLogs(data));
   }
 };
 
-export const saveLogsToStorage = (logs: LogEntry[]) => {
-  return SecureStore.setItemAsync(LOGS_KEY, JSON.stringify(logs));
+// Save a new log to Supabase for the current user
+export const saveLogToSupabase = (log: Omit<LogEntry, 'id'>, session: Session) => async (dispatch: AppDispatch) => {
+  if (!session?.user?.id) return;
+  const { data, error } = await supabase
+    .from('food_logs')
+    .insert([{ ...log, user_id: session.user.id }])
+    .select();
+  if (!error && data && data[0]) {
+    dispatch(addLog(data[0]));
+  }
 };

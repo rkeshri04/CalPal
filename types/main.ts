@@ -9,12 +9,20 @@ export interface Tip {
     short: string;
     long: string;
 }
+
+export interface NutritionInfo {
+    calories?: number;
+    fat?: number;
+    carbs?: number;
+    protein?: number;
+}
+
 export type SearchProduct = {
-    id: number; // Spoonacular uses numeric IDs
-    title: string;
-    brand?: string;
-    image?: string;
-    upc?: string;
+    code: string; // Open Food Facts barcode
+    product_name: string;
+    brands?: string;
+    image_url?: string;
+    nutriments?: NutritionInfo;
 };
 
 export type TimeFrame = '1D' | '1W' | '1M' | 'All';

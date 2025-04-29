@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FlatList, View, Button, Alert, ActivityIndicator, StyleSheet, Pressable, Image, Modal, Dimensions } from 'react-native'; // Added Modal, Dimensions
-import { loadLogsFromStorage, saveLogsToStorage, addLog, LogEntry } from '@/store/logsSlice';
+import { FlatList, View, Button, Alert, ActivityIndicator, StyleSheet, Pressable, Image, Modal, Dimensions, Text, ScrollView } from 'react-native'; // Added Modal, Dimensions
+import { loadLogsFromSupabase, saveLogToSupabase, addLog, LogEntry } from '@/store/logsSlice';
 import { RootState } from '@/store';
 import { BarcodeScannerModal } from '@/components/BarcodeScannerModal';
 import { ThemedText } from '@/components/ThemedText';
@@ -12,8 +12,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Tip, TimeFrame } from '../../types/main';
 import Constants from 'expo-constants';
+import { supabase } from '../../supabaseClient';
 
 const { width } = Dimensions.get('window');
+const timeFrames: TimeFrame[] = ['1D', '1W', '1M', 'All'];
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
@@ -24,15 +26,31 @@ export default function HomeScreen() {
   const [selectedTimeFrame, setSelectedTimeFrame] = useState<TimeFrame>('1W');
   const [selectedTip, setSelectedTip] = useState<Tip | null>(null);
   const [tipModalVisible, setTipModalVisible] = useState(false);
+  const [session, setSession] = useState<any>(null);
+  const [fabMenuVisible, setFabMenuVisible] = useState(false);
+  const fabMenuOptions = [
+    { label: 'Scan Barcode', action: () => { setFabMenuVisible(false); setScannerVisible(true); } },
+    { label: 'Add Food Manually', action: () => { setFabMenuVisible(false); promptManual(''); } },
+  ];
   const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY || Constants.expoConfig?.extra?.SPOONACULAR_API_KEY;
 
   useEffect(() => {
-    dispatch<any>(loadLogsFromStorage());
+    const getSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+      if (data.session) {
+        dispatch<any>(loadLogsFromSupabase(data.session));
+      }
+    };
+    getSession();
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (session) {
+        dispatch<any>(loadLogsFromSupabase(session));
+      }
+    });
+    return () => listener.subscription.unsubscribe();
   }, [dispatch]);
-
-  useEffect(() => {
-    saveLogsToStorage(logs);
-  }, [logs]);
 
   const getFilteredLogs = (timeFrame: TimeFrame): LogEntry[] => {
     const now = new Date();
@@ -53,60 +71,66 @@ export default function HomeScreen() {
   const filteredLogs = getFilteredLogs(selectedTimeFrame);
   const totalSpent = filteredLogs.reduce((sum: number, l: LogEntry) => sum + l.cost, 0);
   const totalWeight = filteredLogs.reduce((sum: number, l: LogEntry) => sum + l.weight, 0);
+  const totalCalories = filteredLogs.reduce((sum: number, l: LogEntry) => sum + (l.calories || 0), 0);
+  const totalFat = filteredLogs.reduce((sum: number, l: LogEntry) => sum + (l.fat || 0), 0);
+  const totalCarbs = filteredLogs.reduce((sum: number, l: LogEntry) => sum + (l.carbs || 0), 0);
+  const totalProtein = filteredLogs.reduce((sum: number, l: LogEntry) => sum + (l.protein || 0), 0);
 
-  const handleScanned = async (barcode: string) => {
+  // Update handleScanned to accept a product object
+  const handleScanned = async (product: any) => {
     setScannerVisible(false);
     setLoadingProduct(true);
     try {
-      // Use Spoonacular's UPC endpoint for barcode lookup
-      const url = `https://api.spoonacular.com/food/products/upc/${barcode}?apiKey=${SPOONACULAR_API_KEY}`;
-      const res = await fetch(url);
-      if (!res.ok) {
-        throw new Error('Not found');
-      }
-      const data = await res.json();
+      // Extract product info from Open Food Facts
+      const name = product.product_name || 'Unknown Food';
+      const image = product.image_url || '';
+      const barcode = product.code || '';
+      const nutriments = product.nutriments || {};
+      const calories = nutriments['energy-kcal'] || nutriments['energy-kcal_100g'] || undefined;
+      const fat = nutriments['fat'] || nutriments['fat_100g'] || undefined;
+      const carbs = nutriments['carbohydrates'] || nutriments['carbohydrates_100g'] || undefined;
+      const protein = nutriments['proteins'] || nutriments['proteins_100g'] || undefined;
       setLoadingProduct(false);
-
-      if (!data || !data.title) {
-        Alert.alert('Not found', 'No product found for this barcode. Please enter details manually.');
-        promptManual(barcode);
-        return;
-      }
-
-      const name = data.title || 'Unknown Food';
-      const image: string = data.image ?? '';
-      let weight: number = 0;
-      if (typeof data.serving_size === 'number') {
-        weight = data.serving_size;
-      } else if (typeof data.serving_size === 'string') {
-        const match = data.serving_size.match(/\d+/);
-        weight = match ? parseFloat(match[0]) : 0;
-      }
-      // No price in Spoonacular, so prompt for cost
-      Alert.prompt('Enter Cost', `How much did \"${name}\" cost?`, [
+      // Prompt for cost and weight
+      Alert.prompt('Enter Cost', `How much did "${name}" cost?`, [
         {
           text: 'Cancel', style: 'cancel',
         },
         {
           text: 'Add',
           onPress: (costValue?: string) => {
-            const entry: LogEntry = {
-              id: Date.now().toString(),
-              name,
-              image,
-              barcode,
-              cost: parseFloat(costValue ?? '') || 0,
-              weight,
-              date: new Date().toISOString(),
-            };
-            dispatch(addLog(entry));
+            Alert.prompt('Enter Weight (g)', 'How much did it weigh?', [
+              {
+                text: 'Cancel', style: 'cancel',
+              },
+              {
+                text: 'Add',
+                onPress: (weightValue?: string) => {
+                  const entry = {
+                    name,
+                    image,
+                    barcode,
+                    cost: parseFloat(costValue ?? '') || 0,
+                    weight: parseFloat(weightValue ?? '') || 0,
+                    calories: calories ? Number(calories) : undefined,
+                    fat: fat ? Number(fat) : undefined,
+                    carbs: carbs ? Number(carbs) : undefined,
+                    protein: protein ? Number(protein) : undefined,
+                    date: new Date().toISOString(),
+                  };
+                  if (session) {
+                    dispatch<any>(saveLogToSupabase(entry, session));
+                  }
+                },
+              },
+            ], 'plain-text');
           },
         },
       ], 'plain-text', '');
     } catch (e) {
       setLoadingProduct(false);
       Alert.alert('Error', 'Could not fetch product info. Please enter details manually.');
-      promptManual(barcode);
+      promptManual(product.code || '');
     }
   };
 
@@ -129,15 +153,16 @@ export default function HomeScreen() {
               text: 'Add',
               onPress: (weightValue?: string) => {
                 weight = weightValue ?? '';
-                const entry: LogEntry = {
-                  id: Date.now().toString(),
+                const entry = {
                   name: 'Scanned Food',
                   barcode,
                   cost: parseFloat(cost) || 0,
                   weight: parseFloat(weight) || 0,
                   date: new Date().toISOString(),
                 };
-                dispatch(addLog(entry));
+                if (session) {
+                  dispatch<any>(saveLogToSupabase(entry, session));
+                }
               },
             },
           ], 'plain-text');
@@ -146,33 +171,24 @@ export default function HomeScreen() {
     ], 'plain-text');
   }
 
-  const tips: Tip[] = [
-    {
-      id: '1',
-      short: 'Swap snacks for fruits/veg',
-      long: 'Replacing processed snacks like chips or cookies with fruits or vegetables is a great way to reduce calorie intake and increase nutrient consumption. It often saves money too, as fresh produce can be cheaper per serving than packaged snacks. Try apples with peanut butter, carrots with hummus, or a handful of berries.',
-    },
-    {
-      id: '2',
-      short: 'Cook at home more often',
-      long: 'Restaurant meals and takeout often contain higher amounts of sodium, unhealthy fats, and calories compared to home-cooked meals. Cooking at home gives you full control over ingredients and portion sizes, leading to better health outcomes and significant cost savings over time.',
-    },
-    {
-      id: '3',
-      short: 'Drink water, not sugary drinks',
-      long: 'Sodas, sweetened juices, and energy drinks are major sources of added sugar and empty calories. Switching to water, unsweetened tea, or sparkling water can drastically reduce your sugar intake, aid hydration, and help with weight management without costing much.',
-    },
-    // Add more tips as needed
-  ];
-
-  const handleTipPress = (tip: Tip) => {
-    setSelectedTip(tip);
-    setTipModalVisible(true);
-    // Animation logic would go here in a more advanced implementation
-  };
+  // Group logs by date for pills
+  const logsByDate = useMemo(() => {
+    const grouped: Record<string, LogEntry[]> = {};
+    logs.forEach(log => {
+      const date = log.date.slice(0, 10);
+      if (!grouped[date]) grouped[date] = [];
+      grouped[date].push(log);
+    });
+    // Sort dates ascending (oldest left, newest right)
+    return Object.entries(grouped).sort((a, b) => a[0].localeCompare(b[0]));
+  }, [logs]);
+  const [selectedLogDate, setSelectedLogDate] = useState<string | null>(logsByDate[0]?.[0] || null);
+  useEffect(() => {
+    if (logsByDate.length > 0 && !selectedLogDate) setSelectedLogDate(logsByDate[0][0]);
+  }, [logsByDate]);
 
   const renderLogCard = ({ item }: { item: LogEntry }) => (
-    <ThemedView style={[styles.card, styles.logCard, { backgroundColor: Colors[colorScheme].card }]}>
+    <ThemedView style={[styles.logCard, { backgroundColor: Colors[colorScheme].card }]}> 
       {item.image ? (
         <Image source={{ uri: item.image }} style={styles.cardImage} />
       ) : (
@@ -181,15 +197,13 @@ export default function HomeScreen() {
       <ThemedText style={styles.cardTitle} numberOfLines={1}>{item.name}</ThemedText>
       <ThemedText style={styles.cardText}>Cost: ${item.cost.toFixed(2)}</ThemedText>
       <ThemedText style={styles.cardText}>Weight: {item.weight}g</ThemedText>
-      <ThemedText style={styles.cardDate}>{new Date(item.date).toLocaleDateString()}</ThemedText>
+      <ThemedText style={styles.cardText}>Calories: {item.calories ? item.calories.toFixed(0) : '--'}</ThemedText>
+      <ThemedText style={styles.cardText}>Fat: {item.fat ? item.fat.toFixed(1) : '--'}g | Carbs: {item.carbs ? item.carbs.toFixed(1) : '--'}g | Protein: {item.protein ? item.protein.toFixed(1) : '--'}g</ThemedText>
     </ThemedView>
   );
 
-  const timeFrames: TimeFrame[] = ['1D', '1W', '1M', 'All'];
-
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}>
-
+    <SafeAreaView style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}> 
       {/* Summary Section */}
       <ThemedView style={styles.sectionContainer}>
         <ThemedText type="title">Summary ({selectedTimeFrame})</ThemedText>
@@ -202,10 +216,19 @@ export default function HomeScreen() {
             <ThemedText type="subtitle">Weight</ThemedText>
             <ThemedText style={styles.summaryAmount}>{totalWeight.toFixed(1)}g</ThemedText>
           </View>
+          <View style={styles.summaryItem}>
+            <ThemedText type="subtitle">Calories</ThemedText>
+            <ThemedText style={styles.summaryAmount}>{totalCalories.toFixed(0)}</ThemedText>
+          </View>
+        </View>
+        <View style={styles.summaryMacrosRow}>
+          <View style={styles.summaryMacroItem}><ThemedText style={styles.macroLabel}>Fat</ThemedText><ThemedText style={styles.macroValue}>{totalFat.toFixed(1)}g</ThemedText></View>
+          <View style={styles.summaryMacroItem}><ThemedText style={styles.macroLabel}>Carbs</ThemedText><ThemedText style={styles.macroValue}>{totalCarbs.toFixed(1)}g</ThemedText></View>
+          <View style={styles.summaryMacroItem}><ThemedText style={styles.macroLabel}>Protein</ThemedText><ThemedText style={styles.macroValue}>{totalProtein.toFixed(1)}g</ThemedText></View>
         </View>
         {/* Time Frame Buttons */}
         <View style={styles.timeFrameButtons}>
-          {timeFrames.map((frame) => (
+          {timeFrames.map((frame: TimeFrame) => (
             <Pressable
               key={frame}
               style={[
@@ -225,27 +248,28 @@ export default function HomeScreen() {
         </View>
       </ThemedView>
 
-      {/* Tips Section - 2 Column Grid */}
+      {/* Pills for recent log dates */}
       <ThemedView style={styles.sectionContainer}>
-        <ThemedText type="subtitle" style={styles.sectionTitle}>Tips for You</ThemedText>
-        <View style={styles.tipsGrid}>
-          {tips.map((tip) => (
-            <Pressable key={tip.id} onPress={() => handleTipPress(tip)} style={styles.tipCardContainer}>
-              <ThemedView style={[styles.card, styles.tipCard, { backgroundColor: Colors[colorScheme].card }]}>
-                <ThemedText style={styles.tipTextShort}>{tip.short}</ThemedText>
-                {/* Placeholder for icon or image if desired */}
-              </ThemedView>
+        <ThemedText type="subtitle">Recent Days</ThemedText>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.pillScroll} contentContainerStyle={{ paddingVertical: 8 }}>
+          {logsByDate.map(([date]) => (
+            <Pressable
+              key={date}
+              style={[styles.datePill, { backgroundColor: selectedLogDate === date ? Colors[colorScheme].tint : Colors[colorScheme].card, borderColor: Colors[colorScheme].tint }, selectedLogDate === date && { borderWidth: 2 }]}
+              onPress={() => setSelectedLogDate(date)}
+            >
+              <Text style={{ color: selectedLogDate === date ? Colors[colorScheme].background : Colors[colorScheme].text, fontWeight: 'bold' }}>{parseInt(date.slice(-2), 10)}</Text>
+              <Text style={{ color: selectedLogDate === date ? Colors[colorScheme].background : Colors[colorScheme].text, fontSize: 10 }}>{date.slice(5, 7)}</Text>
             </Pressable>
           ))}
-        </View>
+        </ScrollView>
       </ThemedView>
 
-      {/* Log Cards Section */}
+      {/* Log Cards Section for selected day */}
       <ThemedView style={styles.sectionContainer}>
-        <ThemedText type="subtitle">Recent Logs</ThemedText>
-        {logs.length > 0 ? (
+        {selectedLogDate && logsByDate.find(([d]) => d === selectedLogDate)?.[1].length ? (
           <FlatList
-            data={logs.slice().reverse()} // Show newest first, reverse a copy
+            data={logsByDate.find(([d]) => d === selectedLogDate)?.[1] || []}
             keyExtractor={item => item.id}
             renderItem={renderLogCard}
             horizontal
@@ -253,7 +277,7 @@ export default function HomeScreen() {
             contentContainerStyle={styles.logListContent}
           />
         ) : (
-          <ThemedText style={styles.emptyLogText}>No logs yet. Scan something to get started!</ThemedText>
+          <ThemedText style={styles.emptyLogText}>No logs for this day.</ThemedText>
         )}
       </ThemedView>
 
@@ -267,6 +291,21 @@ export default function HomeScreen() {
         onScanned={handleScanned}
       />
 
+      {/* Floating Action Button Menu */}
+      {fabMenuVisible && (
+        <View style={styles.fabMenuContainer}>
+          {fabMenuOptions.map((opt, idx) => (
+            <Pressable
+              key={opt.label}
+              style={[styles.fabMenuItem, { backgroundColor: Colors[colorScheme].tint }]}
+              onPress={opt.action}
+            >
+              <Text style={{ color: Colors[colorScheme].background, fontWeight: 'bold' }}>{opt.label}</Text>
+            </Pressable>
+          ))}
+        </View>
+      )}
+
       {/* Floating Action Button */}
       <Pressable
         style={({ pressed }) => [
@@ -274,10 +313,10 @@ export default function HomeScreen() {
           { backgroundColor: Colors[colorScheme].tint },
           pressed && styles.fabPressed,
         ]}
-        onPress={() => setScannerVisible(true)}
+        onPress={() => setFabMenuVisible((v) => !v)}
         disabled={loadingProduct}
       >
-        <Ionicons name="add" size={32} color={Colors[colorScheme].background} />
+        <Ionicons name={fabMenuVisible ? 'close' : 'add'} size={32} color={Colors[colorScheme].background} />
       </Pressable>
 
       {/* Tip Detail Modal */}
@@ -350,36 +389,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
   },
-  tipsGrid: { // Container for the 2-column tips
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between', // Distribute space between cards
-    marginHorizontal: -cardMargin, // Counteract card margins for alignment
+  pillScroll: {
+    marginBottom: 8,
   },
-  tipCardContainer: { // Wrapper for each card to handle width and margin
-    width: '50%', // Two columns
-    paddingHorizontal: cardMargin, // Spacing between columns
-    marginBottom: cardMargin * 2, // Spacing between rows
-  },
-  card: { // Base card style (reused)
-    borderRadius: 12,
-    padding: 12,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  tipCard: { // Specific styles for tip cards
-    // width: cardSize, // Let container handle width
-    height: cardSize * 0.8, // Make it slightly rectangular, adjust as needed for squareness
-    justifyContent: 'center', // Center text vertically
-    alignItems: 'center', // Center text horizontally
-  },
-  tipTextShort: {
-    fontSize: 14,
-    fontWeight: '600',
-    textAlign: 'center',
+  datePill: {
+    backgroundColor: undefined, // will be set dynamically
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginRight: 8,
+    alignItems: 'center',
+    minWidth: 40,
+    borderWidth: 1,
   },
   logListContent: {
     paddingVertical: 8,
@@ -435,9 +456,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.1)', // Optional: dim background
   },
-  fab: { // Floating Action Button style
+  fab: {
     position: 'absolute',
-    bottom: 30,
+    bottom: 90, // move above tab bar
     right: 30,
     width: 60,
     height: 60,
@@ -486,5 +507,41 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 20,
+  },
+  fabMenuContainer: {
+    position: 'absolute',
+    right: 30,
+    bottom: 170, // Increased from 100 to 170 to move menu higher above the button
+    alignItems: 'flex-end',
+    zIndex: 10,
+  },
+  fabMenuItem: {
+    marginBottom: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+  },
+  summaryMacrosRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 8,
+    marginTop: -8,
+  },
+  summaryMacroItem: {
+    alignItems: 'center',
+    minWidth: 70,
+  },
+  macroLabel: {
+    fontSize: 12,
+    opacity: 0.7,
+  },
+  macroValue: {
+    fontSize: 14,
+    fontWeight: 'bold',
   },
 });

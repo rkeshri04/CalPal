@@ -5,9 +5,14 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { ThemedText } from './ThemedText';
 import { ThemedView } from './ThemedView';
-import { BarcodeScannerModalProps, SearchProduct } from '../types/main';
+import { BarcodeScannerModalProps, SearchProduct, NutritionInfo } from '../types/main';
 
-export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visible, onClose, onScanned }) => {
+// Update prop type
+type BarcodeScannerModalPropsFixed = Omit<BarcodeScannerModalProps, 'onScanned'> & {
+  onScanned: (product: SearchProduct) => void;
+};
+
+export const BarcodeScannerModal: React.FC<BarcodeScannerModalPropsFixed> = ({ visible, onClose, onScanned }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const colorScheme = useColorScheme() ?? 'light';
@@ -18,7 +23,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
-  const SPOONACULAR_API_KEY = process.env.EXPO_PUBLIC_SPOONACULAR_API_KEY;
+  const OPENFOODFACTS_API_URL = 'https://world.openfoodfacts.org';
 
   useEffect(() => {
     if (visible && !permission?.granted) {
@@ -32,7 +37,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
     }
   }, [visible, permission, requestPermission]);
 
-  // Debounced search with Spoonacular API
+  // Debounced search with Open Food Facts API
   useEffect(() => {
     if (!search.trim()) {
       setSearchResults([]);
@@ -40,30 +45,19 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
       setSearchLoading(false);
       return;
     }
-
     setSearchLoading(true);
     setSearchError(null);
-
     if (searchTimeout.current) {
       clearTimeout(searchTimeout.current);
     }
-
     searchTimeout.current = setTimeout(async () => {
       try {
-        const url = `https://api.spoonacular.com/food/products/search?query=${encodeURIComponent(search)}&number=10&apiKey=${SPOONACULAR_API_KEY}`;
+        const url = `${OPENFOODFACTS_API_URL}/cgi/search.pl?search_terms=${encodeURIComponent(search)}&search_simple=1&action=process&json=1&page_size=10`;
         const response = await fetch(url);
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
+        if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
-
         if (data.products && Array.isArray(data.products)) {
-          const filteredProducts = data.products.filter(
-            (product: any) => product.id && product.title
-          );
-          setSearchResults(filteredProducts);
+          setSearchResults(data.products);
         } else {
           setSearchResults([]);
         }
@@ -73,7 +67,6 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
         setSearchLoading(false);
       }
     }, 400);
-
     return () => {
       if (searchTimeout.current) {
         clearTimeout(searchTimeout.current);
@@ -81,18 +74,30 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
     };
   }, [search]);
 
-  const handleBarcodeScanned = (result: BarcodeScanningResult) => {
+  // Barcode scan handler using Open Food Facts
+  const handleBarcodeScanned = async (result: BarcodeScanningResult) => {
     setScanned(true);
-    onScanned(result.data);
+    try {
+      const url = `${OPENFOODFACTS_API_URL}/api/v0/product/${result.data}.json`;
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.status === 1 && data.product) {
+        onScanned(data.product);
+      } else {
+        onScanned({ code: result.data, product_name: '', brands: '', image_url: '' }); // fallback
+      }
+    } catch {
+      onScanned({ code: result.data, product_name: '', brands: '', image_url: '' });
+    }
   };
 
+  // Product select handler
   const handleProductSelect = (product: SearchProduct) => {
     setScanned(true);
     setSearch('');
     setSearchResults([]);
     Keyboard.dismiss();
-    // Use UPC if available, else fallback to id
-    onScanned(product.upc || String(product.id));
+    onScanned(product);
   };
 
   if (!permission) {
@@ -187,16 +192,16 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
             )}
             <FlatList
               data={searchResults}
-              keyExtractor={(item) => String(item.id)}
+              keyExtractor={(item) => String(item.code)}
               renderItem={({ item }) => (
                 <Pressable
                   style={[styles.resultRow, { backgroundColor: Colors[colorScheme].background }]}
                   onPress={() => handleProductSelect(item)}
                 >
-                  {item.image ? (
+                  {item.image_url ? (
                     <View style={styles.resultImageWrapper}>
                       <Image
-                        source={{ uri: item.image }}
+                        source={{ uri: item.image_url }}
                         style={styles.resultImage}
                       />
                     </View>
@@ -205,10 +210,10 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({ visibl
                   )}
                   <View style={{ flex: 1 }}>
                     <ThemedText style={styles.resultTitle} numberOfLines={1}>
-                      {item.title}
+                      {item.product_name}
                     </ThemedText>
                     <ThemedText style={styles.resultBrand} numberOfLines={1}>
-                      {item.brand}
+                      {item.brands}
                     </ThemedText>
                   </View>
                 </Pressable>
