@@ -1,0 +1,3005 @@
+[
+  {
+    "name": "Burgers & Sandwiches"
+  },
+  {
+    "name": "Bacon Clubhouse\nBurger",
+    "serving size": "9.7 oz\n(274 g)",
+    "calories": "740",
+    "total fat (g)": "41",
+    "carbohydrates (g)": "51",
+    "protein (g)": "40"
+  },
+  {
+    "name": "Bacon Clubhouse\nGrilled Chicken\nSandwich",
+    "serving size": "10 oz\n(285 g)",
+    "calories": "610",
+    "total fat (g)": "26",
+    "carbohydrates (g)": "50",
+    "protein (g)": "45"
+  },
+  {
+    "name": "Bacon Clubhouse\nButtermilk Crispy\nChicken\nSandwich",
+    "serving size": "10.1 oz\n(287 g)",
+    "calories": "790",
+    "total fat (g)": "40",
+    "carbohydrates (g)": "67",
+    "protein (g)": "40"
+  },
+  {
+    "name": "McChicken \u00ae",
+    "serving size": "5.1 oz\n(144 g)",
+    "calories": "370",
+    "total fat (g)": "17",
+    "carbohydrates (g)": "40",
+    "protein (g)": "14"
+  },
+  {
+    "name": "Buffalo Ranch\nMcChicken",
+    "serving size": "5.2 oz\n(148 g)",
+    "calories": "370",
+    "total fat (g)": "17",
+    "carbohydrates (g)": "41",
+    "protein (g)": "14"
+  },
+  {
+    "name": "Bacon Buffalo\nRanch\nMcChicken",
+    "serving size": "5.7 oz\n(162 g)",
+    "calories": "440",
+    "total fat (g)": "21",
+    "carbohydrates (g)": "41",
+    "protein (g)": "20"
+  },
+  {
+    "name": "Bacon Cheddar\nMcChicken",
+    "serving size": "6.1 oz\n(172 g)",
+    "calories": "490",
+    "total fat (g)": "25",
+    "carbohydrates (g)": "43",
+    "protein (g)": "22"
+  },
+  {
+    "name": "Southern Style\nButtermilk Crispy\nChicken\nSandwich",
+    "serving size": "5.7 oz\n(163 g)",
+    "calories": "470",
+    "total fat (g)": "21",
+    "carbohydrates (g)": "46",
+    "protein (g)": "25"
+  },
+  {
+    "name": "Filet-O-Fish",
+    "serving size": "5 oz\n(142 g)",
+    "calories": "390",
+    "total fat (g)": "19",
+    "carbohydrates (g)": "39",
+    "protein (g)": "15"
+  },
+  {
+    "name": "McRib \u00ae \u2020",
+    "serving size": "7.3 oz\n(208 g)",
+    "calories": "500",
+    "total fat (g)": "26",
+    "carbohydrates (g)": "44",
+    "protein (g)": "22"
+  },
+  {
+    "name": "Premium\nMcWrap Chicken\n& Bacon\n(Buttermilk\nCrispy)",
+    "serving size": "11.1 oz\n(314 g)",
+    "calories": "690",
+    "total fat (g)": "34",
+    "carbohydrates (g)": "58",
+    "protein (g)": "36"
+  },
+  {
+    "name": "Premium\nMcWrap Chicken\n& Bacon (Grilled)",
+    "serving size": "11 oz\n(312 g)",
+    "calories": "500",
+    "total fat (g)": "19",
+    "carbohydrates (g)": "41",
+    "protein (g)": "41"
+  },
+  {
+    "name": "Premium\nMcWrap Chicken\n& Ranch\n(Buttermilk\nCrispy)",
+    "serving size": "10.9 oz\n(309 g)",
+    "calories": "660",
+    "total fat (g)": "34",
+    "carbohydrates (g)": "59",
+    "protein (g)": "31"
+  },
+  {
+    "name": "Premium\nMcWrap Chicken\n& Ranch (Grilled)",
+    "serving size": "10.8 oz\n(306 g)",
+    "calories": "470",
+    "total fat (g)": "19",
+    "carbohydrates (g)": "41",
+    "protein (g)": "35"
+  },
+  {
+    "name": "Premium\nMcWrap Chicken\nSweet Chili\n(Buttermilk\nCrispy)",
+    "serving size": "10.6 oz\n(301 g)",
+    "calories": "590",
+    "total fat (g)": "25",
+    "carbohydrates (g)": "64",
+    "protein (g)": "27"
+  },
+  {
+    "name": "Premium\nMcWrap Chicken\nSweet Chili\n(Grilled)",
+    "serving size": "10.4 oz\n(294 g)",
+    "calories": "400",
+    "total fat (g)": "10",
+    "carbohydrates (g)": "46",
+    "protein (g)": "31"
+  },
+  {
+    "name": "Big Mac",
+    "serving size": "7.5 oz\n(212 g)",
+    "calories": "540",
+    "total fat (g)": "28",
+    "carbohydrates (g)": "47",
+    "protein (g)": "25"
+  },
+  {
+    "name": "Quarter\nPounder\u00ae with\nCheese +",
+    "serving size": "7.3 oz\n(206 g)",
+    "calories": "540",
+    "total fat (g)": "28",
+    "carbohydrates (g)": "42",
+    "protein (g)": "31"
+  },
+  {
+    "name": "Double Quarter\nPounder with\nCheese",
+    "serving size": "10.3 oz\n(291 g)",
+    "calories": "780",
+    "total fat (g)": "45",
+    "carbohydrates (g)": "43",
+    "protein (g)": "50"
+  },
+  {
+    "name": "Hamburger",
+    "serving size": "3.5 oz\n(99 g)",
+    "calories": "250",
+    "total fat (g)": "8",
+    "carbohydrates (g)": "32",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Cheeseburger",
+    "serving size": "4 oz\n(113 g)",
+    "calories": "300",
+    "total fat (g)": "12",
+    "carbohydrates (g)": "33",
+    "protein (g)": "15"
+  },
+  {
+    "name": "BBQ Ranch\nBurger",
+    "serving size": "4 oz\n(114 g)",
+    "calories": "350",
+    "total fat (g)": "15",
+    "carbohydrates (g)": "37",
+    "protein (g)": "15"
+  },
+  {
+    "name": "Grilled Onion\nCheddar",
+    "serving size": "4 oz\n(114 g)",
+    "calories": "310",
+    "total fat (g)": "13",
+    "carbohydrates (g)": "32",
+    "protein (g)": "15"
+  },
+  {
+    "name": "Double\nCheeseburger",
+    "serving size": "5.7 oz\n(163 g)",
+    "calories": "440",
+    "total fat (g)": "22",
+    "carbohydrates (g)": "35",
+    "protein (g)": "25"
+  },
+  {
+    "name": "McDouble",
+    "serving size": "5.2 oz\n(148 g)",
+    "calories": "390",
+    "total fat (g)": "18",
+    "carbohydrates (g)": "34",
+    "protein (g)": "22"
+  },
+  {
+    "name": "Bacon McDouble",
+    "serving size": "5.7 oz\n(162 g)",
+    "calories": "460",
+    "total fat (g)": "23",
+    "carbohydrates (g)": "34",
+    "protein (g)": "28"
+  },
+  {
+    "name": "Daily Double \u2020",
+    "serving size": "6.8 oz\n(191 g)",
+    "calories": "440",
+    "total fat (g)": "24",
+    "carbohydrates (g)": "34",
+    "protein (g)": "22"
+  },
+  {
+    "name": "Ranch Snack\nWrap\u00ae\n(Buttermilk\nCrispy)",
+    "serving size": "4.6 oz\n(129 g)",
+    "calories": "380",
+    "total fat (g)": "21",
+    "carbohydrates (g)": "33",
+    "protein (g)": "16"
+  },
+  {
+    "name": "Ranch Snack\nWrap\u00ae (Grilled)",
+    "serving size": "4.5 oz\n(128 g)",
+    "calories": "290",
+    "total fat (g)": "13",
+    "carbohydrates (g)": "25",
+    "protein (g)": "19"
+  },
+  {
+    "name": "Mac Snack Wrap\n\u2020",
+    "serving size": "4.4 oz\n(125 g)",
+    "calories": "330",
+    "total fat (g)": "19",
+    "carbohydrates (g)": "26",
+    "protein (g)": "14"
+  },
+  {
+    "name": "Jalape\u00f1o Double",
+    "serving size": "5.7 oz\n(160 g)",
+    "calories": "440",
+    "total fat (g)": "24",
+    "carbohydrates (g)": "35",
+    "protein (g)": "23"
+  },
+  {
+    "name": "Premium Crispy\nChicken Deluxe\nSandwich",
+    "serving size": "8 oz\n(227 g)",
+    "calories": "530",
+    "total fat (g)": "22",
+    "carbohydrates (g)": "59",
+    "protein (g)": "25"
+  },
+  {
+    "name": "Quarter Pounder\nDeluxe",
+    "serving size": "9.2 oz\n(260 g)",
+    "calories": "600",
+    "total fat (g)": "33",
+    "carbohydrates (g)": "44",
+    "protein (g)": "31"
+  },
+  {
+    "name": "Artisan Grilled\nChicken\nSandwich",
+    "serving size": "7.3 oz\n(207 g)",
+    "calories": "360",
+    "total fat (g)": "6",
+    "carbohydrates (g)": "43",
+    "protein (g)": "33"
+  },
+  {
+    "name": "Buttermilk Crispy\nChicken\nSandwich",
+    "serving size": "8.1 oz\n(230 g)",
+    "calories": "580",
+    "total fat (g)": "24",
+    "carbohydrates (g)": "62",
+    "protein (g)": "29"
+  },
+  {
+    "name": "Chicken & Fish"
+  },
+  {
+    "name": "Premium Asian\nSalad with\nButtermilk Crispy\nChicken",
+    "serving size": "10.5 oz\n(297 g)",
+    "calories": "450",
+    "total fat (g)": "24",
+    "carbohydrates (g)": "35",
+    "protein (g)": "27"
+  },
+  {
+    "name": "Premium Asian\nSalad with Grilled\nChicken",
+    "serving size": "10.4 oz\n(295 g)",
+    "calories": "270",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "18",
+    "protein (g)": "32"
+  },
+  {
+    "name": "Chicken\nMcNuggets\u00ae (10\npiece)",
+    "serving size": "5.7 oz\n(162 g)",
+    "calories": "470",
+    "total fat (g)": "30",
+    "carbohydrates (g)": "30",
+    "protein (g)": "22"
+  },
+  {
+    "name": "Chicken\nMcNuggets\u00ae (20\npiece)",
+    "serving size": "11.4 oz\n(323 g)",
+    "calories": "940",
+    "total fat (g)": "59",
+    "carbohydrates (g)": "59",
+    "protein (g)": "44"
+  },
+  {
+    "name": "Chicken\nMcNuggets\u00ae (6\npiece)",
+    "serving size": "3.4 oz\n(97 g)",
+    "calories": "280",
+    "total fat (g)": "18",
+    "carbohydrates (g)": "18",
+    "protein (g)": "13"
+  },
+  {
+    "name": "Chicken\nMcNuggets\u00ae (40\npiece) \u2020",
+    "serving size": "22.8 oz\n(646 g)",
+    "calories": "1880",
+    "total fat (g)": "118",
+    "carbohydrates (g)": "118",
+    "protein (g)": "87"
+  },
+  {
+    "name": "Premium Bacon\nRanch Salad with\nButtermilk Crispy\nChicken",
+    "serving size": "9.5 oz\n(268 g)",
+    "calories": "490",
+    "total fat (g)": "29",
+    "carbohydrates (g)": "26",
+    "protein (g)": "34"
+  },
+  {
+    "name": "Premium Bacon\nRanch Salad with\nGrilled Chicken",
+    "serving size": "9.4 oz\n(266 g)",
+    "calories": "310",
+    "total fat (g)": "14",
+    "carbohydrates (g)": "9",
+    "protein (g)": "38"
+  },
+  {
+    "name": "Premium\nSouthwest Salad\nwith Buttermilk\nCrispy Chicken",
+    "serving size": "10.4 oz\n(294 g)",
+    "calories": "510",
+    "total fat (g)": "26",
+    "carbohydrates (g)": "43",
+    "protein (g)": "28"
+  },
+  {
+    "name": "Premium\nSouthwest Salad\nwith Grilled\nChicken",
+    "serving size": "10.3 oz\n(292 g)",
+    "calories": "330",
+    "total fat (g)": "11",
+    "carbohydrates (g)": "26",
+    "protein (g)": "33"
+  },
+  {
+    "name": "Chicken\nMcNuggets\u00ae (4\npiece)",
+    "serving size": "2.3 oz\n(65 g)",
+    "calories": "190",
+    "total fat (g)": "12",
+    "carbohydrates (g)": "12",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Chicken Selects\n(3 pc)",
+    "serving size": "4.4 oz\n(124 g)",
+    "calories": "370",
+    "total fat (g)": "22",
+    "carbohydrates (g)": "20",
+    "protein (g)": "23"
+  },
+  {
+    "name": "Premium Asian\nSalad with Crispy\nChicken",
+    "serving size": "10.3 oz\n(292 g)",
+    "calories": "410",
+    "total fat (g)": "22",
+    "carbohydrates (g)": "32",
+    "protein (g)": "23"
+  },
+  {
+    "name": "Bacon Clubhouse\nCrispy Chicken\nSandwich",
+    "serving size": "10 oz\n(284 g)",
+    "calories": "750",
+    "total fat (g)": "38",
+    "carbohydrates (g)": "65",
+    "protein (g)": "36"
+  },
+  {
+    "name": "Premium\nMcWrap Chicken\n& Bacon (Crispy)",
+    "serving size": "11 oz\n(311 g)",
+    "calories": "640",
+    "total fat (g)": "32",
+    "carbohydrates (g)": "56",
+    "protein (g)": "33"
+  },
+  {
+    "name": "Premium\nMcWrap Chicken\n& Ranch (Crispy)",
+    "serving size": "10.8 oz\n(305 g)",
+    "calories": "610",
+    "total fat (g)": "31",
+    "carbohydrates (g)": "56",
+    "protein (g)": "27"
+  },
+  {
+    "name": "Premium\nMcWrap Chicken\nSweet Chili\n(Crispy)",
+    "serving size": "10.5 oz\n(298 g)",
+    "calories": "540",
+    "total fat (g)": "23",
+    "carbohydrates (g)": "61",
+    "protein (g)": "24"
+  },
+  {
+    "name": "Ranch Snack\nWrap\u00ae (Crispy)",
+    "serving size": "4.5 oz\n(128 g)",
+    "calories": "360",
+    "total fat (g)": "20",
+    "carbohydrates (g)": "32",
+    "protein (g)": "15"
+  },
+  {
+    "name": "Premium Bacon\nRanch Salad with\nCrispy Chicken",
+    "serving size": "9.3 oz\n(265 g)",
+    "calories": "450",
+    "total fat (g)": "26",
+    "carbohydrates (g)": "23",
+    "protein (g)": "30"
+  },
+  {
+    "name": "Premium\nSouthwest Salad\nwith Crispy\nChicken",
+    "serving size": "10.4 oz\n(294 g)",
+    "calories": "470",
+    "total fat (g)": "24",
+    "carbohydrates (g)": "41",
+    "protein (g)": "25"
+  },
+  {
+    "name": "Breakfast"
+  },
+  {
+    "name": "Fruit 'n Yogurt\nParfait",
+    "serving size": "5.2 oz\n(149 g)",
+    "calories": "150",
+    "total fat (g)": "2",
+    "carbohydrates (g)": "30",
+    "protein (g)": "4"
+  },
+  {
+    "name": "Steak, Egg &\nCheese Bagel \u2020",
+    "serving size": "8.5 oz\n(241 g)",
+    "calories": "670",
+    "total fat (g)": "35",
+    "carbohydrates (g)": "56",
+    "protein (g)": "33"
+  },
+  {
+    "name": "Steak & Egg\nBiscuit (Regular\nBiscuit)",
+    "serving size": "7.1 oz\n(201 g)",
+    "calories": "540",
+    "total fat (g)": "32",
+    "carbohydrates (g)": "38",
+    "protein (g)": "25"
+  },
+  {
+    "name": "Sausage\nMcMuffin\u00ae with\nEgg",
+    "serving size": "5.7 oz\n(161 g)",
+    "calories": "450",
+    "total fat (g)": "28",
+    "carbohydrates (g)": "30",
+    "protein (g)": "21"
+  },
+  {
+    "name": "Hotcakes and\nSausage",
+    "serving size": "6.8 oz\n(192 g)",
+    "calories": "520",
+    "total fat (g)": "24",
+    "carbohydrates (g)": "61",
+    "protein (g)": "15"
+  },
+  {
+    "name": "Southern Style\nChicken Biscuit\n(Regular Size\nBiscuit)",
+    "serving size": "5 oz\n(143 g)",
+    "calories": "410",
+    "total fat (g)": "20",
+    "carbohydrates (g)": "41",
+    "protein (g)": "17"
+  },
+  {
+    "name": "Sausage Burrito",
+    "serving size": "3.9 oz\n(111 g)",
+    "calories": "300",
+    "total fat (g)": "16",
+    "carbohydrates (g)": "26",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Fruit & Maple\nOatmeal \u2020",
+    "serving size": "8.9 oz\n(251 g)",
+    "calories": "290",
+    "total fat (g)": "4",
+    "carbohydrates (g)": "58",
+    "protein (g)": "5"
+  },
+  {
+    "name": "Egg McMuffin\u00ae",
+    "serving size": "4.8 oz\n(136 g)",
+    "calories": "300",
+    "total fat (g)": "13",
+    "carbohydrates (g)": "31",
+    "protein (g)": "17"
+  },
+  {
+    "name": "Bacon, Egg &\nCheese Biscuit\n(Regular Size\nBiscuit)",
+    "serving size": "5.3 oz\n(150 g)",
+    "calories": "460",
+    "total fat (g)": "26",
+    "carbohydrates (g)": "38",
+    "protein (g)": "19"
+  },
+  {
+    "name": "Sausage Biscuit\n(Regular Size\nBiscuit)",
+    "serving size": "4.1 oz\n(117 g)",
+    "calories": "430",
+    "total fat (g)": "27",
+    "carbohydrates (g)": "34",
+    "protein (g)": "11"
+  },
+  {
+    "name": "Sausage Biscuit\nwith Egg\n(Regular Size\nBiscuit)",
+    "serving size": "5.7 oz\n(163 g)",
+    "calories": "510",
+    "total fat (g)": "33",
+    "carbohydrates (g)": "36",
+    "protein (g)": "18"
+  },
+  {
+    "name": "Bacon, Egg &\nCheese\nMcGriddles",
+    "serving size": "6.1 oz\n(174 g)",
+    "calories": "460",
+    "total fat (g)": "21",
+    "carbohydrates (g)": "48",
+    "protein (g)": "19"
+  },
+  {
+    "name": "Sausage\nMcGriddles\u00ae",
+    "serving size": "5 oz\n(141 g)",
+    "calories": "420",
+    "total fat (g)": "22",
+    "carbohydrates (g)": "44",
+    "protein (g)": "11"
+  },
+  {
+    "name": "Sausage, Egg &\nCheese\nMcGriddles\u00ae",
+    "serving size": "7.1 oz\n(201 g)",
+    "calories": "550",
+    "total fat (g)": "31",
+    "carbohydrates (g)": "48",
+    "protein (g)": "20"
+  },
+  {
+    "name": "Bacon, Egg &\nCheese Bagel\nwith Egg Whites",
+    "serving size": "6.8 oz\n(194 g)",
+    "calories": "530",
+    "total fat (g)": "23",
+    "carbohydrates (g)": "55",
+    "protein (g)": "27"
+  },
+  {
+    "name": "Big Breakfast\u00ae\n(Regular Size\nBiscuit)",
+    "serving size": "9.5 oz\n(269 g)",
+    "calories": "740",
+    "total fat (g)": "48",
+    "carbohydrates (g)": "51",
+    "protein (g)": "28"
+  },
+  {
+    "name": "Big Breakfast\nwith Hotcakes\n(Regular Size\nBiscuit)",
+    "serving size": "14.8 oz\n(420 g)",
+    "calories": "1090",
+    "total fat (g)": "56",
+    "carbohydrates (g)": "111",
+    "protein (g)": "36"
+  },
+  {
+    "name": "Cinnamon Melts",
+    "serving size": "4 oz\n(114 g)",
+    "calories": "460",
+    "total fat (g)": "19",
+    "carbohydrates (g)": "66",
+    "protein (g)": "6"
+  },
+  {
+    "name": "Hotcakes",
+    "serving size": "5.3 oz\n(151 g)",
+    "calories": "350",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "60",
+    "protein (g)": "8"
+  },
+  {
+    "name": "Egg White\nDelight",
+    "serving size": "4.8 oz\n(135 g)",
+    "calories": "250",
+    "total fat (g)": "8",
+    "carbohydrates (g)": "30",
+    "protein (g)": "18"
+  },
+  {
+    "name": "HASH BROWNS",
+    "serving size": "2 oz\n(56 g)",
+    "calories": "150",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "15",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Bacon, Egg &\nCheese Biscuit\n(Large Size\nBiscuit)",
+    "serving size": "5.8 oz\n(164 g)",
+    "calories": "520",
+    "total fat (g)": "30",
+    "carbohydrates (g)": "43",
+    "protein (g)": "19"
+  },
+  {
+    "name": "Big Breakfast\nwith Hotcakes\n(Large Size\nBiscuit)",
+    "serving size": "15.3 oz\n(434 g)",
+    "calories": "1150",
+    "total fat (g)": "60",
+    "carbohydrates (g)": "116",
+    "protein (g)": "36"
+  },
+  {
+    "name": "Big Breakfast\u00ae\n(Large Size\nBiscuit)",
+    "serving size": "10 oz\n(283 g)",
+    "calories": "800",
+    "total fat (g)": "52",
+    "carbohydrates (g)": "56",
+    "protein (g)": "28"
+  },
+  {
+    "name": "Sausage Biscuit\n(Large Size\nBiscuit)",
+    "serving size": "4.6 oz\n(131 g)",
+    "calories": "480",
+    "total fat (g)": "31",
+    "carbohydrates (g)": "39",
+    "protein (g)": "11"
+  },
+  {
+    "name": "Sausage Biscuit\nwith Egg (Large\nSize Biscuit)",
+    "serving size": "6.2 oz\n(177 g)",
+    "calories": "570",
+    "total fat (g)": "37",
+    "carbohydrates (g)": "42",
+    "protein (g)": "18"
+  },
+  {
+    "name": "Southern Style\nChicken Biscuit\n(Large Size\nBiscuit)",
+    "serving size": "5.5 oz\n(157 g)",
+    "calories": "470",
+    "total fat (g)": "24",
+    "carbohydrates (g)": "46",
+    "protein (g)": "17"
+  },
+  {
+    "name": "Bacon, Egg &\nCheese Biscuit\nwith Egg Whites\n(Large Biscuit)",
+    "serving size": "5.9 oz\n(167 g)",
+    "calories": "470",
+    "total fat (g)": "25",
+    "carbohydrates (g)": "42",
+    "protein (g)": "20"
+  },
+  {
+    "name": "Sausage\nMcMuffin with\nEgg Whites",
+    "serving size": "5.7 oz\n(161 g)",
+    "calories": "400",
+    "total fat (g)": "23",
+    "carbohydrates (g)": "30",
+    "protein (g)": "21"
+  },
+  {
+    "name": "Bacon, Egg &\nCheese\nMcGriddles with\nEgg Whites",
+    "serving size": "6.3 oz\n(178 g)",
+    "calories": "400",
+    "total fat (g)": "15",
+    "carbohydrates (g)": "47",
+    "protein (g)": "20"
+  },
+  {
+    "name": "Bacon, Egg &\nCheese Biscuit\nwith Egg Whites\n(RegularBiscuit)",
+    "serving size": "5.4 oz\n(153 g)",
+    "calories": "410",
+    "total fat (g)": "20",
+    "carbohydrates (g)": "36",
+    "protein (g)": "20"
+  },
+  {
+    "name": "Big Breakfast\nwith Egg Whites\n(Large Size\nBiscuit)",
+    "serving size": "10.1 oz\n(286 g)",
+    "calories": "690",
+    "total fat (g)": "41",
+    "carbohydrates (g)": "55",
+    "protein (g)": "26"
+  },
+  {
+    "name": "Big Breakfast\nwith Egg Whites\n(Regular Size\nBiscuit)",
+    "serving size": "9.6 oz\n(272 g)",
+    "calories": "640",
+    "total fat (g)": "37",
+    "carbohydrates (g)": "50",
+    "protein (g)": "26"
+  },
+  {
+    "name": "Big Breakfast\nwith Hotcakes\nand Egg Whites\n(Large Biscuit)",
+    "serving size": "15.4 oz\n(437 g)",
+    "calories": "1050",
+    "total fat (g)": "50",
+    "carbohydrates (g)": "115",
+    "protein (g)": "35"
+  },
+  {
+    "name": "Big Breakfast\nwith Hotcakes\nand Egg Whites\n(Regular Biscuit)",
+    "serving size": "14.9 oz\n(423 g)",
+    "calories": "990",
+    "total fat (g)": "46",
+    "carbohydrates (g)": "110",
+    "protein (g)": "35"
+  },
+  {
+    "name": "Fruit & Maple\nOatmeal without\nBrown Sugar \u2020",
+    "serving size": "8.8 oz\n(250 g)",
+    "calories": "260",
+    "total fat (g)": "4",
+    "carbohydrates (g)": "49",
+    "protein (g)": "5"
+  },
+  {
+    "name": "Sausage Biscuit\nwith Egg Whites\n(Large Size\nBiscuit)",
+    "serving size": "6.4 oz\n(181 g)",
+    "calories": "520",
+    "total fat (g)": "32",
+    "carbohydrates (g)": "40",
+    "protein (g)": "18"
+  },
+  {
+    "name": "Sausage Biscuit\nwith Egg Whites\n(Regular Size\nBiscuit)",
+    "serving size": "5.9 oz\n(167 g)",
+    "calories": "460",
+    "total fat (g)": "27",
+    "carbohydrates (g)": "34",
+    "protein (g)": "18"
+  },
+  {
+    "name": "Sausage, Egg &\nCheese\nMcGriddles with\nEgg Whites",
+    "serving size": "7.2 oz\n(205 g)",
+    "calories": "500",
+    "total fat (g)": "26",
+    "carbohydrates (g)": "46",
+    "protein (g)": "21"
+  },
+  {
+    "name": "Bacon, Egg &\nCheese Bagel \u2020",
+    "serving size": "6.7 oz\n(190 g)",
+    "calories": "590",
+    "total fat (g)": "29",
+    "carbohydrates (g)": "56",
+    "protein (g)": "27"
+  },
+  {
+    "name": "Steak & Egg\nMcMuffin",
+    "serving size": "6.5 oz\n(185 g)",
+    "calories": "430",
+    "total fat (g)": "23",
+    "carbohydrates (g)": "31",
+    "protein (g)": "26"
+  },
+  {
+    "name": "Sausage\nMcMuffin\u00ae",
+    "serving size": "3.9 oz\n(111 g)",
+    "calories": "370",
+    "total fat (g)": "23",
+    "carbohydrates (g)": "29",
+    "protein (g)": "14"
+  },
+  {
+    "name": "Salads"
+  },
+  {
+    "name": "Side Salad",
+    "serving size": "2.7 oz\n(78 g)",
+    "calories": "15",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "3",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Premium Asian\nSalad (without\nchicken)",
+    "serving size": "6.2 oz\n(177 g)",
+    "calories": "140",
+    "total fat (g)": "7",
+    "carbohydrates (g)": "13",
+    "protein (g)": "7"
+  },
+  {
+    "name": "Premium Bacon\nRanch Salad\n(without chicken)",
+    "serving size": "5.9 oz\n(169 g)",
+    "calories": "190",
+    "total fat (g)": "12",
+    "carbohydrates (g)": "8",
+    "protein (g)": "14"
+  },
+  {
+    "name": "Premium\nSouthwest Salad\n(without chicken)",
+    "serving size": "6.1 oz\n(173 g)",
+    "calories": "160",
+    "total fat (g)": "7",
+    "carbohydrates (g)": "18",
+    "protein (g)": "8"
+  },
+  {
+    "name": "Snacks & Sides"
+  },
+  {
+    "name": "Small French\nFries",
+    "serving size": "2.6 oz\n(75 g)",
+    "calories": "230",
+    "total fat (g)": "11",
+    "carbohydrates (g)": "30",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Apple Slices \u2020",
+    "serving size": "1.2 oz\n(34 g)",
+    "calories": "15",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "4",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Large French\nFries",
+    "serving size": "5.9 oz\n(168 g)",
+    "calories": "510",
+    "total fat (g)": "24",
+    "carbohydrates (g)": "67",
+    "protein (g)": "6"
+  },
+  {
+    "name": "Medium French\nFries",
+    "serving size": "3.9 oz\n(111 g)",
+    "calories": "340",
+    "total fat (g)": "16",
+    "carbohydrates (g)": "44",
+    "protein (g)": "4"
+  },
+  {
+    "name": "Kids Fries",
+    "serving size": "1.3 oz\n(38 g)",
+    "calories": "110",
+    "total fat (g)": "5",
+    "carbohydrates (g)": "15",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Go-GURT\nStrawberry\nFlavored Low Fat\nYogurt Tube",
+    "serving size": "2.3 oz\n(64 g)",
+    "calories": "50",
+    "total fat (g)": "0.5",
+    "carbohydrates (g)": "9",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Cuties",
+    "serving size": "3 oz\n(85 g)",
+    "calories": "40",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "10",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Baked\nMozzarella Sticks\n(3 Piece)",
+    "serving size": "2.3 oz\n(65 g)",
+    "calories": "200",
+    "total fat (g)": "10",
+    "carbohydrates (g)": "18",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Beverages"
+  },
+  {
+    "name": "McCaf\u00e9 Mocha\n(Small)",
+    "serving size": "12 fl oz\ncup",
+    "calories": "340",
+    "total fat (g)": "11",
+    "carbohydrates (g)": "49",
+    "protein (g)": "10"
+  },
+  {
+    "name": "Coffee (Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Chocolate\nMcCaf\u00e9 Shake\n(Small)",
+    "serving size": "12 fl oz",
+    "calories": "560",
+    "total fat (g)": "16",
+    "carbohydrates (g)": "91",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Vanilla McCaf\u00e9\nShake (Small)",
+    "serving size": "12 fl oz",
+    "calories": "530",
+    "total fat (g)": "15",
+    "carbohydrates (g)": "86",
+    "protein (g)": "11"
+  },
+  {
+    "name": "Strawberry\nMcCaf\u00e9 Shake\n(Small)",
+    "serving size": "12 fl oz",
+    "calories": "550",
+    "total fat (g)": "16",
+    "carbohydrates (g)": "90",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Coffee (Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Premium Roast\nIced Coffee\n(Small)",
+    "serving size": "16 fl oz\ncup",
+    "calories": "140",
+    "total fat (g)": "4.5",
+    "carbohydrates (g)": "23",
+    "protein (g)": "1"
+  },
+  {
+    "name": "McCaf\u00e9 Caramel\nMocha (Small)",
+    "serving size": "12 fl oz\ncup",
+    "calories": "320",
+    "total fat (g)": "11",
+    "carbohydrates (g)": "45",
+    "protein (g)": "10"
+  },
+  {
+    "name": "Frappe Mocha\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "440",
+    "total fat (g)": "18",
+    "carbohydrates (g)": "64",
+    "protein (g)": "7"
+  },
+  {
+    "name": "Frappe Caramel\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "440",
+    "total fat (g)": "18",
+    "carbohydrates (g)": "63",
+    "protein (g)": "7"
+  },
+  {
+    "name": "Frappe\nChocolate Chip\n(Small) \u2020 ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "520",
+    "total fat (g)": "22",
+    "carbohydrates (g)": "75",
+    "protein (g)": "8"
+  },
+  {
+    "name": "Blueberry\nPomegranate\nSmoothie (Small)\n",
+    "serving size": "12 fl oz\ncup",
+    "calories": "220",
+    "total fat (g)": "0.5",
+    "carbohydrates (g)": "50",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Strawberry\nBanana\nSmoothie (Small)\n",
+    "serving size": "12 fl oz\ncup",
+    "calories": "210",
+    "total fat (g)": "0.5",
+    "carbohydrates (g)": "47",
+    "protein (g)": "3"
+  },
+  {
+    "name": "Mango Pineapple\nSmoothie (Small)\n",
+    "serving size": "12 fl oz\ncup",
+    "calories": "210",
+    "total fat (g)": "0.5",
+    "carbohydrates (g)": "50",
+    "protein (g)": "2"
+  },
+  {
+    "name": "McCaf\u00e9 Hot\nChocolate\n(Small)",
+    "serving size": "12 fl oz\ncup",
+    "calories": "360",
+    "total fat (g)": "13",
+    "carbohydrates (g)": "50",
+    "protein (g)": "11"
+  },
+  {
+    "name": "Minute Maid\u00ae\n100% Apple\nJuice Box",
+    "serving size": "6 fl oz\n(177\nml)",
+    "calories": "80",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "21",
+    "protein (g)": "0"
+  },
+  {
+    "name": "McCaf\u00e9 Latte\n(Small)",
+    "serving size": "12 fl oz\ncup",
+    "calories": "170",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "15",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Shamrock\nMcCafe\u00ae Shake\n(Small) \u2020",
+    "serving size": "12 fl oz\ncup",
+    "calories": "530",
+    "total fat (g)": "15",
+    "carbohydrates (g)": "86",
+    "protein (g)": "11"
+  },
+  {
+    "name": "McCaf\u00e9 Iced\nMocha (Small)",
+    "serving size": "12 fl oz\ncup",
+    "calories": "290",
+    "total fat (g)": "11",
+    "carbohydrates (g)": "40",
+    "protein (g)": "8"
+  },
+  {
+    "name": "McCaf\u00e9 Iced\nCaramel Mocha\n(Small)",
+    "serving size": "12 fl oz\ncup",
+    "calories": "270",
+    "total fat (g)": "11",
+    "carbohydrates (g)": "37",
+    "protein (g)": "8"
+  },
+  {
+    "name": "McCaf\u00e9 White\nChocolate Mocha\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "320",
+    "total fat (g)": "11",
+    "carbohydrates (g)": "47",
+    "protein (g)": "11"
+  },
+  {
+    "name": "Coffee (Medium)\n",
+    "serving size": "16 fl oz\ncup",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Iced Coffee with\nSugar Free\nFrench Vanilla\nSyrup (Large) ",
+    "serving size": "32 fl oz\ncup",
+    "calories": "160",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "18",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Iced Coffee with\nSugar Free\nFrench Vanilla\nSyrup (Medium)\n",
+    "serving size": "22 fl oz\ncup",
+    "calories": "120",
+    "total fat (g)": "7",
+    "carbohydrates (g)": "12",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Coffee with\nSugar Free\nFrench Vanilla\nSyrup (Small) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "80",
+    "total fat (g)": "4.5",
+    "carbohydrates (g)": "9",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Coffee--\nCaramel (Large)\n",
+    "serving size": "32 fl oz\ncup",
+    "calories": "260",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "43",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Iced Coffee--\nCaramel\n(Medium) ",
+    "serving size": "22 fl oz\ncup",
+    "calories": "180",
+    "total fat (g)": "7",
+    "carbohydrates (g)": "29",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Coffee--\nCaramel (Small)\n",
+    "serving size": "(16 fl\noz cup)",
+    "calories": "130",
+    "total fat (g)": "4.5",
+    "carbohydrates (g)": "22",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Coffee--\nFrench Vanilla\n(Large) ",
+    "serving size": "32 fl oz\ncup",
+    "calories": "240",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "41",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Iced Coffee--\nFrench Vanilla\n(Medium) ",
+    "serving size": "22 fl oz\ncup",
+    "calories": "170",
+    "total fat (g)": "7",
+    "carbohydrates (g)": "27",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Coffee--\nFrench Vanilla\n(Small) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "120",
+    "total fat (g)": "4.5",
+    "carbohydrates (g)": "20",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Coffee--\nHazelnut (Large)\n",
+    "serving size": "(32 fl\noz cup)",
+    "calories": "250",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "43",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Iced Coffee--\nHazelnut\n(Medium) ",
+    "serving size": "22 fl oz\ncup",
+    "calories": "180",
+    "total fat (g)": "7",
+    "carbohydrates (g)": "29",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Coffee--\nHazelnut (Small)\n",
+    "serving size": "(16 fl\noz cup)",
+    "calories": "130",
+    "total fat (g)": "4.5",
+    "carbohydrates (g)": "21",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Coffee--\nRegular (Large) ",
+    "serving size": "(32 fl\noz cup)",
+    "calories": "270",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "47",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Iced Coffee--\nRegular\n(Medium) ",
+    "serving size": "22 fl oz\ncup",
+    "calories": "190",
+    "total fat (g)": "7",
+    "carbohydrates (g)": "31",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Coffee--\nRegular (Small) ",
+    "serving size": "(16 fl\noz cup)",
+    "calories": "140",
+    "total fat (g)": "4.5",
+    "carbohydrates (g)": "23",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Premium Roast\nIced Coffee\n(Large)",
+    "serving size": "32 fl oz\ncup",
+    "calories": "270",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "47",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Premium Roast\nIced Coffee\n(Medium)",
+    "serving size": "22 fl oz\ncup",
+    "calories": "190",
+    "total fat (g)": "7",
+    "carbohydrates (g)": "31",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Fat Free\nChocolate Milk\nJug \u2020",
+    "serving size": "1\ncarton\n(236\nml)",
+    "calories": "130",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "23",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Minute Maid\u00ae\nOrange Juice\n(Small) ",
+    "serving size": "12 fl oz\ncup\n(N/A {})",
+    "calories": "150",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "34",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Dasani\u00ae Water",
+    "serving size": "16.9 fl\noz (N/A\n{})",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "1% Low Fat Milk\nJug",
+    "serving size": "1\ncarton\n(236\nml)",
+    "calories": "100",
+    "total fat (g)": "2.5",
+    "carbohydrates (g)": "12",
+    "protein (g)": "8"
+  },
+  {
+    "name": "Coca-Cola\u00ae\nClassic (Small) ",
+    "serving size": "16 fl oz\ncup\n(N/A {})",
+    "calories": "140",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "39",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Diet Coke\u00ae\n(Small) ",
+    "serving size": "16 fl oz\ncup\n(N/A {})",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Dr Pepper\u00ae\n(Small) ",
+    "serving size": "16 fl oz\ncup\n(N/A {})",
+    "calories": "140",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "37",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Diet Dr Pepper\u00ae\n(Small) ",
+    "serving size": "16 fl oz\ncup\n(N/A {})",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Sprite\u00ae (Small) ",
+    "serving size": "16 fl oz\ncup\n(N/A {})",
+    "calories": "140",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "37",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Hi-C\u00ae Orange\nLavaburst (Small)\n",
+    "serving size": "16 fl oz\ncup\n(N/A {})",
+    "calories": "160",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "43",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Iced Tea (Small)\n",
+    "serving size": "(16 fl\noz cup)",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Sweet Tea\n(Small) ",
+    "serving size": "16 fl oz\ncup\n(N/A {})",
+    "calories": "160",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "40",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Minute Maid\u00ae\nOrange Juice\n(Medium) ",
+    "serving size": "16 fl oz\ncup\n(N/A {})",
+    "calories": "190",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "44",
+    "protein (g)": "3"
+  },
+  {
+    "name": "POWERade\u00ae\nMountain Blast\n(Small) ",
+    "serving size": "16 fl oz\ncup\n(N/A {})",
+    "calories": "80",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "21",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Sweet Tea\n(Medium) ",
+    "serving size": "21 fl oz\ncup\n(N/A {})",
+    "calories": "220",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "56",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Coca-Cola\u00ae\nClassic (Extra\nSmall) ",
+    "serving size": "12 fl oz\ncup\n(N/A {})",
+    "calories": "100",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "28",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Coca-Cola\u00ae\nClassic (Large) ",
+    "serving size": "30 fl oz\ncup\n(N/A {})",
+    "calories": "280",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "76",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Coca-Cola\u00ae\nClassic (Medium)\n",
+    "serving size": "21 fl oz\ncup",
+    "calories": "200",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "55",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Diet Coke\u00ae\n(Extra Small) ",
+    "serving size": "12 fl oz\ncup\n(N/A {})",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Diet Coke\u00ae\n(Large) ",
+    "serving size": "30 fl oz\ncup\n(N/A {})",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Diet Coke\u00ae\n(Medium) ",
+    "serving size": "21 fl oz\ncup\n(N/A {})",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Diet Dr Pepper\u00ae\n(Extra Small) ",
+    "serving size": "12 fl oz\ncup\n(N/A {})",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Diet Dr Pepper\u00ae\n(Large) ",
+    "serving size": "30 fl oz\ncup\n(N/A {})",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "4"
+  },
+  {
+    "name": "Diet Dr Pepper\u00ae\n(Medium) ",
+    "serving size": "21 fl oz\ncup\n(N/A {})",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "3"
+  },
+  {
+    "name": "Dr Pepper\u00ae\n(Extra Small) ",
+    "serving size": "12 fl oz\ncup\n(N/A {})",
+    "calories": "100",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "27",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Dr Pepper\u00ae\n(Large) ",
+    "serving size": "30 fl oz\ncup\n(N/A {})",
+    "calories": "270",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "72",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Dr Pepper\u00ae\n(Medium) ",
+    "serving size": "21 fl oz\ncup\n(N/A {})",
+    "calories": "190",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "53",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Hi-C\u00ae Orange\nLavaburst (Extra\nSmall) ",
+    "serving size": "12 fl oz\ncup\n(N/A {})",
+    "calories": "110",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "31",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Hi-C\u00ae Orange\nLavaburst (Large)\n",
+    "serving size": "30 fl oz\ncup",
+    "calories": "310",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "84",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Hi-C\u00ae Orange\nLavaburst\n(Medium) ",
+    "serving size": "21 fl oz\ncup\n(N/A {})",
+    "calories": "230",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "61",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Iced Tea (Extra\nSmall) ",
+    "serving size": "(12 fl\noz cup)",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Iced Tea (Large)\n",
+    "serving size": "(32 fl\noz cup)",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Iced Tea\n(Medium) ",
+    "serving size": "(21 fl\noz cup)",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Minute Maid\u00ae\nOrange Juice\n(Large) ",
+    "serving size": "22 fl oz\ncup\n(N/A {})",
+    "calories": "280",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "65",
+    "protein (g)": "4"
+  },
+  {
+    "name": "POWERade\u00ae\nMountain Blast\n(Extra Small) ",
+    "serving size": "12 fl oz\ncup\n(N/A {})",
+    "calories": "60",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "15",
+    "protein (g)": "0"
+  },
+  {
+    "name": "POWERade\u00ae\nMountain Blast\n(Large) ",
+    "serving size": "30 fl oz\ncup\n(N/A {})",
+    "calories": "160",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "42",
+    "protein (g)": "0"
+  },
+  {
+    "name": "POWERade\u00ae\nMountain Blast\n(Medium) ",
+    "serving size": "21 fl oz\ncup\n(N/A {})",
+    "calories": "120",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "30",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Sprite\u00ae (Extra\nSmall) ",
+    "serving size": "12 fl oz\ncup\n(N/A {})",
+    "calories": "100",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "27",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Sprite\u00ae (Large) ",
+    "serving size": "30 fl oz\ncup\n(N/A {})",
+    "calories": "280",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "74",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Sprite\u00ae (Medium)\n",
+    "serving size": "21 fl oz\ncup\n(N/A {})",
+    "calories": "200",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "54",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Sweet Tea (Extra\nSmall) ",
+    "serving size": "12 fl oz\ncup\n(N/A {})",
+    "calories": "130",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "32",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Sweet Tea\n(Large) \u2020",
+    "serving size": "30 fl oz\ncup\n(N/A {})",
+    "calories": "280",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "71",
+    "protein (g)": "1"
+  },
+  {
+    "name": "McCaf\u00e9 White\nHot Chocolate\n(Small)",
+    "serving size": "13.3 oz\n(376 g)",
+    "calories": "350",
+    "total fat (g)": "13",
+    "carbohydrates (g)": "48",
+    "protein (g)": "12"
+  },
+  {
+    "name": "McCaf\u00e9 White\nHot Chocolate\n(Medium)",
+    "serving size": "16.3 oz\n(463 g)",
+    "calories": "420",
+    "total fat (g)": "15",
+    "carbohydrates (g)": "59",
+    "protein (g)": "14"
+  },
+  {
+    "name": "McCaf\u00e9 White\nHot Chocolate\n(Large)",
+    "serving size": "20.8 oz\n(589 g)",
+    "calories": "520",
+    "total fat (g)": "19",
+    "carbohydrates (g)": "71",
+    "protein (g)": "18"
+  },
+  {
+    "name": "Red Flash (Extra\nSmall)",
+    "serving size": "9.2 oz\n(260 g)",
+    "calories": "110",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "29",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Red Flash\n(Small)",
+    "serving size": "12.6 oz\n(358 g)",
+    "calories": "150",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "41",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Red Flash\n(Medium)",
+    "serving size": "18.2 oz\n(515 g)",
+    "calories": "220",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "58",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Red Flash\n(Large)",
+    "serving size": "25 oz\n(709 g)",
+    "calories": "300",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "81",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Iced Classic\nLemonade\n(Small)",
+    "serving size": "12.3 oz\n(348 g)",
+    "calories": "100",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "25",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Iced Classic\nLemonade\n(Medium)",
+    "serving size": "15.6 oz\n(441 g)",
+    "calories": "130",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "32",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Iced Classic\nLemonade\n(Large)",
+    "serving size": "20.3 oz\n(574 g)",
+    "calories": "170",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "43",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Classic\nLemonade (Extra\nLarge)",
+    "serving size": "34.3 oz\n(973 g)",
+    "calories": "250",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "63",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Frozen Classic\nLemonade\n(Small)",
+    "serving size": "12.6 oz\n(357 g)",
+    "calories": "160",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "40",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Frozen Classic\nLemonade\n(Medium)",
+    "serving size": "15.6 oz\n(442 g)",
+    "calories": "200",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "50",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Frozen Classic\nLemonade\n(Large)",
+    "serving size": "19.5 oz\n(553 g)",
+    "calories": "250",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "63",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Frozen Classic\nLemonade (Extra\nLarge)",
+    "serving size": "31.2 oz\n(885 g)",
+    "calories": "390",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "100",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Strawberry\nLemonade\n(Small)",
+    "serving size": "13.8 oz\n(390 g)",
+    "calories": "120",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "32",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Strawberry\nLemonade\n(Medium)",
+    "serving size": "17.6 oz\n(500 g)",
+    "calories": "160",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "43",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Strawberry\nLemonade\n(Large)",
+    "serving size": "22.9 oz\n(649 g)",
+    "calories": "220",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "57",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Iced Strawberry\nLemonade (Extra\nLarge)",
+    "serving size": "37.5 oz\n(1063\ng)",
+    "calories": "310",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "80",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Frozen\nStrawberry\nLemonade\n(Small)",
+    "serving size": "14.1 oz\n(399 g)",
+    "calories": "180",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "48",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Frozen\nStrawberry\nLemonade\n(Medium)",
+    "serving size": "17.7 oz\n(501 g)",
+    "calories": "230",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "61",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Frozen\nStrawberry\nLemonade\n(Large)",
+    "serving size": "22.1 oz\n(627 g)",
+    "calories": "290",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "76",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Frozen\nStrawberry\nLemonade (Extra\nLarge)",
+    "serving size": "34.4 oz\n(974 g)",
+    "calories": "450",
+    "total fat (g)": "0.5",
+    "carbohydrates (g)": "117",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Southern Style\nIced Lemonade\n(Small)",
+    "serving size": "12.3 oz\n(348 g)",
+    "calories": "140",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "37",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Southern Style\nIced Lemonade\n(Medium)",
+    "serving size": "15.6 oz\n(441 g)",
+    "calories": "180",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "48",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Southern Style\nIced Lemonade\n(Large)",
+    "serving size": "20.3 oz\n(574 g)",
+    "calories": "240",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "64",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Southern Style\nIced Lemonade\n(Extra Large)",
+    "serving size": "34.3 oz\n(973 g)",
+    "calories": "350",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "94",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Southern Style\nFrozen\nLemonade\n(Small)",
+    "serving size": "12.6 oz\n(357 g)",
+    "calories": "230",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "61",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Southern Style\nFrozen\nLemonade\n(Medium)",
+    "serving size": "15.6 oz\n(442 g)",
+    "calories": "280",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "76",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Southern Style\nFrozen\nLemonade\n(Large)",
+    "serving size": "19.5 oz\n(553 g)",
+    "calories": "360",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "95",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Southern Style\nFrozen\nLemonade\n(Extra Large)",
+    "serving size": "31.2 oz\n(885 g)",
+    "calories": "570",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "151",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Southern Style\nIced Strawberry\nLemonade\n(Small)",
+    "serving size": "13.8 oz\n(390 g)",
+    "calories": "160",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "44",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Southern Style\nIced Strawberry\nLemonade\n(Medium)",
+    "serving size": "17.6 oz\n(500 g)",
+    "calories": "220",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "59",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Southern Style\nIced Strawberry\nLemonade\n(Large)",
+    "serving size": "22.9 oz\n(649 g)",
+    "calories": "290",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "78",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Southern Style\nIced Strawberry\nLemonade (Extra\nLarge)",
+    "serving size": "37.5 oz\n(1063\ng)",
+    "calories": "410",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "111",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Southern Style\nFrozen\nStrawberry\nLemonade\n(Small)",
+    "serving size": "14.1 oz\n(399 g)",
+    "calories": "260",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "68",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Southern Style\nFrozen\nStrawberry\nLemonade\n(Medium)",
+    "serving size": "17.7 oz\n(501 g)",
+    "calories": "320",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "86",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Southern Style\nFrozen\nStrawberry\nLemonade\n(Large)",
+    "serving size": "22.1 oz\n(627 g)",
+    "calories": "400",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "108",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Southern Style\nFrozen\nStrawberry\nLemonade (Extra\nLarge)",
+    "serving size": "34.4 oz\n(974 g)",
+    "calories": "630",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "168",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Oreo Frappe\n(Small)",
+    "serving size": "14.6 oz\n(413 g)",
+    "calories": "540",
+    "total fat (g)": "20",
+    "carbohydrates (g)": "82",
+    "protein (g)": "7"
+  },
+  {
+    "name": "Oreo Frappe\n(Medium)",
+    "serving size": "18.3 oz\n(518 g)",
+    "calories": "650",
+    "total fat (g)": "24",
+    "carbohydrates (g)": "102",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Oreo Frappe\n(Large)",
+    "serving size": "22.9 oz\n(648 g)",
+    "calories": "810",
+    "total fat (g)": "28",
+    "carbohydrates (g)": "128",
+    "protein (g)": "11"
+  },
+  {
+    "name": "McCaf\u00e9"
+  },
+  {
+    "name": "Chocolate\nMcCaf\u00e9 Shake\n(Medium)",
+    "serving size": "16 fl oz",
+    "calories": "700",
+    "total fat (g)": "20",
+    "carbohydrates (g)": "114",
+    "protein (g)": "15"
+  },
+  {
+    "name": "Chocolate\nMcCaf\u00e9 Shake\n(Large)",
+    "serving size": "22 fl oz",
+    "calories": "850",
+    "total fat (g)": "23",
+    "carbohydrates (g)": "141",
+    "protein (g)": "19"
+  },
+  {
+    "name": "McCaf\u00e9 White\nChocolate Mocha\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "400",
+    "total fat (g)": "13",
+    "carbohydrates (g)": "58",
+    "protein (g)": "13"
+  },
+  {
+    "name": "McCaf\u00e9 Latte\n(Large)",
+    "serving size": "20 fl oz\ncup",
+    "calories": "280",
+    "total fat (g)": "14",
+    "carbohydrates (g)": "24",
+    "protein (g)": "15"
+  },
+  {
+    "name": "McCaf\u00e9 Hot\nChocolate\n(Medium)",
+    "serving size": "16 fl oz\ncup",
+    "calories": "440",
+    "total fat (g)": "16",
+    "carbohydrates (g)": "61",
+    "protein (g)": "14"
+  },
+  {
+    "name": "Frappe Caramel\n(Large) ",
+    "serving size": "22 fl oz\ncup",
+    "calories": "670",
+    "total fat (g)": "27",
+    "carbohydrates (g)": "96",
+    "protein (g)": "11"
+  },
+  {
+    "name": "McCaf\u00e9 White\nChocolate Mocha\n(Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "480",
+    "total fat (g)": "16",
+    "carbohydrates (g)": "70",
+    "protein (g)": "17"
+  },
+  {
+    "name": "McCaf\u00e9 Latte\n(Medium)",
+    "serving size": "16 fl oz\ncup",
+    "calories": "210",
+    "total fat (g)": "10",
+    "carbohydrates (g)": "18",
+    "protein (g)": "11"
+  },
+  {
+    "name": "Nonfat Latte\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "130",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "19",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Nonfat French\nVanilla Latte\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "190",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "39",
+    "protein (g)": "10"
+  },
+  {
+    "name": "Nonfat French\nVanilla Latte\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "240",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "49",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Nonfat Latte\n(Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "170",
+    "total fat (g)": "0.5",
+    "carbohydrates (g)": "25",
+    "protein (g)": "16"
+  },
+  {
+    "name": "Nonfat Caramel\nLatte (Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "200",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "41",
+    "protein (g)": "10"
+  },
+  {
+    "name": "Nonfat French\nVanilla Latte\n(Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "300",
+    "total fat (g)": "0.5",
+    "carbohydrates (g)": "60",
+    "protein (g)": "16"
+  },
+  {
+    "name": "Nonfat Caramel\nLatte (Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "250",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "51",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Nonfat Caramel\nLatte (Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "310",
+    "total fat (g)": "0.5",
+    "carbohydrates (g)": "63",
+    "protein (g)": "16"
+  },
+  {
+    "name": "Nonfat Hazelnut\nLatte (Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "200",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "40",
+    "protein (g)": "10"
+  },
+  {
+    "name": "Nonfat Hazelnut\nLatte (Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "250",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "51",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Nonfat Hazelnut\nLatte (Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "310",
+    "total fat (g)": "0.5",
+    "carbohydrates (g)": "63",
+    "protein (g)": "16"
+  },
+  {
+    "name": "Nonfat Latte with\nSugar Free\nFrench Vanilla\nSyrup (Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "140",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "24",
+    "protein (g)": "10"
+  },
+  {
+    "name": "Nonfat Latte with\nSugar Free\nFrench Vanilla\nSyrup (Medium)\n",
+    "serving size": "16 fl oz\ncup",
+    "calories": "170",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "30",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Nonfat Latte with\nSugar Free\nFrench Vanilla\nSyrup (Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "220",
+    "total fat (g)": "0.5",
+    "carbohydrates (g)": "38",
+    "protein (g)": "16"
+  },
+  {
+    "name": "McCaf\u00e9 Caramel\nMocha (Medium)",
+    "serving size": "16 fl oz\ncup",
+    "calories": "390",
+    "total fat (g)": "14",
+    "carbohydrates (g)": "55",
+    "protein (g)": "12"
+  },
+  {
+    "name": "McCaf\u00e9 Caramel\nMocha (Large)",
+    "serving size": "20 fl oz\ncup",
+    "calories": "480",
+    "total fat (g)": "17",
+    "carbohydrates (g)": "66",
+    "protein (g)": "16"
+  },
+  {
+    "name": "Hot Chocolate\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "360",
+    "total fat (g)": "13",
+    "carbohydrates (g)": "50",
+    "protein (g)": "11"
+  },
+  {
+    "name": "Hot Chocolate\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "440",
+    "total fat (g)": "16",
+    "carbohydrates (g)": "61",
+    "protein (g)": "14"
+  },
+  {
+    "name": "Hot Chocolate\n(Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "540",
+    "total fat (g)": "20",
+    "carbohydrates (g)": "73",
+    "protein (g)": "17"
+  },
+  {
+    "name": "Hot Chocolate\nwith Nonfat Milk\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "280",
+    "total fat (g)": "3.5",
+    "carbohydrates (g)": "50",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Hot Chocolate\nwith Nonfat Milk\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "340",
+    "total fat (g)": "3.5",
+    "carbohydrates (g)": "61",
+    "protein (g)": "14"
+  },
+  {
+    "name": "Blueberry\nPomegranate\nSmoothie (Large)",
+    "serving size": "22 fl oz\ncup",
+    "calories": "340",
+    "total fat (g)": "1",
+    "carbohydrates (g)": "79",
+    "protein (g)": "4"
+  },
+  {
+    "name": "Blueberry\nPomegranate\nSmoothie\n(Medium)",
+    "serving size": "16 fl oz\ncup",
+    "calories": "260",
+    "total fat (g)": "1",
+    "carbohydrates (g)": "62",
+    "protein (g)": "3"
+  },
+  {
+    "name": "Frappe\nChocolate Chip\n(Large) ",
+    "serving size": "22 fl oz\ncup",
+    "calories": "750",
+    "total fat (g)": "31",
+    "carbohydrates (g)": "110",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Frappe\nChocolate Chip\n(Medium) \u2020",
+    "serving size": "16 fl oz\ncup",
+    "calories": "620",
+    "total fat (g)": "26",
+    "carbohydrates (g)": "90",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Hot Chocolate\nwith Nonfat Milk\n(Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "400",
+    "total fat (g)": "3.5",
+    "carbohydrates (g)": "74",
+    "protein (g)": "19"
+  },
+  {
+    "name": "Mango Pineapple\nSmoothie (Large)\n",
+    "serving size": "22 fl oz\ncup",
+    "calories": "340",
+    "total fat (g)": "1",
+    "carbohydrates (g)": "78",
+    "protein (g)": "4"
+  },
+  {
+    "name": "Mango Pineapple\nSmoothie\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "260",
+    "total fat (g)": "1",
+    "carbohydrates (g)": "61",
+    "protein (g)": "3"
+  },
+  {
+    "name": "Iced Mocha\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "340",
+    "total fat (g)": "12",
+    "carbohydrates (g)": "49",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Iced Mocha with\nNonfat Milk\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "280",
+    "total fat (g)": "5",
+    "carbohydrates (g)": "50",
+    "protein (g)": "10"
+  },
+  {
+    "name": "Iced Caramel\nMocha (Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "270",
+    "total fat (g)": "11",
+    "carbohydrates (g)": "37",
+    "protein (g)": "8"
+  },
+  {
+    "name": "Iced Caramel\nMocha (Medium)\n",
+    "serving size": "16 fl oz\ncup",
+    "calories": "330",
+    "total fat (g)": "12",
+    "carbohydrates (g)": "46",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Iced Caramel\nMocha (Large) ",
+    "serving size": "22 fl oz\ncup",
+    "calories": "450",
+    "total fat (g)": "16",
+    "carbohydrates (g)": "64",
+    "protein (g)": "13"
+  },
+  {
+    "name": "Iced Nonfat\nCaramel Mocha\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "220",
+    "total fat (g)": "4.5",
+    "carbohydrates (g)": "38",
+    "protein (g)": "8"
+  },
+  {
+    "name": "Iced Nonfat\nCaramel Mocha\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "270",
+    "total fat (g)": "4.5",
+    "carbohydrates (g)": "46",
+    "protein (g)": "10"
+  },
+  {
+    "name": "Iced Nonfat\nCaramel Mocha\n(Large) ",
+    "serving size": "22 fl oz\ncup",
+    "calories": "360",
+    "total fat (g)": "5",
+    "carbohydrates (g)": "65",
+    "protein (g)": "14"
+  },
+  {
+    "name": "Frappe Mocha\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "540",
+    "total fat (g)": "22",
+    "carbohydrates (g)": "79",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Frappe Mocha\n(Large) ",
+    "serving size": "22 fl oz\ncup",
+    "calories": "670",
+    "total fat (g)": "26",
+    "carbohydrates (g)": "97",
+    "protein (g)": "11"
+  },
+  {
+    "name": "Frappe Caramel\n(Medium)",
+    "serving size": "16 fl oz\ncup",
+    "calories": "550",
+    "total fat (g)": "22",
+    "carbohydrates (g)": "78",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Strawberry\nBanana\nSmoothie\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "250",
+    "total fat (g)": "1",
+    "carbohydrates (g)": "58",
+    "protein (g)": "4"
+  },
+  {
+    "name": "Strawberry\nBanana\nSmoothie (Large)",
+    "serving size": "22 fl oz\ncup",
+    "calories": "330",
+    "total fat (g)": "1",
+    "carbohydrates (g)": "74",
+    "protein (g)": "5"
+  },
+  {
+    "name": "Strawberry\nMcCaf\u00e9 Shake\n(Medium)",
+    "serving size": "16 fl oz",
+    "calories": "690",
+    "total fat (g)": "20",
+    "carbohydrates (g)": "114",
+    "protein (g)": "15"
+  },
+  {
+    "name": "Strawberry\nMcCaf\u00e9 Shake\n(Large)",
+    "serving size": "22 fl oz",
+    "calories": "850",
+    "total fat (g)": "24",
+    "carbohydrates (g)": "140",
+    "protein (g)": "18"
+  },
+  {
+    "name": "Vanilla McCaf\u00e9\nShake (Medium)",
+    "serving size": "16 fl oz",
+    "calories": "660",
+    "total fat (g)": "19",
+    "carbohydrates (g)": "109",
+    "protein (g)": "14"
+  },
+  {
+    "name": "Vanilla McCaf\u00e9\nShake (Large)",
+    "serving size": "22 fl oz",
+    "calories": "820",
+    "total fat (g)": "23",
+    "carbohydrates (g)": "135",
+    "protein (g)": "18"
+  },
+  {
+    "name": "Shamrock\nMcCafe\u00ae Shake\n(Medium) \u2020",
+    "serving size": "16 fl oz\ncup",
+    "calories": "660",
+    "total fat (g)": "19",
+    "carbohydrates (g)": "109",
+    "protein (g)": "14"
+  },
+  {
+    "name": "Shamrock\nMcCafe\u00ae Shake\n(Large) \u2020",
+    "serving size": "22 fl oz\ncup",
+    "calories": "820",
+    "total fat (g)": "23",
+    "carbohydrates (g)": "135",
+    "protein (g)": "18"
+  },
+  {
+    "name": "McCaf\u00e9 Hot\nChocolate\n(Large)",
+    "serving size": "20 fl oz\ncup",
+    "calories": "540",
+    "total fat (g)": "20",
+    "carbohydrates (g)": "73",
+    "protein (g)": "17"
+  },
+  {
+    "name": "Iced Mocha\n(Large) ",
+    "serving size": "22 fl oz\ncup",
+    "calories": "480",
+    "total fat (g)": "16",
+    "carbohydrates (g)": "69",
+    "protein (g)": "13"
+  },
+  {
+    "name": "Iced Mocha\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "290",
+    "total fat (g)": "11",
+    "carbohydrates (g)": "40",
+    "protein (g)": "8"
+  },
+  {
+    "name": "Iced Mocha with\nNonfat Milk\n(Large) ",
+    "serving size": "22 fl oz\ncup",
+    "calories": "380",
+    "total fat (g)": "5",
+    "carbohydrates (g)": "70",
+    "protein (g)": "14"
+  },
+  {
+    "name": "Iced Mocha with\nNonfat Milk\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "240",
+    "total fat (g)": "4.5",
+    "carbohydrates (g)": "40",
+    "protein (g)": "8"
+  },
+  {
+    "name": "McCaf\u00e9 Iced\nMocha (Large) ",
+    "serving size": "22 fl oz\ncup",
+    "calories": "480",
+    "total fat (g)": "16",
+    "carbohydrates (g)": "69",
+    "protein (g)": "13"
+  },
+  {
+    "name": "McCaf\u00e9 Iced\nMocha (Medium)",
+    "serving size": "16 fl oz\ncup",
+    "calories": "340",
+    "total fat (g)": "12",
+    "carbohydrates (g)": "49",
+    "protein (g)": "9"
+  },
+  {
+    "name": "McCaf\u00e9 Iced\nCaramel Mocha\n(Medium)",
+    "serving size": "16 fl oz\ncup",
+    "calories": "330",
+    "total fat (g)": "12",
+    "carbohydrates (g)": "46",
+    "protein (g)": "9"
+  },
+  {
+    "name": "McCaf\u00e9 Iced\nCaramel Mocha\n(Large)",
+    "serving size": "22 fl oz\ncup",
+    "calories": "450",
+    "total fat (g)": "16",
+    "carbohydrates (g)": "64",
+    "protein (g)": "13"
+  },
+  {
+    "name": "Mocha (Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "340",
+    "total fat (g)": "11",
+    "carbohydrates (g)": "49",
+    "protein (g)": "10"
+  },
+  {
+    "name": "Mocha (Medium)\n",
+    "serving size": "16 fl oz\ncup",
+    "calories": "410",
+    "total fat (g)": "14",
+    "carbohydrates (g)": "60",
+    "protein (g)": "13"
+  },
+  {
+    "name": "Mocha (Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "500",
+    "total fat (g)": "17",
+    "carbohydrates (g)": "72",
+    "protein (g)": "16"
+  },
+  {
+    "name": "Mocha with\nNonfat Milk\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "270",
+    "total fat (g)": "3.5",
+    "carbohydrates (g)": "49",
+    "protein (g)": "11"
+  },
+  {
+    "name": "Mocha with\nNonfat Milk\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "330",
+    "total fat (g)": "3.5",
+    "carbohydrates (g)": "60",
+    "protein (g)": "13"
+  },
+  {
+    "name": "Mocha with\nNonfat Milk\n(Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "390",
+    "total fat (g)": "4",
+    "carbohydrates (g)": "73",
+    "protein (g)": "17"
+  },
+  {
+    "name": "Caramel Mocha\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "320",
+    "total fat (g)": "11",
+    "carbohydrates (g)": "45",
+    "protein (g)": "10"
+  },
+  {
+    "name": "Caramel Mocha\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "390",
+    "total fat (g)": "14",
+    "carbohydrates (g)": "55",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Caramel Mocha\n(Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "480",
+    "total fat (g)": "17",
+    "carbohydrates (g)": "66",
+    "protein (g)": "16"
+  },
+  {
+    "name": "Nonfat Caramel\nMocha (Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "250",
+    "total fat (g)": "3.5",
+    "carbohydrates (g)": "45",
+    "protein (g)": "10"
+  },
+  {
+    "name": "Nonfat Caramel\nMocha (Medium)\n",
+    "serving size": "16 fl oz\ncup",
+    "calories": "310",
+    "total fat (g)": "3.5",
+    "carbohydrates (g)": "56",
+    "protein (g)": "13"
+  },
+  {
+    "name": "Nonfat Caramel\nMocha (Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "370",
+    "total fat (g)": "3.5",
+    "carbohydrates (g)": "67",
+    "protein (g)": "17"
+  },
+  {
+    "name": "Latte (Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "170",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "15",
+    "protein (g)": "9"
+  },
+  {
+    "name": "McCaf\u00e9 Mocha\n(Large)",
+    "serving size": "20 fl oz\ncup",
+    "calories": "500",
+    "total fat (g)": "17",
+    "carbohydrates (g)": "72",
+    "protein (g)": "16"
+  },
+  {
+    "name": "McCaf\u00e9 Mocha\n(Medium)",
+    "serving size": "16 fl oz\ncup",
+    "calories": "410",
+    "total fat (g)": "14",
+    "carbohydrates (g)": "60",
+    "protein (g)": "13"
+  },
+  {
+    "name": "Latte (Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "210",
+    "total fat (g)": "10",
+    "carbohydrates (g)": "18",
+    "protein (g)": "11"
+  },
+  {
+    "name": "Latte (Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "280",
+    "total fat (g)": "14",
+    "carbohydrates (g)": "24",
+    "protein (g)": "15"
+  },
+  {
+    "name": "Caramel Latte\n(Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "430",
+    "total fat (g)": "14",
+    "carbohydrates (g)": "62",
+    "protein (g)": "15"
+  },
+  {
+    "name": "Caramel Latte\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "340",
+    "total fat (g)": "10",
+    "carbohydrates (g)": "50",
+    "protein (g)": "11"
+  },
+  {
+    "name": "Caramel Latte\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "270",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "40",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Hazelnut Latte\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "270",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "40",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Hazelnut Latte\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "330",
+    "total fat (g)": "10",
+    "carbohydrates (g)": "50",
+    "protein (g)": "11"
+  },
+  {
+    "name": "Hazelnut Latte\n(Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "430",
+    "total fat (g)": "14",
+    "carbohydrates (g)": "62",
+    "protein (g)": "15"
+  },
+  {
+    "name": "French Vanilla\nLatte (Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "260",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "38",
+    "protein (g)": "9"
+  },
+  {
+    "name": "French Vanilla\nLatte (Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "330",
+    "total fat (g)": "10",
+    "carbohydrates (g)": "48",
+    "protein (g)": "11"
+  },
+  {
+    "name": "French Vanilla\nLatte (Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "420",
+    "total fat (g)": "14",
+    "carbohydrates (g)": "60",
+    "protein (g)": "15"
+  },
+  {
+    "name": "Latte with Sugar\nFree French\nVanilla Syrup\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "210",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "24",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Latte with Sugar\nFree French\nVanilla Syrup\n(Medium) ",
+    "serving size": "16 fl oz\ncup",
+    "calories": "260",
+    "total fat (g)": "10",
+    "carbohydrates (g)": "29",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Latte with Sugar\nFree French\nVanilla Syrup\n(Large) ",
+    "serving size": "20 fl oz\ncup",
+    "calories": "330",
+    "total fat (g)": "14",
+    "carbohydrates (g)": "37",
+    "protein (g)": "15"
+  },
+  {
+    "name": "Nonfat Latte\n(Small) ",
+    "serving size": "12 fl oz\ncup",
+    "calories": "100",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "15",
+    "protein (g)": "10"
+  },
+  {
+    "name": "White Hot\nChocolate\n(Small)",
+    "serving size": "13.3 oz\n(376 g)",
+    "calories": "350",
+    "total fat (g)": "13",
+    "carbohydrates (g)": "48",
+    "protein (g)": "12"
+  },
+  {
+    "name": "White Hot\nChocolate\n(Medium)",
+    "serving size": "16.3 oz\n(463 g)",
+    "calories": "420",
+    "total fat (g)": "15",
+    "carbohydrates (g)": "59",
+    "protein (g)": "14"
+  },
+  {
+    "name": "White Hot\nChocolate\n(Large)",
+    "serving size": "20.8 oz\n(589 g)",
+    "calories": "520",
+    "total fat (g)": "19",
+    "carbohydrates (g)": "71",
+    "protein (g)": "18"
+  },
+  {
+    "name": "Nonfat White Hot\nChocolate\n(Small)",
+    "serving size": "13.3 oz\n(376 g)",
+    "calories": "260",
+    "total fat (g)": "3",
+    "carbohydrates (g)": "48",
+    "protein (g)": "12"
+  },
+  {
+    "name": "Nonfat White Hot\nChocolate\n(Medium)",
+    "serving size": "16.4 oz\n(464 g)",
+    "calories": "320",
+    "total fat (g)": "3",
+    "carbohydrates (g)": "59",
+    "protein (g)": "15"
+  },
+  {
+    "name": "Nonfat White Hot\nChocolate\n(Large)",
+    "serving size": "20.8 oz\n(590 g)",
+    "calories": "380",
+    "total fat (g)": "3",
+    "carbohydrates (g)": "72",
+    "protein (g)": "19"
+  },
+  {
+    "name": "Desserts & Shakes"
+  },
+  {
+    "name": "Baked Hot Apple\nPie",
+    "serving size": "2.7 oz\n(77 g)",
+    "calories": "250",
+    "total fat (g)": "13",
+    "carbohydrates (g)": "32",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Chocolate Chip\nCookie",
+    "serving size": "1\ncookie\n(33 g)",
+    "calories": "160",
+    "total fat (g)": "8",
+    "carbohydrates (g)": "21",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Oatmeal Raisin\nCookie",
+    "serving size": "1\ncookie\n(33 g)",
+    "calories": "150",
+    "total fat (g)": "6",
+    "carbohydrates (g)": "22",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Vanilla Reduced\nFat Ice Cream\nCone",
+    "serving size": "3.7 oz\n(105 g)",
+    "calories": "170",
+    "total fat (g)": "4.5",
+    "carbohydrates (g)": "27",
+    "protein (g)": "5"
+  },
+  {
+    "name": "Kiddie Cone",
+    "serving size": "1 oz\n(29 g)",
+    "calories": "45",
+    "total fat (g)": "1.5",
+    "carbohydrates (g)": "7",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Hot Fudge\nSundae",
+    "serving size": "6.3 oz\n(179 g)",
+    "calories": "330",
+    "total fat (g)": "9",
+    "carbohydrates (g)": "53",
+    "protein (g)": "8"
+  },
+  {
+    "name": "Hot Caramel\nSundae",
+    "serving size": "6.4 oz\n(182 g)",
+    "calories": "340",
+    "total fat (g)": "8",
+    "carbohydrates (g)": "60",
+    "protein (g)": "7"
+  },
+  {
+    "name": "Strawberry\nSundae",
+    "serving size": "6.3 oz\n(178 g)",
+    "calories": "280",
+    "total fat (g)": "6",
+    "carbohydrates (g)": "49",
+    "protein (g)": "6"
+  },
+  {
+    "name": "McFlurry\u00ae with\nM&M'S\u00ae\nChocolate\nCandies (12 fl oz\ncup)",
+    "serving size": "12 fl oz\ncup\n(310 g)",
+    "calories": "650",
+    "total fat (g)": "23",
+    "carbohydrates (g)": "96",
+    "protein (g)": "13"
+  },
+  {
+    "name": "McFlurry\u00ae with\nOREO\u00ae Cookies\n(12 fl oz cup)",
+    "serving size": "10.1 oz\n(285 g)",
+    "calories": "520",
+    "total fat (g)": "17",
+    "carbohydrates (g)": "80",
+    "protein (g)": "12"
+  },
+  {
+    "name": "STRAWBERRY\n& CR\u00c3\u02c6ME PIE \u2020",
+    "serving size": "3.03 oz\n(86 g)",
+    "calories": "310",
+    "total fat (g)": "17",
+    "carbohydrates (g)": "36",
+    "protein (g)": "4"
+  },
+  {
+    "name": "Snack Size\nMcFlurry\u00ae with\nM&M'S\u00ae\nChocolate\nCandies",
+    "serving size": "7.3 oz\n(207 g)",
+    "calories": "430",
+    "total fat (g)": "15",
+    "carbohydrates (g)": "64",
+    "protein (g)": "9"
+  },
+  {
+    "name": "Snack Size\nMcFlurry\u00ae with\nOREO\u00ae Cookies",
+    "serving size": "6.7 oz\n(190 g)",
+    "calories": "340",
+    "total fat (g)": "11",
+    "carbohydrates (g)": "53",
+    "protein (g)": "8"
+  },
+  {
+    "name": "Fried Cherry Pie",
+    "serving size": "2.9 oz\n(81 g)",
+    "calories": "230",
+    "total fat (g)": "10",
+    "carbohydrates (g)": "33",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Condiments"
+  },
+  {
+    "name": "Grape Jam",
+    "serving size": "0.5 oz\n(14 g)",
+    "calories": "35",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "9",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Coffee Cream",
+    "serving size": "0.4 fl oz\n(11 ml)",
+    "calories": "20",
+    "total fat (g)": "2",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Strawberry\nPreserves",
+    "serving size": "0.5 oz\n(14 g)",
+    "calories": "35",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "9",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Sugar Packet",
+    "serving size": "1 pkg\n(4 g)",
+    "calories": "15",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "4",
+    "protein (g)": "0"
+  },
+  {
+    "name": "EQUAL\u00ae 0\nCalorie\nSweetener",
+    "serving size": "1 pkg\n(1 g)",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "1",
+    "protein (g)": "0"
+  },
+  {
+    "name": "SPLENDA\u00ae No\nCalorie\nSweetener",
+    "serving size": "1 pkg\n(1 g)",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "1",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Hot Habanero\nSauce \u2020",
+    "serving size": "22 oz\n(0 g)",
+    "calories": "80",
+    "total fat (g)": "7",
+    "carbohydrates (g)": "5",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Ketchup Packet",
+    "serving size": "1 pkg\n(9 g)",
+    "calories": "10",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "2",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Creamy Ranch\nSauce",
+    "serving size": "0.78 oz\n(22.134\ng)",
+    "calories": "110",
+    "total fat (g)": "12",
+    "carbohydrates (g)": "1",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Newman's Own\u00ae\nLow Fat Sesame\nGinger Dressing",
+    "serving size": "1.5 fl oz\n(44 ml)",
+    "calories": "80",
+    "total fat (g)": "2.5",
+    "carbohydrates (g)": "14",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Spicy Buffalo\nSauce",
+    "serving size": "0.8 oz\n(22 g)",
+    "calories": "35",
+    "total fat (g)": "3",
+    "carbohydrates (g)": "1",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Newman's Own\u00ae\nLow Fat Balsamic\nVinaigrette",
+    "serving size": "1.5 fl oz\n(44 ml)",
+    "calories": "35",
+    "total fat (g)": "1.5",
+    "carbohydrates (g)": "5",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Newman's Own\u00ae\nCreamy\nSouthwest\nDressing",
+    "serving size": "1.5 fl oz\n(44 ml)",
+    "calories": "120",
+    "total fat (g)": "8",
+    "carbohydrates (g)": "11",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Newman's Own\u00ae\nLow Fat Family\nRecipe Italian\nDressing",
+    "serving size": "1.5 fl oz\n(44 ml)",
+    "calories": "50",
+    "total fat (g)": "1.5",
+    "carbohydrates (g)": "8",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Salt Packet",
+    "serving size": "1 pkg\n(0 g)",
+    "calories": "0",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Honey",
+    "serving size": "1 pkg\n(14 g)",
+    "calories": "50",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "12",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Newman's Own\u00ae\nRanch Dressing",
+    "serving size": "2 fl oz\n(59 ml)",
+    "calories": "200",
+    "total fat (g)": "17",
+    "carbohydrates (g)": "11",
+    "protein (g)": "1"
+  },
+  {
+    "name": "Sweet 'N Sour\nSauce",
+    "serving size": "1 pkg\n(28.4 g)",
+    "calories": "50",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "12",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Hotcake Syrup",
+    "serving size": "1 pkg\n(60 g)",
+    "calories": "180",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "45",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Peanuts (for\nSundaes)",
+    "serving size": "0.3 oz\n(7 g)",
+    "calories": "45",
+    "total fat (g)": "3.5",
+    "carbohydrates (g)": "2",
+    "protein (g)": "2"
+  },
+  {
+    "name": "Honey Mustard\nSauce",
+    "serving size": "0.8 oz\n(22 g)",
+    "calories": "60",
+    "total fat (g)": "4",
+    "carbohydrates (g)": "6",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Tangy Barbeque\nSauce",
+    "serving size": "1 pkg\n(28.35\ng)",
+    "calories": "50",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "12",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Whipped\nMargarine (1 pat)",
+    "serving size": "1 pkg\n(6 g)",
+    "calories": "40",
+    "total fat (g)": "4.5",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Tartar Sauce Cup",
+    "serving size": "1 oz\n(28 g)",
+    "calories": "140",
+    "total fat (g)": "15",
+    "carbohydrates (g)": "0",
+    "protein (g)": "0"
+  },
+  {
+    "name": "Marinara Sauce\n(Package)",
+    "serving size": "0.8 oz\n(24 g)",
+    "calories": "15",
+    "total fat (g)": "0",
+    "carbohydrates (g)": "2",
+    "protein (g)": "0"
+  }
+]

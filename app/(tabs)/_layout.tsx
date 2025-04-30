@@ -33,6 +33,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="restaurant"
+        options={{
+          title: "Restaurant",
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="fork.knife" color={color} />, 
+        }}
+      />
+      <Tabs.Screen
         name="analytics"
         options={{
           title: 'Analytics',
@@ -46,6 +53,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.crop.circle" color={color} />, 
         }}
       />
+      
     </Tabs>
   );
 }
