@@ -3,9 +3,10 @@ import { View, Text, FlatList, StyleSheet, TextInput, Pressable, ScrollView, Ima
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
+import { Collapsible } from '@/components/Collapsible';
 
 // Load McDonald's menu
-import mcdonaldsMenu from '@/assets/restraunt/mcdonalds.json';
+import mcdonaldsMenu from '@/assets/restaurants/mcdonalds.json';
 
 const RESTAURANTS = [
   {
@@ -198,13 +199,12 @@ export default function RestaurantScreen() {
             />
           </View>
         </View>
-        <Text style={[styles.resultCount, { color: Colors[colorScheme].text }]}>{filteredMenu.length} items found</Text>
+        {/* <Text style={[styles.resultCount, { color: Colors[colorScheme].text }]}>{filteredMenu.length} items found</Text> */}
         <FlatList
           data={menuSections}
           keyExtractor={(section, sectionIndex) => section.title + sectionIndex}
           renderItem={({ item: section, index: sectionIndex }) => (
-            <View key={section.title + sectionIndex}>
-              <Text style={[styles.sectionTitle, { color: Colors[colorScheme].tint }]}>{section.title}</Text>
+            <Collapsible defaultOpen={true} title={section.title} key={section.title + sectionIndex}>
               <FlatList
                 data={section.data.slice(0, PAGE_SIZE * page)}
                 keyExtractor={(item, index) => item.name + item["serving size"] + index}
@@ -213,7 +213,7 @@ export default function RestaurantScreen() {
                 )}
                 scrollEnabled={false}
               />
-            </View>
+            </Collapsible>
           )}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
