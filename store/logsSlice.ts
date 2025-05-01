@@ -13,6 +13,7 @@ export type LogEntry = {
   carbs?: number;
   protein?: number;
   date: string;
+  localDate?: string;
 };
 
 interface LogsState {

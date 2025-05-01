@@ -121,7 +121,7 @@ export default function RestaurantScreen() {
                 style={[styles.restaurantCard, { backgroundColor: Colors[colorScheme].card }]}
                 onPress={() => setSelectedRestaurant(r.id)}
             >
-                <Image source={{ uri: r.logo }} style={styles.restaurantLogo} resizeMode="contain" />
+                <Image source={{ uri: r.logo }} style={styles.restaurantLogo} />
                 <Text style={[styles.restaurantName, { color: Colors[colorScheme].text }]}>{r.name}</Text>
             </Pressable>
             ))}
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   item: { padding: 12, borderRadius: 10, marginBottom: 10, elevation: 2 },
   itemName: { fontWeight: 'bold', fontSize: 16, marginBottom: 2 },
   restaurantCard: { flexDirection: 'row', alignItems: 'center', padding: 16, borderRadius: 12, marginBottom: 16, elevation: 2 },
-  restaurantLogo: { width: 60, height: 60, marginRight: 16, borderRadius: 8, backgroundColor: '#fff' },
+  restaurantLogo: { width: 60, height: 60, marginRight: 16, borderRadius: 8 },
   restaurantName: { fontSize: 18, fontWeight: 'bold' },
   sectionTitle: { fontSize: 18, fontWeight: 'bold', marginTop: 18, marginBottom: 6 },
 });

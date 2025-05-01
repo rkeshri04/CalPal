@@ -18,7 +18,6 @@ import {
   loadUserProfileFromStorage,
   saveUserProfileToStorage,
   setUserProfile,
-  addBmiEntry,
   setLastPrompt,
 } from '@/store/userProfileSlice';
 import { LineChart } from 'react-native-chart-kit';
@@ -207,6 +206,8 @@ export default function HomeScreen() {
               {
                 text: 'Add',
                 onPress: (weightValue?: string) => {
+                  const now = new Date();
+                  const localDate = now.toLocaleDateString('en-CA'); // 'YYYY-MM-DD' in local time
                   const entry = {
                     id: Date.now().toString(),
                     name,
@@ -218,7 +219,8 @@ export default function HomeScreen() {
                     fat: fat ? Number(fat) : undefined,
                     carbs: carbs ? Number(carbs) : undefined,
                     protein: protein ? Number(protein) : undefined,
-                    date: new Date().toISOString(),
+                    date: now.toISOString(),
+                    localDate, // <-- add this line
                   };
                   dispatch<any>(addLog(entry));
                 },
@@ -248,6 +250,8 @@ export default function HomeScreen() {
   });
 
   const handleManualSubmit = () => {
+    const now = new Date();
+    const localDate = now.toLocaleDateString('en-CA'); // 'YYYY-MM-DD' in local time
     const entry = {
       id: Date.now().toString(),
       name: manualForm.name || 'Unknown Food',
@@ -259,7 +263,8 @@ export default function HomeScreen() {
       fat: parseFloat(manualForm.fat) || 0,
       carbs: parseFloat(manualForm.carbs) || 0,
       protein: parseFloat(manualForm.protein) || 0,
-      date: new Date().toISOString(),
+      date: now.toISOString(),
+      localDate, // <-- add this line
     };
     dispatch<any>(addLog(entry));
     setManualModalVisible(false);
@@ -282,13 +287,18 @@ export default function HomeScreen() {
   }
 
   // Group logs by date for pills
-  const logsByDate = useMemo(() => {
-    const grouped: Record<string, LogEntry[]> = {};
+  const groupLogsByDay = (logs: LogEntry[]) => {
+    const grouped: { [date: string]: LogEntry[] } = {};
     logs.forEach(log => {
-      const date = log.date.slice(0, 10);
-      if (!grouped[date]) grouped[date] = [];
-      grouped[date].push(log);
+      const key = log.localDate || new Date(log.date).toLocaleDateString('en-CA');
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(log);
     });
+    return grouped;
+  };
+
+  const logsByDate = useMemo(() => {
+    const grouped = groupLogsByDay(logs);
     // Sort dates ascending (oldest left, newest right)
     return Object.entries(grouped).sort((a, b) => a[0].localeCompare(b[0]));
   }, [logs]);
@@ -356,6 +366,7 @@ export default function HomeScreen() {
       carbs: parseFloat(editForm.carbs) || 0,
       protein: parseFloat(editForm.protein) || 0,
       date: logs.find(l => l.id === editId)?.date || new Date().toISOString(),
+      localDate: logs.find(l => l.id === editId)?.localDate || new Date().toLocaleDateString('en-CA'),
     };
     dispatch<any>({ type: 'logs/setLogs', payload: logs.map(l => l.id === editId ? updated : l) });
     setEditModalVisible(false);
