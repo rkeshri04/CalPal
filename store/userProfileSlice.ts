@@ -14,7 +14,7 @@ export interface UserProfile {
   weight: number;
   bmiHistory: BmiEntry[];
   lastPrompt: string;
-  unitSystem: 'us' | 'metric'; // <-- add this line
+  unitSystem: 'us' | 'metric';
 }
 
 interface UserProfileState {

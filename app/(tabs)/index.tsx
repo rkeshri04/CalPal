@@ -8,7 +8,6 @@ import { ThemedView } from '@/components/ThemedView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tip, TimeFrame } from '../../types/main';
 import { LogEntry } from '@/store/logsSlice';
 import { useRouter } from 'expo-router';

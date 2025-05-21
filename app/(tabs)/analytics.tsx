@@ -31,7 +31,7 @@ export default function AnalyticsScreen() {
   }
   const filteredWeight = getFilteredWeightHistory();
 
-  // Example tips (replace with your own or fetch from local/tips file)
+  // Example tips (replace in future with AI generated actual tips)
   const tips = [
     { id: 1, text: 'Log your meals consistently for best results.' },
     { id: 2, text: 'Aim for a balanced intake of protein, carbs, and fat.' },
@@ -46,16 +46,16 @@ export default function AnalyticsScreen() {
   const totalSpent = logs.reduce((sum, l) => sum + l.cost, 0);
   const totalWeight = logs.reduce((sum, l) => sum + l.weight, 0);
   const totalCalories = logs.reduce((sum, l) => sum + (l.calories || 0), 0);
-  const totalFat = logs.reduce((sum, l) => sum + (l.fat || 0), 0);
-  const totalCarbs = logs.reduce((sum, l) => sum + (l.carbs || 0), 0);
-  const totalProtein = logs.reduce((sum, l) => sum + (l.protein || 0), 0);
-  const avgCalories = totalLogs ? totalCalories / totalLogs : 0;
-  const avgCost = totalLogs ? totalSpent / totalLogs : 0;
-  const avgWeight = totalLogs ? totalWeight / totalLogs : 0;
+  // const totalFat = logs.reduce((sum, l) => sum + (l.fat || 0), 0);
+  // const totalCarbs = logs.reduce((sum, l) => sum + (l.carbs || 0), 0);
+  // const totalProtein = logs.reduce((sum, l) => sum + (l.protein || 0), 0);
+  // const avgCalories = totalLogs ? totalCalories / totalLogs : 0;
+  // const avgCost = totalLogs ? totalSpent / totalLogs : 0;
+  // const avgWeight = totalLogs ? totalWeight / totalLogs : 0;
   const foodCount: Record<string, number> = {};
   logs.forEach(l => { foodCount[l.name] = (foodCount[l.name] || 0) + 1; });
-  const mostFrequentFood = Object.entries(foodCount).sort((a, b) => b[1] - a[1])[0]?.[0] || 'N/A';
-  const mostRecent = logs.length ? logs[0] : null;
+  // const mostFrequentFood = Object.entries(foodCount).sort((a, b) => b[1] - a[1])[0]?.[0] || 'N/A';
+  // const mostRecent = logs.length ? logs[0] : null;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors[colorScheme].background }} >
