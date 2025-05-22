@@ -1,0 +1,819 @@
+[
+
+  {
+    "name": "Breakfast"
+  },
+
+  {
+    "name": "Chick-fil-A Chicken Biscuit",
+    "calories": 450,
+    "total fat (g)": 21,
+    "carbohydrates (g)": 50.0,
+    "protein (g)": 17.0
+  },
+  {
+    "name": "Chick-n-Minis (4-count)",
+    "calories": 350,
+    "total fat (g)": 13.0,
+    "carbohydrates (g)": 38.0,
+    "protein (g)": 19.0
+  },
+  {
+    "name": "Egg White Grill",
+    "calories": 300,
+    "total fat (g)": 7.0,
+    "carbohydrates (g)": 31.0,
+    "protein (g)": 25.0
+  },
+  {
+    "name": "Bacon, Egg & Cheese Biscuit",
+    "calories": 420,
+    "total fat (g)": 21.0,
+    "carbohydrates (g)": 40.0,
+    "protein (g)": 15.0
+  },
+  {
+    "name": "Sausage, Egg & Cheese Biscuit",
+    "calories": 600,
+    "total fat (g)": 40.0,
+    "carbohydrates (g)": 41.0,
+    "protein (g)": 20.0
+  },
+  {
+    "name": "Chicken Hash Brown Scramble Burrito with Jalapeño Salsa",
+    "calories": 680,
+    "total fat (g)": 38.0,
+    "carbohydrates (g)": 50.0,
+    "protein (g)": 35.0
+  },
+  {
+    "name": "Sausage Hash Brown Scramble Burrito with Jalapeño Salsa",
+    "calories": 670,
+    "total fat (g)": 42.0,
+    "carbohydrates (g)": 46.0,
+    "protein (g)": 26.0
+  },
+  {
+    "name": "Chicken Hash Brown Scramble Bowl with Jalapeño Salsa ",
+    "calories": 460,
+    "total fat (g)": 29.0,
+    "carbohydrates (g)": 21.0,
+    "protein (g)": 31.0
+  },
+  {
+    "name": "Sausage Hash Brown Scramble Bowl with Jalapeño Salsa",
+    "calories": 450,
+    "total fat (g)": 33.0,
+    "carbohydrates (g)": 16.0,
+    "protein (g)": 21.0
+  },
+  {
+    "name": "Bacon, Egg & Cheese Muffin",
+    "calories": 300,
+    "total fat (g)": 12.0,
+    "carbohydrates (g)": 31.0,
+    "protein (g)": 16.0
+  },
+  {
+    "name": "Sausage, Egg & Cheese Muffin",
+    "calories": 490,
+    "total fat (g)": 30.0,
+    "carbohydrates (g)": 32.0,
+    "protein (g)": 20.0
+  },
+  {
+    "name": "Chicken, Egg & Cheese Bagel",
+    "calories": 480,
+    "total fat (g)": 18.0,
+    "carbohydrates (g)": 51.0,
+    "protein (g)": 27.0
+  },
+  {
+    "name": "Hash Browns",
+    "calories": 240,
+    "total fat (g)": 16.0,
+    "carbohydrates (g)": 2.0,
+    "protein (g)": 3.0
+  },
+
+
+
+
+
+  {
+    "name": "Original & Grilled Entrees"
+  },
+
+  {
+    "name": "Chick-fil-A Chicken Sandwich",
+    "calories": 440,
+    "total fat (g)": 19.0,
+    "carbohydrates (g)": 40.0,
+    "protein (g)": 28.0
+  },
+  {
+    "name": "Chick-fil-A Deluxe Sandwich",
+    "calories": 500,
+    "total fat (g)": 23.0,
+    "carbohydrates (g)": 42.0,
+    "protein (g)": 31.0
+  },
+  
+  {
+    "name": "Spicy Chicken Sandwich",
+    "calories": 450,
+    "total fat (g)": 19.0,
+    "carbohydrates (g)": 41.0,
+    "protein (g)": 29.0
+  },
+
+  {
+    "name": "Chick-fil-A Spicy Deluxe Sandwich",
+    "calories": 540,
+    "total fat (g)": 25.0,
+    "carbohydrates (g)": 43.0,
+    "protein (g)": 34.0
+  },
+
+  {
+    "name": "Chick-fil-A Nuggets (8-count)",
+    "calories": 260,
+    "total fat (g)": 12.0,
+    "carbohydrates (g)": 9.0,
+    "protein (g)": 28.0
+  },
+
+  {
+    "name": "Chick-fil-A Nuggets (12-count)",
+    "calories": 390,
+    "total fat (g)": 18.0,
+    "carbohydrates (g)": 14.0,
+    "protein (g)": 41.0
+  },
+
+  {
+    "name": "Chick-n-Strips (3-count)",
+    "calories": 350,
+    "total fat (g)": 17.0,
+    "carbohydrates (g)": 22.0,
+    "protein (g)": 28.0
+  },
+
+  {
+    "name": "Chick-n-Strips (4-count)",
+    "calories": 470,
+    "total fat (g)": 23.0,
+    "carbohydrates (g)": 29.0,
+    "protein (g)": 37.0
+  },
+
+  {
+    "name": "Grilled Chicken Sandwich",
+    "calories": 310,
+    "total fat (g)": 6.0,
+    "carbohydrates (g)": 36.0,
+    "protein (g)": 29.0
+  },
+
+  {
+    "name": "Grilled Chicken Club Sandwich",
+    "calories": 430,
+    "total fat (g)": 16.0,
+    "carbohydrates (g)": 36.0,
+    "protein (g)": 37.0
+  },
+
+  {
+    "name": "Grilled Nuggets (8-count)",
+    "calories": 140,
+    "total fat (g)": 3.5,
+    "carbohydrates (g)": 2.0,
+    "protein (g)": 25.0
+  },
+
+  {
+    "name": "Grilled Nuggets (12-count)",
+    "calories": 210,
+    "total fat (g)": 5.0,
+    "carbohydrates (g)": 3.0,
+    "protein (g)": 38.0
+  },
+
+  {
+    "name": "Grilled Chicken Cool Wrap",
+    "calories": 350,
+    "total fat (g)": 14.0,
+    "carbohydrates (g)": 29.0,
+    "protein (g)": 37.0
+  },
+
+  {
+    "name": "Salads"
+  },
+  
+  {
+    "name": "Grilled Market Salad",
+    "calories": 200,
+    "total fat (g)": 6.0,
+    "carbohydrates (g)": 15.0,
+    "protein (g)": 25.0
+  },
+  {
+    "name": "Grilled Market Salad with Toppings",
+    "calories": 330,
+    "total fat (g)": 15.0,
+    "carbohydrates (g)": 26.0,
+    "protein (g)": 27.0
+  },
+  {
+    "name": "Cobb Salad",
+    "calories": 430,
+    "total fat (g)": 21.0,
+    "carbohydrates (g)": 22.0,
+    "protein (g)": 39.0
+  },
+  {
+    "name": "Cobb Salad with Toppings",
+    "calories": 510,
+    "total fat (g)": 27.0,
+    "carbohydrates (g)": 28.0,
+    "protein (g)": 40.0
+  },
+  {
+    "name": "Spicy Southwest Salad",
+    "calories": 290,
+    "total fat (g)": 8.0,
+    "carbohydrates (g)": 27.0,
+    "protein (g)": 29.0
+  },
+  {
+    "name": "Spicy Southwest Salad w/ Toppings",
+    "calories": 450,
+    "total fat (g)": 19.0,
+    "carbohydrates (g)": 37.0,
+    "protein (g)": 34.0
+  },
+
+  {
+    "name": "Sides"
+  },
+
+  {
+    "name": "Waffle Potato Fries with Sea Salt (Med)",
+    "calories": 360,
+    "total fat (g)": 18.0,
+    "carbohydrates (g)": 43.0,
+    "protein (g)": 5.0
+  },
+  {
+    "name": "Waffle Potato Fries with Sea Salt (Lg)",
+    "calories": 460,
+    "total fat (g)": 24.0,
+    "carbohydrates (g)": 56.0,
+    "protein (g)": 6.0
+  },
+  {
+    "name": "Fruit Cup (Med)",
+    "calories": 45,
+    "total fat (g)": 0.0,
+    "carbohydrates (g)": 12.0,
+    "protein (g)": 0.0
+  },
+  {
+    "name": "Fruit Cup (Lg)",
+    "calories": 80,
+    "total fat (g)": 0.0,
+    "carbohydrates (g)": 20.0,
+    "protein (g)": 1.0
+  },
+  {
+    "name": "Greek Yogurt Parfait with Granola",
+    "calories": 230,
+    "total fat (g)": 9.0,
+    "carbohydrates (g)": 28.0,
+    "protein (g)": 12.0
+  },
+  {
+    "name": "Greek Yogurt Parfait with Cookie Crumbs",
+    "calories": 210,
+    "total fat (g)": 8.0,
+    "carbohydrates (g)": 26.0,
+    "protein (g)": 11.0
+  },
+  {
+    "name": "Superfood Side with Toppings (Sm)",
+    "calories": 150,
+    "total fat (g)": 9.0,
+    "carbohydrates (g)": 18.0,
+    "protein (g)": 3.0
+  },
+  {
+    "name": "Superfood Side without Toppings (Sm)",
+    "calories": 90,
+    "total fat (g)": 2.5,
+    "carbohydrates (g)": 15.0,
+    "protein (g)": 2.0
+  },
+
+  {
+    "name": "Superfood Side with Toppings (Lg)",
+    "calories": 190,
+    "total fat (g)": 9.0,
+    "carbohydrates (g)": 25.0,
+    "protein (g)": 4.0
+  },
+  {
+    "name": "Superfood Side without Toppings (Lg)",
+    "calories": 130,
+    "total fat (g)": 3.5,
+    "carbohydrates (g)": 23.0,
+    "protein (g)": 3.0
+  },
+
+  {
+    "name": "Side Salad without Toppings",
+    "calories": 80,
+    "total fat (g)": 4.5,
+    "carbohydrates (g)": 6.0,
+    "protein (g)": 5.0
+  },
+  {
+    "name": "Side Salad with Toppings",
+    "calories": 160,
+    "total fat (g)": 11.0,
+    "carbohydrates (g)": 12.5,
+    "protein (g)": 6.0
+  },
+
+  {
+    "name": "Chicken Soup (Sm)",
+    "calories": 130,
+    "total fat (g)": 3.5,
+    "carbohydrates (g)": 15.0,
+    "protein (g)": 9.0
+  },
+  {
+    "name": "Chicken Soup (Lg)",
+    "calories": 240,
+    "total fat (g)": 6,
+    "carbohydrates (g)": 29.5,
+    "protein (g)": 18.0
+  },
+
+  {
+    "name": "Treats"
+  },
+
+  {
+    "name": "Vanilla Milkshake (Sm)",
+    "calories": 500,
+    "total fat (g)": 21,
+    "carbohydrates (g)": 67,
+    "protein (g)": 11
+  },
+  {
+    "name": "Vanilla Milkshake (Lg)",
+    "calories": 620,
+    "total fat (g)": 25,
+    "carbohydrates (g)": 86,
+    "protein (g)": 15
+  },
+  {
+    "name": "Chocolate Milkshake (Sm)",
+    "calories": 560,
+    "total fat (g)": 22,
+    "carbohydrates (g)": 82,
+    "protein (g)": 12
+  },
+  {
+    "name": "Chocolate Milkshake (Lg)",
+    "calories": 720,
+    "total fat (g)": 26,
+    "carbohydrates (g)": 108,
+    "protein (g)": 15
+  },
+  {
+    "name": "Strawberry Milkshake (Sm)",
+    "calories": 570,
+    "total fat (g)": 21,
+    "carbohydrates (g)": 85,
+    "protein (g)": 12
+  },
+  {
+    "name": "Strawberry Milkshake (Lg)",
+    "calories": 720,
+    "total fat (g)": 25,
+    "carbohydrates (g)": 113,
+    "protein (g)": 15
+  },
+  {
+    "name": "Cookies & Cream Milkshake (Sm)",
+    "calories": 590,
+    "total fat (g)": 25,
+    "carbohydrates (g)": 81,
+    "protein (g)": 12
+  },
+  {
+    "name": "Cookies & Cream Milkshake (Lg)",
+    "calories": 750,
+    "total fat (g)": 31,
+    "carbohydrates (g)": 107,
+    "protein (g)": 16
+  },
+  {
+    "name": "Icedream Cone (Sm)",
+    "calories": 170,
+    "total fat (g)": 4,
+    "carbohydrates (g)": 31,
+    "protein (g)": 5
+  },
+  {
+    "name": "Icedream Cone (Lg)",
+    "calories": 260,
+    "total fat (g)": 6,
+    "carbohydrates (g)": 45,
+    "protein (g)": 7
+  },
+  {
+    "name": "Icedream Cup (Sm)",
+    "calories": 290,
+    "total fat (g)": 7,
+    "carbohydrates (g)": 50,
+    "protein (g)": 8
+  },
+  {
+    "name": "Icedream Cup (Lg)",
+    "calories": 360,
+    "total fat (g)": 9,
+    "carbohydrates (g)": 61,
+    "protein (g)": 10
+  },
+  {
+    "name": "Chocolate Chunk Cookie",
+    "calories": 350,
+    "total fat (g)": 16,
+    "carbohydrates (g)": 50,
+    "protein (g)": 3
+  },
+  {
+    "name": "Frosted Lemonade (Sm)",
+    "calories": 330,
+    "total fat (g)": 6,
+    "carbohydrates (g)": 65,
+    "protein (g)": 6
+  },
+  {
+    "name": "Frosted Lemonade (Lg)",
+    "calories": 410,
+    "total fat (g)": 7,
+    "carbohydrates (g)": 80,
+    "protein (g)": 8
+  },
+  {
+    "name": "Frosted Lemonade (Sm) w/ Diet Lemonade",
+    "calories": 250,
+    "total fat (g)": 6,
+    "carbohydrates (g)": 45,
+    "protein (g)": 6
+  },
+  {
+    "name": "Frosted Lemonade (Lg) w/ Diet Lemonade",
+    "calories": 310,
+    "total fat (g)": 7,
+    "carbohydrates (g)": 56,
+    "protein (g)": 8
+  },
+  {
+    "name": "Frosted Coffee (Sm)",
+    "calories": 240,
+    "total fat (g)": 6,
+    "carbohydrates (g)": 41,
+    "protein (g)": 7
+  },
+  {
+    "name": "Frosted Coffee (Lg)",
+    "calories": 300,
+    "total fat (g)": 7,
+    "carbohydrates (g)": 51,
+    "protein (g)": 8
+  },
+
+  {
+    "name": "Drinks"
+  },
+
+  {
+    "name": "Fresh-Squeezed Lemonade (Med)",
+    "calories": 220,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 58,
+    "protein (g)": 0
+  },
+  {
+    "name": "Fresh-Squeezed Lemonade (Lg)",
+    "calories": 300,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 78,
+    "protein (g)": 0
+  },
+  {
+    "name": "Diet Fresh-Squeezed Lemonade (Med)",
+    "calories": 50,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 14,
+    "protein (g)": 0
+  },
+  {
+    "name": "Diet Fresh-Squeezed Lemonade (Lg)",
+    "calories": 70,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 21,
+    "protein (g)": 0
+  },
+  {
+    "name": "Sweetened Iced Tea (Med)",
+    "calories": 120,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 31,
+    "protein (g)": 0
+  },
+  {
+    "name": "Sweetened Iced Tea (Lg)",
+    "calories": 170,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 43,
+    "protein (g)": 0
+  },
+  {
+    "name": "Unsweetened Iced Tea (Med)",
+    "calories": 0,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 0,
+    "protein (g)": 0
+  },
+  {
+    "name": "Unsweetened Iced Tea (Lg)",
+    "calories": 0,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 0,
+    "protein (g)": 0
+  },
+  {
+    "name": "Coca-Cola Classic (Med)",
+    "calories": 190,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 54,
+    "protein (g)": 0
+  },
+  {
+    "name": "Coca-Cola Classic (Lg)",
+    "calories": 310,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 86,
+    "protein (g)": 0
+  },
+  {
+    "name": "Original Cold Brew Iced Coffee (Sm)",
+    "calories": 150,
+    "total fat (g)": 2.5,
+    "carbohydrates (g)": 26,
+    "protein (g)": 5
+  },
+  {
+    "name": "Original Cold Brew Iced Coffee (Lg)",
+    "calories": 180,
+    "total fat (g)": 3,
+    "carbohydrates (g)": 33,
+    "protein (g)": 6
+  },
+  {
+    "name": "Vanilla Cold Brew Iced Coffee (Sm)",
+    "calories": 160,
+    "total fat (g)": 2.5,
+    "carbohydrates (g)": 30,
+    "protein (g)": 5
+  },
+  {
+    "name": "Vanilla Cold Brew Iced Coffee (Lg)",
+    "calories": 200,
+    "total fat (g)": 3,
+    "carbohydrates (g)": 38,
+    "protein (g)": 6
+  },
+
+  {
+    "name": "Kid's Meals"
+  },
+
+  {
+    "name": "Grilled Nuggets (4-count)",
+    "calories": 70,
+    "total fat (g)": 2,
+    "carbohydrates (g)": 1,
+    "protein (g)": 13
+  },
+  {
+    "name": "Grilled Nuggets (6-count)",
+    "calories": 110,
+    "total fat (g)": 2.5,
+    "carbohydrates (g)": 2,
+    "protein (g)": 19
+  },
+  {
+    "name": "Chick-n-Strips (1-count)",
+    "calories": 120,
+    "total fat (g)": 6,
+    "carbohydrates (g)": 7,
+    "protein (g)": 9
+  },
+  {
+    "name": "Chick-n-Strips (2-count)",
+    "calories": 230,
+    "total fat (g)": 11,
+    "carbohydrates (g)": 14,
+    "protein (g)": 19
+  },
+  {
+    "name": "Chick-fil-A Nuggets (4-count)",
+    "calories": 130,
+    "total fat (g)": 6,
+    "carbohydrates (g)": 5,
+    "protein (g)": 14
+  },
+  {
+    "name": "Chick-fil-A Nuggets (6-count)",
+    "calories": 190,
+    "total fat (g)": 9,
+    "carbohydrates (g)": 7,
+    "protein (g)": 21
+  },
+  {
+    "name": "Cinnamon Apple Sauce",
+    "calories": 60,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 15,
+    "protein (g)": 0
+  },
+  {
+    "name": "Fruit Cup (Sm)",
+    "calories": 35,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 8,
+    "protein (g)": 0
+  },
+  {
+    "name": "Waffle Potato Fries w/Sea Salt (Sm)",
+    "calories": 280,
+    "total fat (g)": 14,
+    "carbohydrates (g)": 33,
+    "protein (g)": 4
+  },
+  {
+    "name": "Organic Kid’s Apple Juice (Sm)",
+    "calories": 35,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 9,
+    "protein (g)": 0
+  },
+  {
+    "name": "Low Fat Plain Milk",
+    "calories": 90,
+    "total fat (g)": 2,
+    "carbohydrates (g)": 11,
+    "protein (g)": 7
+  },
+  {
+    "name": "Low Fat Chocolate Milk",
+    "calories": 150,
+    "total fat (g)": 2.5,
+    "carbohydrates (g)": 25,
+    "protein (g)": 7
+  },
+  {
+    "name": "Fresh-Squeezed Lemonade (Sm)",
+    "calories": 130,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 33,
+    "protein (g)": 0
+  },
+  {
+    "name": "Diet Fresh-Squeezed Lemonade (Sm)",
+    "calories": 30,
+    "total fat (g)": 0,
+    "carbohydrates (g)": 8,
+    "protein (g)": 0
+  },
+
+  {
+    "name": "Dressings / Sauces"
+  },
+
+  {
+    "name": "Light Italian",
+    "calories": 25,
+    "total fat (g)": 1.5,
+    "carbohydrates (g)": 3.0,
+    "protein (g)": 0.0
+  },
+  {
+    "name": "Light Balsamic Vinaigrette",
+    "calories": 80,
+    "total fat (g)": 4.0,
+    "carbohydrates (g)": 10.0,
+    "protein (g)": 0.0
+  },
+  {
+    "name": "Fat Free Honey Mustard",
+    "calories": 90,
+    "total fat (g)": 0.0,
+    "carbohydrates (g)": 22.0,
+    "protein (g)": 0.0
+  },
+  {
+    "name": "Chili Lime Vinaigrette",
+    "calories": 60,
+    "total fat (g)": 3.0,
+    "carbohydrates (g)": 9.0,
+    "protein (g)": 0.0
+  },
+  {
+    "name": "Garlic & Herb Ranch",
+    "calories": 280,
+    "total fat (g)": 29.0,
+    "carbohydrates (g)": 2.0,
+    "protein (g)": 1.0
+  },
+  {
+    "name": "Creamy Salsa",
+    "calories": 290,
+    "total fat (g)": 31.0,
+    "carbohydrates (g)": 3.0,
+    "protein (g)": 1.0
+  },
+  {
+    "name": "Avocado Lime Ranch",
+    "calories": 310,
+    "total fat (g)": 32.0,
+    "carbohydrates (g)": 3.0,
+    "protein (g)": 1.0
+  },
+  {
+    "name": "Apple Cider Vinaigrette",
+    "calories": 230,
+    "total fat (g)": 19.0,
+    "carbohydrates (g)": 16.0,
+    "protein (g)": 0.0
+  },
+  {
+    "name": "Chick-fil-A Sauce",
+    "calories": 140,
+    "total fat (g)": 13.0,
+    "carbohydrates (g)": 6.0,
+    "protein (g)": 0.0
+  },
+  {
+    "name": "Polynesian Sauce",
+    "calories": 110,
+    "total fat (g)": 6.0,
+    "carbohydrates (g)": 13.0,
+    "protein (g)": 0.0
+  },
+  {
+    "name": "Honey Mustard Sauce",
+    "calories": 45,
+    "total fat (g)": 0.0,
+    "carbohydrates (g)": 11.0,
+    "protein (g)": 0.0
+  },
+  {
+    "name": "Garlic & Herb Ranch Sauce",
+    "calories": 140,
+    "total fat (g)": 14.0,
+    "carbohydrates (g)": 1.0,
+    "protein (g)": 0.0
+  },
+  {
+    "name": "Zesty Buffalo Sauce",
+    "calories": 30,
+    "total fat (g)": 2.5,
+    "carbohydrates (g)": 1.0,
+    "protein (g)": 0.0
+  },
+  {
+    "name": "Barbeque Sauce",
+    "calories": 45,
+    "total fat (g)": 0.0,
+    "carbohydrates (g)": 10.0,
+    "protein (g)": 0.0
+  },
+  {
+    "name": "Sweet & Spicy Sriracha Sauce",
+    "calories": 45,
+    "total fat (g)": 0.0,
+    "carbohydrates (g)": 10.0,
+    "protein (g)": 0.0
+  }
+
+
+  
+]

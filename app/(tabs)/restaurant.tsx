@@ -7,6 +7,7 @@ import { Collapsible } from '@/components/Collapsible';
 
 // Load McDonald's menu
 import mcdonaldsMenu from '@/assets/restaurants/mcdonalds.json';
+import chickfilaMenu from '@/assets/restaurants/chickfila.json';
 
 const RESTAURANTS = [
   {
@@ -15,10 +16,21 @@ const RESTAURANTS = [
     menu: mcdonaldsMenu,
     id: 'mcdonalds',
   },
+  {
+    name: "Chick-fil-A's",
+    logo: 'https://1000logos.net/wp-content/uploads/2017/03/McDonalds-logo.png',
+    menu: chickfilaMenu,
+    id: 'chickfila',
+  },
 ];
 
 function isFoodItem(item: any) {
-  return item.calories && item["protein (g)"];
+  return (
+    item &&
+    typeof item === 'object' &&
+    'calories' in item &&
+    'protein (g)' in item
+  );
 }
 
 function parseMenuWithSections(menu: any[]) {
@@ -70,7 +82,9 @@ export default function RestaurantScreen() {
         if (filters.maxProtein && parseInt(item["protein (g)"] || '0') > parseInt(filters.maxProtein || '0')) return false;
         return true;
       })
-    }));
+    }))
+    // Only keep sections with at least one item
+    .filter(section => section.data.length > 0);
     setMenuSections(filteredSections);
     // For infinite scroll, flatten and slice
     const allItems = filteredSections.flatMap(s => s.data);
@@ -131,11 +145,14 @@ export default function RestaurantScreen() {
   }
 
   // Memoized menu item for performance
-  const MenuItem = memo(({ item, colorScheme, Colors }: any) => (
+  const MenuItem = memo(({ item, colorScheme, Colors, restaurantId }: any) => (
     <View style={[styles.item, { backgroundColor: Colors[colorScheme].card }]}> 
       <Text style={[styles.itemName, { color: Colors[colorScheme].text }]}>{item.name}</Text>
       <Text style={{ color: Colors[colorScheme].text, fontSize: 13 }}>Calories: {item.calories} | Protein: {item["protein (g)"]}g | Carbs: {item["carbohydrates (g)"]}g | Fat: {item["total fat (g)"]}g</Text>
-      <Text style={{ color: Colors[colorScheme].text, fontSize: 12 }}>Serving: {item["serving size"]}</Text>
+      {/* Only show serving size for McDonald's */}
+      {restaurantId === 'mcdonalds' && (
+        <Text style={{ color: Colors[colorScheme].text, fontSize: 12 }}>Serving: {item["serving size"]}</Text>
+      )}
     </View>
   ));
   MenuItem.displayName = 'MenuItem';
@@ -209,7 +226,7 @@ export default function RestaurantScreen() {
                 data={section.data.slice(0, PAGE_SIZE * page)}
                 keyExtractor={(item, index) => item.name + item["serving size"] + index}
                 renderItem={({ item }) => (
-                  <MenuItem item={item} colorScheme={colorScheme} Colors={Colors} />
+                  <MenuItem item={item} colorScheme={colorScheme} Colors={Colors} restaurantId={selectedRestaurant} />
                 )}
                 scrollEnabled={false}
               />
