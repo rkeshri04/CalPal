@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput, Modal } from 'react-native';
+import { View, Text, Alert, StyleSheet, Pressable, TextInput, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { ThemedText } from '@/components/ThemedText';
 import { saveUserProfileToStorage } from '@/store/userProfileSlice';
+import { database } from '../../db/database';
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme() ?? 'light';
@@ -96,11 +97,31 @@ export default function ProfileScreen() {
         <Text style={{ color: Colors[colorScheme].background, fontWeight: 'bold', fontSize: 16 }}>Edit</Text>
       </Pressable>
       <View style={styles.settingsList}>
-        <Pressable style={[styles.settingsItem, { backgroundColor: Colors[colorScheme].card }]} onPress={() => {}}>
+        {/* <Pressable style={[styles.settingsItem, { backgroundColor: Colors[colorScheme].card }]} onPress={() => {}}>
           <Ionicons name="settings-outline" size={22} color={Colors[colorScheme].tint} style={{ marginRight: 16 }} />
           <Text style={{ color: Colors[colorScheme].text, fontSize: 16 }}>App Settings</Text>
-        </Pressable>
-        <Pressable style={[styles.settingsItem, { backgroundColor: Colors[colorScheme].card }]} onPress={() => {}}>
+        </Pressable> */}
+        
+        {/* Clear all data button */}
+        <Pressable
+          style={[styles.settingsItem, { backgroundColor: Colors[colorScheme].card }]}
+          onPress={async () => {
+            try {
+              await database.write(async () => {
+                await database.unsafeResetDatabase();
+              });
+
+              Alert.alert('Success', 'All data has been cleared. The app will restart now.');
+
+              // reset Redux / AsyncStorage
+              dispatch({ type: 'userProfile/setUserProfile', payload: null });
+
+            } catch (error) {
+              console.error('Error clearing database:', error);
+              Alert.alert('Error', 'Failed to clear data.');
+            }
+          }}
+        >
           <Ionicons name="trash-outline" size={22} color={Colors[colorScheme].tint} style={{ marginRight: 16 }} />
           <Text style={{ color: Colors[colorScheme].text, fontSize: 16 }}>Clear All Data</Text>
         </Pressable>
