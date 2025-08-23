@@ -263,7 +263,7 @@ export default function HomeScreen() {
       carbs: parseFloat(manualForm.carbs) || 0,
       protein: parseFloat(manualForm.protein) || 0,
       date: now.toISOString(),
-      localDate, // <-- add this line
+      localDate
     };
     dispatch<any>(addLog(entry));
     setManualModalVisible(false);
@@ -320,7 +320,7 @@ export default function HomeScreen() {
         </Menu>
       </View>
       {item.image ? (
-        <Image source={{ uri: item.image }} style={styles.cardImage} />
+        <Image source={{ uri: item.image }} resizeMode="contain" style={styles.cardImage} />
       ) : (
         <View style={styles.cardImagePlaceholder} />
       )}

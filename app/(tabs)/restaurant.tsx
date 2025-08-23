@@ -18,7 +18,7 @@ const RESTAURANTS = [
   },
   {
     name: "Chick-fil-A's",
-    logo: 'https://1000logos.net/wp-content/uploads/2017/03/McDonalds-logo.png',
+    logo: 'https://1000logos.net/wp-content/uploads/2021/04/Chick-fil-A-logo.png',
     menu: chickfilaMenu,
     id: 'chickfila',
   },
@@ -135,7 +135,7 @@ export default function RestaurantScreen() {
                 style={[styles.restaurantCard, { backgroundColor: Colors[colorScheme].card }]}
                 onPress={() => setSelectedRestaurant(r.id)}
             >
-                <Image source={{ uri: r.logo }} style={styles.restaurantLogo} />
+                <Image source={{ uri: r.logo }} style={styles.restaurantLogo} resizeMode="contain" />
                 <Text style={[styles.restaurantName, { color: Colors[colorScheme].text }]}>{r.name}</Text>
             </Pressable>
             ))}
@@ -158,7 +158,7 @@ export default function RestaurantScreen() {
   MenuItem.displayName = 'MenuItem';
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors[colorScheme].background }}>
+    <View style={{ flex: 1, marginBottom: 60 , backgroundColor: Colors[colorScheme].background }}>
       <View style={styles.container}>
         <Pressable onPress={() => setSelectedRestaurant(null)} style={{ marginBottom: 12 }}>
           <Text style={{ color: Colors[colorScheme].tint, fontWeight: 'bold' }}>{'< Back to Restaurants'}</Text>
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
   item: { padding: 12, borderRadius: 10, marginBottom: 10, elevation: 2 },
   itemName: { fontWeight: 'bold', fontSize: 16, marginBottom: 2 },
   restaurantCard: { flexDirection: 'row', alignItems: 'center', padding: 16, borderRadius: 12, marginBottom: 16, elevation: 2 },
-  restaurantLogo: { width: 60, height: 60, marginRight: 16, borderRadius: 8 },
+  restaurantLogo: { width: 100, height: 60, marginRight: 16, borderRadius: 8 },
   restaurantName: { fontSize: 18, fontWeight: 'bold' },
   sectionTitle: { fontSize: 18, fontWeight: 'bold', marginTop: 18, marginBottom: 6 },
 });

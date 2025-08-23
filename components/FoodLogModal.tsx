@@ -1,8 +1,7 @@
 import React from 'react';
 import { Modal, KeyboardAvoidingView, Platform, Animated, View, Pressable, Text, ScrollView, Image, TextInput } from 'react-native';
 import { Colors } from '@/constants/Colors';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { ThemedText } from './ThemedText';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 interface FoodLogModalProps {
