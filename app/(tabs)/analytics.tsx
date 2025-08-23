@@ -5,7 +5,6 @@ import { RootState } from '@/store';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { Collapsible } from '@/components/Collapsible';
-import { WebView } from 'react-native-webview';
 import Svg, { Polyline, Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 
 
@@ -31,7 +30,7 @@ export default function AnalyticsScreen() {
   }
   const filteredWeight = getFilteredWeightHistory();
 
-  // Example tips (replace in future with AI generated actual tips)
+  // Example tips (will be replaced with AI-generated tips later)
   const tips = [
     { id: 1, text: 'Log your meals consistently for best results.' },
     { id: 2, text: 'Aim for a balanced intake of protein, carbs, and fat.' },
@@ -40,22 +39,6 @@ export default function AnalyticsScreen() {
     { id: 5, text: 'Drink plenty of water throughout the day.' },
     { id: 6, text: 'Try to log food right after eating to avoid forgetting.' },
   ];
-
-  // Analysis data for collapsible
-  const totalLogs = logs.length;
-  const totalSpent = logs.reduce((sum, l) => sum + l.cost, 0);
-  const totalWeight = logs.reduce((sum, l) => sum + l.weight, 0);
-  const totalCalories = logs.reduce((sum, l) => sum + (l.calories || 0), 0);
-  // const totalFat = logs.reduce((sum, l) => sum + (l.fat || 0), 0);
-  // const totalCarbs = logs.reduce((sum, l) => sum + (l.carbs || 0), 0);
-  // const totalProtein = logs.reduce((sum, l) => sum + (l.protein || 0), 0);
-  // const avgCalories = totalLogs ? totalCalories / totalLogs : 0;
-  // const avgCost = totalLogs ? totalSpent / totalLogs : 0;
-  // const avgWeight = totalLogs ? totalWeight / totalLogs : 0;
-  const foodCount: Record<string, number> = {};
-  logs.forEach(l => { foodCount[l.name] = (foodCount[l.name] || 0) + 1; });
-  // const mostFrequentFood = Object.entries(foodCount).sort((a, b) => b[1] - a[1])[0]?.[0] || 'N/A';
-  // const mostRecent = logs.length ? logs[0] : null;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors[colorScheme].background }} >
@@ -225,7 +208,6 @@ const styles = StyleSheet.create({
   safeAreaPad: {
     paddingTop: 24,
   },
-  // Pills for tips (square)
   pillSquare: {
     width: 90,
     height: 90,
@@ -233,12 +215,10 @@ const styles = StyleSheet.create({
     margin: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: undefined, // set dynamically
     elevation: 2,
   },
 });
 
-// Move getMinMax to file scope so it's available everywhere
 function getMinMax(arr: number[]) {
   if (!arr.length) return { min: 0, max: 1 };
   let min = arr[0], max = arr[0];
@@ -250,7 +230,7 @@ function getMinMax(arr: number[]) {
   return { min, max };
 }
 
-// Robinhood-style SVG chart with touchable points
+// SVG chart with touchable points
 function WeightSvgChart({ data, labels, color, background, textColor, onPointPress }: {
   data: number[];
   labels: string[];

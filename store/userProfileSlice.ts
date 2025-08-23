@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import * as SecureStore from 'expo-secure-store';
+import { database, UserProfile } from '../db/database';
 
 export interface BmiEntry {
   date: string;
@@ -8,7 +8,7 @@ export interface BmiEntry {
   height: number;
 }
 
-export interface UserProfile {
+export interface UserProfileData {
   age: number;
   height: number;
   weight: number;
@@ -18,20 +18,18 @@ export interface UserProfile {
 }
 
 interface UserProfileState {
-  profile: UserProfile | null;
+  profile: UserProfileData | null;
 }
 
 const initialState: UserProfileState = {
   profile: null,
 };
 
-const PROFILE_KEY = 'userProfile';
-
 const userProfileSlice = createSlice({
   name: 'userProfile',
   initialState,
   reducers: {
-    setUserProfile(state, action: PayloadAction<UserProfile>) {
+    setUserProfile(state, action: PayloadAction<UserProfileData>) {
       state.profile = action.payload;
     },
     addBmiEntry(state, action: PayloadAction<BmiEntry>) {
@@ -53,15 +51,53 @@ export const { setUserProfile, addBmiEntry, setLastPrompt } = userProfileSlice.a
 export default userProfileSlice.reducer;
 
 export const loadUserProfileFromStorage = () => async (dispatch: any) => {
-  const data = await SecureStore.getItemAsync(PROFILE_KEY);
-  if (data) {
-    try {
-      const profile = JSON.parse(data);
-      dispatch(setUserProfile(profile));
-    } catch {}
+  try {
+    const profileCollection = database.get<UserProfile>('user_profiles');
+    const profiles = await profileCollection.query().fetch();
+    if (profiles.length > 0) {
+      const profile = profiles[0];
+      dispatch(setUserProfile({
+        age: profile.age,
+        height: profile.height,
+        weight: profile.weight,
+        unitSystem: profile.unitSystem,
+        bmiHistory: profile.bmiHistory,
+        lastPrompt: profile.lastPrompt,
+      }));
+    }
+  } catch (error) {
+    console.error('Error loading user profile from WatermelonDB:', error);
   }
 };
 
-export const saveUserProfileToStorage = (profile: UserProfile) => {
-  return SecureStore.setItemAsync(PROFILE_KEY, JSON.stringify(profile));
+export const saveUserProfileToStorage = (profile: UserProfileData) => async () => {
+  try {
+    await database.write(async () => {
+      const profileCollection = database.get<UserProfile>('user_profiles');
+      const profiles = await profileCollection.query().fetch();
+      if (profiles.length > 0) {
+        // Update existing profile
+        await profiles[0].update((userProfile: UserProfile) => {
+          userProfile.age = profile.age;
+          userProfile.height = profile.height;
+          userProfile.weight = profile.weight;
+          userProfile.unitSystem = profile.unitSystem;
+          userProfile.bmiHistory = profile.bmiHistory;
+          userProfile.lastPrompt = profile.lastPrompt;
+        });
+      } else {
+        // Create new profile
+        await profileCollection.create((userProfile: UserProfile) => {
+          userProfile.age = profile.age;
+          userProfile.height = profile.height;
+          userProfile.weight = profile.weight;
+          userProfile.unitSystem = profile.unitSystem;
+          userProfile.bmiHistory = profile.bmiHistory;
+          userProfile.lastPrompt = profile.lastPrompt;
+        });
+      }
+    });
+  } catch (error) {
+    console.error('Error saving user profile to WatermelonDB:', error);
+  }
 };

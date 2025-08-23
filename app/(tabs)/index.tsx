@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { FlatList, View, Alert, ActivityIndicator, StyleSheet, Pressable, Image, Text, Modal, ScrollView, KeyboardAvoidingView, Platform, TextInput, Animated } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { BarcodeScannerModal } from '@/components/BarcodeScannerModal';
 import { ThemedText } from '@/components/ThemedText';
@@ -22,6 +22,7 @@ import {
 import { LineChart } from 'react-native-chart-kit';
 import { Collapsible } from '@/components/Collapsible';
 import { FoodLogModal } from '@/components/FoodLogModal';
+import { database, Log, UserProfile } from '../../db/database';
 
 const timeFrames: TimeFrame[] = ['1D', '1W', '1M', 'All'];
 
@@ -111,7 +112,7 @@ export default function HomeScreen() {
   }, [profileForm.height, profileForm.weight, profileForm.feet, profileForm.inches, unitSystem]);
 
   // Handle profile submit
-  const handleProfileSubmit = () => {
+  const handleProfileSubmit = async () => {
     const age = parseInt(profileForm.age);
     let height = 0;
     let weight = 0;
@@ -125,8 +126,8 @@ export default function HomeScreen() {
       weight = parseFloat(profileForm.weight);
     }
     if (!age || !height || !weight) return;
-    const bmiVal = weight / ((height / 100) * (height / 100));
     const now = new Date().toISOString();
+    const bmiVal = weight / ((height / 100) * (height / 100));
     const newProfile = {
       age,
       height,
@@ -138,15 +139,17 @@ export default function HomeScreen() {
       ],
       lastPrompt: now,
     };
+    await dispatch<any>(saveUserProfileToStorage(newProfile));
     dispatch<any>(setUserProfile(newProfile));
-    saveUserProfileToStorage(newProfile);
     setProfileModalVisible(false);
   };
 
+  // Load logs on mount
   useEffect(() => {
     dispatch<any>(loadLogsFromStorage());
   }, [dispatch]);
 
+  // Save logs to WatermelonDB whenever logs change
   useEffect(() => {
     saveLogsToStorage(logs);
   }, [logs]);
@@ -175,12 +178,10 @@ export default function HomeScreen() {
   const totalCarbs = filteredLogs.reduce((sum: number, l: LogEntry) => sum + (l.carbs || 0), 0);
   const totalProtein = filteredLogs.reduce((sum: number, l: LogEntry) => sum + (l.protein || 0), 0);
 
-  // Update handleScanned to accept a product object
   const handleScanned = async (product: any) => {
     setScannerVisible(false);
     setLoadingProduct(true);
     try {
-      // Extract product info from Open Food Facts
       const name = product.product_name || 'Unknown Food';
       const image = product.image_url || '';
       const barcode = product.code || '';
@@ -190,7 +191,6 @@ export default function HomeScreen() {
       const carbs = nutriments['carbohydrates'] || nutriments['carbohydrates_100g'] || undefined;
       const protein = nutriments['proteins'] || nutriments['proteins_100g'] || undefined;
       setLoadingProduct(false);
-      // Prompt for cost and weight
       Alert.prompt('Enter Cost', `How much did "${name}" cost?`, [
         {
           text: 'Cancel', style: 'cancel',
@@ -204,9 +204,9 @@ export default function HomeScreen() {
               },
               {
                 text: 'Add',
-                onPress: (weightValue?: string) => {
+                onPress: async (weightValue?: string) => {
                   const now = new Date();
-                  const localDate = now.toLocaleDateString('en-CA'); // 'YYYY-MM-DD' in local time
+                  const localDate = now.toLocaleDateString('en-CA');
                   const entry = {
                     id: Date.now().toString(),
                     name,
@@ -219,8 +219,24 @@ export default function HomeScreen() {
                     carbs: carbs ? Number(carbs) : undefined,
                     protein: protein ? Number(protein) : undefined,
                     date: now.toISOString(),
-                    localDate, // <-- add this line
+                    localDate,
                   };
+                  await database.write(async () => {
+                    await database.get<Log>('logs').create(log => {
+                      log._raw.id = entry.id;
+                      log.name = entry.name;
+                      log.image = entry.image;
+                      log.barcode = entry.barcode;
+                      log.cost = entry.cost;
+                      log.weight = entry.weight;
+                      log.calories = entry.calories;
+                      log.fat = entry.fat;
+                      log.carbs = entry.carbs;
+                      log.protein = entry.protein;
+                      log.date = entry.date;
+                      log.localDate = entry.localDate;
+                    });
+                  });
                   dispatch<any>(addLog(entry));
                 },
               },
@@ -248,9 +264,14 @@ export default function HomeScreen() {
     protein: '',
   });
 
-  const handleManualSubmit = () => {
+  const promptManual = (barcode: string) => {
+    setManualModalVisible(true);
+    setManualForm(f => ({ ...f, barcode }));
+  };
+
+  const handleManualSubmit = async () => {
     const now = new Date();
-    const localDate = now.toLocaleDateString('en-CA'); // 'YYYY-MM-DD' in local time
+    const localDate = now.toLocaleDateString('en-CA');
     const entry = {
       id: Date.now().toString(),
       name: manualForm.name || 'Unknown Food',
@@ -265,6 +286,22 @@ export default function HomeScreen() {
       date: now.toISOString(),
       localDate
     };
+    await database.write(async () => {
+      await database.get<Log>('logs').create(log => {
+        log._raw.id = entry.id;
+        log.name = entry.name;
+        log.image = entry.image;
+        log.barcode = entry.barcode;
+        log.cost = entry.cost;
+        log.weight = entry.weight;
+        log.calories = entry.calories;
+        log.fat = entry.fat;
+        log.carbs = entry.carbs;
+        log.protein = entry.protein;
+        log.date = entry.date;
+        log.localDate = entry.localDate;
+      });
+    });
     dispatch<any>(addLog(entry));
     setManualModalVisible(false);
     setManualForm({
@@ -280,12 +317,6 @@ export default function HomeScreen() {
     });
   };
 
-  function promptManual(barcode: string) {
-    setManualModalVisible(true);
-    setManualForm(f => ({ ...f, barcode }));
-  }
-
-  // Group logs by date for pills
   const groupLogsByDay = (logs: LogEntry[]) => {
     const grouped: { [date: string]: LogEntry[] } = {};
     logs.forEach(log => {
@@ -298,7 +329,6 @@ export default function HomeScreen() {
 
   const logsByDate = useMemo(() => {
     const grouped = groupLogsByDay(logs);
-    // Sort dates ascending (oldest left, newest right)
     return Object.entries(grouped).sort((a, b) => a[0].localeCompare(b[0]));
   }, [logs]);
   const [selectedLogDate, setSelectedLogDate] = useState<string | null>(logsByDate[0]?.[0] || null);
@@ -307,7 +337,7 @@ export default function HomeScreen() {
   }, [logsByDate]);
 
   const renderLogCard = ({ item }: { item: LogEntry }) => (
-    <ThemedView style={[styles.logCard, { backgroundColor: Colors[colorScheme].card }]}> 
+    <ThemedView style={[styles.logCard, { backgroundColor: Colors[colorScheme].card }]}>
       <View style={{ position: 'absolute', top: 6, right: 6, zIndex: 2 }}>
         <Menu>
           <MenuTrigger>
@@ -351,7 +381,8 @@ export default function HomeScreen() {
     setEditId(log.id);
     setEditModalVisible(true);
   };
-  const handleEditSubmit = () => {
+
+  const handleEditSubmit = async () => {
     if (!editId) return;
     const updated = {
       id: editId,
@@ -367,37 +398,52 @@ export default function HomeScreen() {
       date: logs.find(l => l.id === editId)?.date || new Date().toISOString(),
       localDate: logs.find(l => l.id === editId)?.localDate || new Date().toLocaleDateString('en-CA'),
     };
+    await database.write(async () => {
+      const logCollection = database.get<Log>('logs');
+      const log = await logCollection.find(editId);
+      await log.update((entry: Log) => {
+        entry.name = updated.name;
+        entry.image = updated.image;
+        entry.barcode = updated.barcode;
+        entry.cost = updated.cost;
+        entry.weight = updated.weight;
+        entry.calories = updated.calories;
+        entry.fat = updated.fat;
+        entry.carbs = updated.carbs;
+        entry.protein = updated.protein;
+        entry.date = updated.date;
+        entry.localDate = updated.localDate;
+      });
+    });
     dispatch<any>({ type: 'logs/setLogs', payload: logs.map(l => l.id === editId ? updated : l) });
     setEditModalVisible(false);
     setEditId(null);
   };
-  const handleDelete = (id: string) => {
+
+  const handleDelete = async (id: string) => {
     Alert.alert('Delete', 'Are you sure you want to delete this log?', [
       { text: 'Cancel', style: 'cancel' },
-      { text: 'Delete', style: 'destructive', onPress: () => dispatch<any>({ type: 'logs/setLogs', payload: logs.filter(l => l.id !== id) }) },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: async () => {
+          await database.write(async () => {
+            const logCollection = database.get<Log>('logs');
+            const log = await logCollection.find(id);
+            await log.destroyPermanently();
+          });
+          dispatch<any>({ type: 'logs/setLogs', payload: logs.filter(l => l.id !== id) });
+        },
+      },
     ]);
   };
 
-  // Image picker handler
-  // const handlePickImage = useCallback(async (setForm: any) => {
-  //   const result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images, quality: 0.7 });
-  //   if (!result.canceled && result.assets && result.assets.length > 0) {
-  //     setForm((f: any) => ({ ...f, image: result.assets[0].uri }));
-  //   }
-  // }, []);
-  // const handleTakePhoto = useCallback(async (setForm: any) => {
-  //   const result = await ImagePicker.launchCameraAsync({ quality: 0.7 });
-  //   if (!result.canceled && result.assets && result.assets.length > 0) {
-  //     setForm((f: any) => ({ ...f, image: result.assets[0].uri }));
-  //   }
-  // }, []);
-
   return (
-    <View style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}> 
+    <View style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}>
       {/* Profile Modal */}
       <Modal visible={profileModalVisible} animationType="slide" transparent>
         <View style={styles.modalOverlay}>
-          <ThemedView style={[styles.modalContent, { backgroundColor: Colors[colorScheme].card }]}> 
+          <ThemedView style={[styles.modalContent, { backgroundColor: Colors[colorScheme].card }]}>
             <ThemedText type="subtitle" style={styles.modalTitle}>Enter Your Details</ThemedText>
             <View style={{ flexDirection: 'row', marginBottom: 10, gap: 10 }}>
               <Pressable
@@ -517,7 +563,6 @@ export default function HomeScreen() {
           <View style={styles.summaryMacroItem}><ThemedText style={styles.macroLabel}>Carbs</ThemedText><ThemedText style={styles.macroValue}>{totalCarbs.toFixed(1)}g</ThemedText></View>
           <View style={styles.summaryMacroItem}><ThemedText style={styles.macroLabel}>Protein</ThemedText><ThemedText style={styles.macroValue}>{totalProtein.toFixed(1)}g</ThemedText></View>
         </View>
-        {/* Time Frame Buttons */}
         <View style={styles.timeFrameButtons}>
           {timeFrames.map((frame: TimeFrame) => (
             <Pressable
@@ -539,7 +584,6 @@ export default function HomeScreen() {
         </View>
       </ThemedView>
 
-      {/* Pills for recent log dates */}
       <ThemedView style={[styles.sectionContainer, {marginTop: 20}]}>
         <ThemedText type="subtitle">Recent Days</ThemedText>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.pillScroll} contentContainerStyle={{ paddingVertical: 8 }}>
@@ -556,7 +600,6 @@ export default function HomeScreen() {
         </ScrollView>
       </ThemedView>
 
-      {/* Log Cards Section for selected day */}
       <Collapsible title="View scanned foods">
         <ThemedView style={[styles.sectionContainer, {marginLeft: 0}]}>
           {selectedLogDate && logsByDate.find(([d]) => d === selectedLogDate)?.[1].length ? (
@@ -574,17 +617,14 @@ export default function HomeScreen() {
         </ThemedView>
       </Collapsible>
 
-      {/* Actions Section - FAB */}
       {loadingProduct && <ActivityIndicator size="large" style={styles.activityIndicatorAbsolute} />}
 
-      {/* Barcode Scanner Modal */}
       <BarcodeScannerModal
         visible={scannerVisible}
         onClose={() => setScannerVisible(false)}
         onScanned={handleScanned}
       />
 
-      {/* Floating Action Button Menu */}
       {fabMenuVisible && (
         <View style={styles.fabMenuContainer}>
           {fabMenuOptions.map((opt, idx) => (
@@ -599,7 +639,6 @@ export default function HomeScreen() {
         </View>
       )}
 
-      {/* Floating Action Button */}
       <Pressable
         style={({ pressed }) => [
           styles.fab,
@@ -611,30 +650,6 @@ export default function HomeScreen() {
       >
         <Ionicons name={fabMenuVisible ? 'close' : 'add'} size={32} color={Colors[colorScheme].background} />
       </Pressable>
-
-      {/* Tip Detail Modal
-      <Modal
-        animationType="fade" // Simple fade for now
-        transparent={true}
-        visible={tipModalVisible}
-        onRequestClose={() => {
-          setTipModalVisible(!tipModalVisible);
-          setSelectedTip(null);
-        }}
-      >
-        <View style={styles.modalOverlay}>
-          <ThemedView style={[styles.modalContent, { backgroundColor: Colors[colorScheme].card }]}>
-            <ThemedText type="subtitle" style={styles.modalTitle}>{selectedTip?.short}</ThemedText>
-            <ThemedText style={styles.modalText}>{selectedTip?.long}</ThemedText>
-            <Pressable
-              style={[styles.modalCloseButton, { backgroundColor: Colors[colorScheme].tint }]}
-              onPress={() => setTipModalVisible(false)}
-            >
-              <ThemedText style={{ color: Colors[colorScheme].background }}>Close</ThemedText>
-            </Pressable>
-          </ThemedView>
-        </View>
-      </Modal> */}
 
       <FoodLogModal
         visible={manualModalVisible}
@@ -658,280 +673,36 @@ export default function HomeScreen() {
   );
 }
 
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  sectionContainer: {
-    marginLeft: 12,
-  },
-  summaryValues: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 16,
-  },
-  summaryItem: {
-    alignItems: 'center',
-  },
-  summaryAmount: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 4,
-  },
-  timeFrameButtons: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 10,
-    marginTop: 8,
-  },
-  timeFrameButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-  },
-  timeFrameButtonText: {
-    fontWeight: 'bold',
-    fontSize: 14,
-  },
-  pillScroll: {
-    marginBottom: 8,
-  },
-  datePill: {
-    backgroundColor: undefined, // will be set dynamically
-    borderRadius: 20,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    marginRight: 8,
-    alignItems: 'center',
-    minWidth: 40,
-    borderWidth: 1,
-  },
-  logListContent: {
-    paddingVertical: 8,
-    paddingLeft: 16,
-    paddingRight: 4,
-  },
-  emptyLogText: {
-    marginTop: 16,
-    textAlign: 'center',
-    opacity: 0.7,
-  },
-  logCard: {
-    width: 160,
-    marginRight: 12,
-    marginBottom: 12,
-  },
-  cardImage: {
-    width: '100%',
-    height: 80,
-    borderRadius: 8,
-    marginBottom: 8,
-    resizeMode: 'cover',
-  },
-  cardImagePlaceholder: {
-    width: '100%',
-    height: 80,
-    borderRadius: 8,
-    backgroundColor: '#e0e0e0',
-    marginBottom: 8,
-  },
-  cardTitle: {
-    fontWeight: '600',
-    marginBottom: 4,
-    fontSize: 14,
-  },
-  cardText: {
-    fontSize: 12,
-    marginBottom: 2,
-  },
-  cardDate: {
-    fontSize: 10,
-    marginTop: 4,
-    opacity: 0.6,
-    textAlign: 'right',
-  },
-  activityIndicatorAbsolute: { // Style for centered activity indicator
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.1)', // Optional: dim background
-  },
-  fab: {
-    position: 'absolute',
-    bottom: 90, // move above tab bar
-    right: 30,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-  },
-  fabPressed: {
-    opacity: 0.8,
-  },
-  // Modal Styles
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)', // Dim background
-  },
-  modalContent: {
-    width: '85%',
-    maxWidth: 400,
-    borderRadius: 15,
-    padding: 20,
-    alignItems: 'center',
-    elevation: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-  },
-  modalTitle: {
-    marginBottom: 15,
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  modalText: {
-    marginBottom: 25,
-    textAlign: 'center',
-    lineHeight: 22,
-  },
-  modalCloseButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 20,
-  },
-  fabMenuContainer: {
-    position: 'absolute',
-    right: 30,
-    bottom: 170, // Increased from 100 to 170 to move menu higher above the button
-    alignItems: 'flex-end',
-    zIndex: 10,
-  },
-  fabMenuItem: {
-    marginBottom: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-  },
-  summaryMacrosRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 8,
-    marginTop: -8,
-  },
-  summaryMacroItem: {
-    alignItems: 'center',
-    minWidth: 70,
-  },
-  macroLabel: {
-    fontSize: 12,
-    opacity: 0.7,
-  },
-  macroValue: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  bottomSheetOverlay: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    margin: 0, 
-  },
-  bottomSheet: {
-    width: '100%',
-    borderTopLeftRadius: 18,
-    borderTopRightRadius: 18,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    padding: 20,
-    alignItems: 'center',
-    elevation: 10,
-    minHeight: 480,
-    maxHeight: '90%',
-    backgroundColor: '#fff',
-  },
-  sheetHandle: {
-    width: 40,
-    height: 5,
-    borderRadius: 3,
-    backgroundColor: '#ccc',
-    marginBottom: 10,
-  },
-  manualInput: {
-    width: '95%',
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    marginBottom: 10,
-    fontSize: 16,
-  },
-  manualInputNutrient: {
-    flex: 1,
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    marginBottom: 10,
-    fontSize: 16,
-    marginLeft: 8,
-  },
-  nutrientRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '95%',
-    marginBottom: 4,
-  },
-  nutrientIcon: {
-    marginLeft: 2,
-  },
-  manualModalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    color: '#333',
-  },
-  manualButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 28,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  imagePickerButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    marginBottom: 8,
-    backgroundColor: '#f7f7f7',
-  },
-  pickedImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 12,
-    marginBottom: 12,
-    marginTop: 4,
-  },
+  container: { flex: 1 },
+  sectionContainer: { marginLeft: 12 },
+  summaryValues: { flexDirection: 'row', justifyContent: 'space-around', marginVertical: 16 },
+  summaryItem: { alignItems: 'center' },
+  summaryAmount: { fontSize: 24, fontWeight: 'bold', marginTop: 4 },
+  timeFrameButtons: { flexDirection: 'row', justifyContent: 'center', gap: 10, marginTop: 8 },
+  timeFrameButton: { paddingVertical: 8, paddingHorizontal: 16, borderRadius: 20 },
+  timeFrameButtonText: { fontWeight: 'bold', fontSize: 14 },
+  pillScroll: { marginBottom: 8 },
+  datePill: { backgroundColor: undefined, borderRadius: 20, paddingHorizontal: 16, paddingVertical: 8, marginRight: 8, alignItems: 'center', minWidth: 40, borderWidth: 1 },
+  logListContent: { paddingVertical: 8, paddingLeft: 16, paddingRight: 4 },
+  emptyLogText: { marginTop: 16, textAlign: 'center', opacity: 0.7 },
+  logCard: { width: 160, marginRight: 12, marginBottom: 12 },
+  cardImage: { width: '100%', height: 80, borderRadius: 8, marginBottom: 8, resizeMode: 'cover' },
+  cardImagePlaceholder: { width: '100%', height: 80, borderRadius: 8, backgroundColor: '#e0e0e0', marginBottom: 8 },
+  cardTitle: { fontWeight: '600', marginBottom: 4, fontSize: 14 },
+  cardText: { fontSize: 12, marginBottom: 2 },
+  activityIndicatorAbsolute: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.1)' },
+  fab: { position: 'absolute', bottom: 90, right: 30, width: 60, height: 60, borderRadius: 30, justifyContent: 'center', alignItems: 'center', elevation: 8, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 4 },
+  fabPressed: { opacity: 0.8 },
+  modalOverlay: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' },
+  modalContent: { width: '85%', maxWidth: 400, borderRadius: 15, padding: 20, alignItems: 'center', elevation: 10, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.25, shadowRadius: 6 },
+  modalTitle: { marginBottom: 15, fontSize: 18, fontWeight: 'bold' },
+  manualInput: { width: '95%', borderWidth: 1, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 12, marginBottom: 10, fontSize: 16 },
+  manualButton: { paddingVertical: 12, paddingHorizontal: 28, borderRadius: 10, alignItems: 'center' },
+  fabMenuContainer: { position: 'absolute', right: 30, bottom: 170, alignItems: 'flex-end', zIndex: 10 },
+  fabMenuItem: { marginBottom: 10, paddingVertical: 12, paddingHorizontal: 20, borderRadius: 20, elevation: 4, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.15, shadowRadius: 4 },
+  summaryMacrosRow: { flexDirection: 'row', justifyContent: 'space-around', marginBottom: 8, marginTop: -8 },
+  summaryMacroItem: { alignItems: 'center', minWidth: 70 },
+  macroLabel: { fontSize: 12, opacity: 0.7 },
+  macroValue: { fontSize: 14, fontWeight: 'bold' },
 });

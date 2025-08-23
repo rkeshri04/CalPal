@@ -105,6 +105,7 @@ export default function ProfileScreen() {
           <Text style={{ color: Colors[colorScheme].text, fontSize: 16 }}>Clear All Data</Text>
         </Pressable>
       </View>
+      
       {/* Edit Modal */}
       <Modal visible={editModalVisible} animationType="slide" transparent>
         <View style={styles.modalOverlay}>
@@ -178,6 +179,7 @@ export default function ProfileScreen() {
           </View>
         </View>
       </Modal>
+
     </View>
   );
 }
