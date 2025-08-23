@@ -3,8 +3,8 @@ import { Modal, View, SafeAreaView, TextInput, FlatList, Text, Pressable, Activi
 import { CameraView, BarcodeScanningResult, useCameraPermissions } from 'expo-camera';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import { ThemedText } from './ThemedText';
-import { ThemedView } from './ThemedView';
+import { ThemedText } from './ui/ThemedText';
+import { ThemedView } from './ui/ThemedView';
 import { BarcodeScannerModalProps, SearchProduct, NutritionInfo } from '../types/main';
 
 // Update prop type

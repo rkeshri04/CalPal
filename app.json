@@ -1,35 +1,36 @@
 {
   "expo": {
-    "name": "SnackZap",
-    "slug": "snackzap",
+    "name": "CalPal",
+    "description": "Turn meals into tracked nutrition and spending insights in minutes.",
+    "slug": "rk.calpal",
     "version": "0.9.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "icon": "https://elz46kvbtg.ufs.sh/f/YHsTkQtX6MTGaVtwOi0h7KyujlLRSkcIUmTrADEH3X4Wxi9G",
+    "scheme": "rk.calpal",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.rishabhkeshri.snackzap",
+      "bundleIdentifier": "com.rishabhkeshri.calpal",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "https://elz46kvbtg.ufs.sh/f/YHsTkQtX6MTGaVtwOi0h7KyujlLRSkcIUmTrADEH3X4Wxi9G",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.rishabhkeshri.snackzap"
+      "package": "com.rishabhkeshri.calpal"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "https://elz46kvbtg.ufs.sh/f/YHsTkQtX6MTGaVtwOi0h7KyujlLRSkcIUmTrADEH3X4Wxi9G"
     },
     "plugins": [
       ["@morrowdigital/watermelondb-expo-plugin"],
@@ -45,7 +46,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "https://elz46kvbtg.ufs.sh/f/YHsTkQtX6MTGaVtwOi0h7KyujlLRSkcIUmTrADEH3X4Wxi9G",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"

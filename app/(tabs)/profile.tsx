@@ -5,7 +5,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
-import { ThemedText } from '@/components/ThemedText';
+import { ThemedText } from '@/components/ui/ThemedText';
 import { saveUserProfileToStorage } from '@/store/userProfileSlice';
 import { database } from '../../db/database';
 

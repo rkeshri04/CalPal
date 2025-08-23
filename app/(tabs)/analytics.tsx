@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import { Collapsible } from '@/components/Collapsible';
+import { Collapsible } from '@/components/ui/Collapsible';
 import Svg, { Polyline, Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 
 

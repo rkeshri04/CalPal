@@ -53,7 +53,7 @@ export const FoodLogModal: React.FC<FoodLogModalProps> = ({ visible, onClose, on
               <View style={{ flexDirection: 'row', alignItems: 'center', width: '95%', marginBottom: 4 }}>
                 <MaterialCommunityIcons name="fire" size={22} color={Colors[colorScheme].tint} style={{ marginLeft: 2 }} />
                 <TextInput style={{ flex: 1, borderWidth: 1, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 12, marginBottom: 10, fontSize: 16, marginLeft: 8, backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }}
-                  placeholder="Calories" placeholderTextColor={Colors[colorScheme].icon} value={form.calories} onChangeText={(v: string) => setForm((f: any) => ({ ...f, calories: v }))} keyboardType="decimal-pad" />
+                  placeholder="Calories*" placeholderTextColor={Colors[colorScheme].icon} value={form.calories} onChangeText={(v: string) => setForm((f: any) => ({ ...f, calories: v }))} keyboardType="decimal-pad" />
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center', width: '95%', marginBottom: 4 }}>
                 <MaterialCommunityIcons name="food-drumstick" size={22} color={Colors[colorScheme].tint} style={{ marginLeft: 2 }} />

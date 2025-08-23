@@ -28,16 +28,6 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
-  
-
-  
-
-  // useEffect(() => {
-  //   (async () => {
-  //     await database.unsafeResetDatabase();
-  //     console.log("✅ Database reset — restart the app now.");
-  //   })();
-  // }, []);
 
   // useEffect(() => {
   //   (async () => {
@@ -55,7 +45,7 @@ export default function RootLayout() {
   //       console.log('The user ate:', logsData);
   //       console.log('User Profiles:', profilesData);
   //     } catch (error) {
-  //       console.error('❌ Error querying WatermelonDB:', error);
+  //       console.error('Error querying WatermelonDB:', error);
   //     }
   //   })();
   // }, []);

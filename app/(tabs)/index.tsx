@@ -3,8 +3,8 @@ import { FlatList, View, Alert, ActivityIndicator, StyleSheet, Pressable, Image,
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { BarcodeScannerModal } from '@/components/BarcodeScannerModal';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ui/ThemedText';
+import { ThemedView } from '@/components/ui/ThemedView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
@@ -20,7 +20,7 @@ import {
   setLastPrompt,
 } from '@/store/userProfileSlice';
 import { LineChart } from 'react-native-chart-kit';
-import { Collapsible } from '@/components/Collapsible';
+import { Collapsible } from '@/components/ui/Collapsible';
 import { FoodLogModal } from '@/components/FoodLogModal';
 import { database, Log, UserProfile } from '../../db/database';
 

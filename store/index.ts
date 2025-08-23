@@ -1,13 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import logsReducer from './logsSlice';
 import userProfileReducer from './userProfileSlice';
-// import authReducer from './authSlice';
 
 export const store = configureStore({
   reducer: {
     logs: logsReducer,
     userProfile: userProfileReducer,
-    // auth: authReducer,
   },
 });
 

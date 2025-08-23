@@ -1,6 +1,6 @@
-# SnackZap
+# CalPal
 
-SnackZap is a cross-platform mobile application for tracking food purchases, nutritional intake, and personal health metrics. Built with React Native, Expo, and Redux Toolkit, SnackZap helps users log foods (via barcode scanning or manual entry), monitor their spending, and visualize their weight/BMI trends over time.
+CalPal is a cross-platform mobile application for tracking food purchases, nutritional intake, and personal health metrics. Built with React Native, Expo, and Redux Toolkit, CalPal helps users log foods (via barcode scanning or manual entry), monitor their spending, and visualize their weight/BMI trends over time.
 
 ## Features
 
