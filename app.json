@@ -2,11 +2,11 @@
   "expo": {
     "name": "CalPal",
     "description": "Turn meals into tracked nutrition and spending insights in minutes.",
-    "slug": "rk.calpal",
+    "slug": "rkcalpal",
     "version": "0.9.0",
     "orientation": "portrait",
     "icon": "https://elz46kvbtg.ufs.sh/f/YHsTkQtX6MTGaVtwOi0h7KyujlLRSkcIUmTrADEH3X4Wxi9G",
-    "scheme": "rk.calpal",
+    "scheme": "rkcalpal",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -33,7 +33,9 @@
       "favicon": "https://elz46kvbtg.ufs.sh/f/YHsTkQtX6MTGaVtwOi0h7KyujlLRSkcIUmTrADEH3X4Wxi9G"
     },
     "plugins": [
-      ["@morrowdigital/watermelondb-expo-plugin"],
+      [
+        "@morrowdigital/watermelondb-expo-plugin"
+      ],
       [
         "expo-camera",
         {
@@ -62,7 +64,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "3ab1874e-7cb4-459e-883a-70a81ad486aa"
+        "projectId": "72dbde40-04ac-4508-bcb3-abcba1ab2ca9"
       }
     },
     "owner": "rishabhkeshri"

@@ -1,0 +1,1 @@
+1) the weight analytics chart upon app reload got removed - Pending

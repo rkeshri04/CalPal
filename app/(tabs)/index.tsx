@@ -22,7 +22,7 @@ import {
 import { LineChart } from 'react-native-chart-kit';
 import { Collapsible } from '@/components/ui/Collapsible';
 import { FoodLogModal } from '@/components/FoodLogModal';
-import { database, Log, UserProfile } from '../../db/database';
+import { database, Log } from '../../db/database';
 
 const timeFrames: TimeFrame[] = ['1D', '1W', '1M', 'All'];
 

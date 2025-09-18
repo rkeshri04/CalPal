@@ -3,6 +3,7 @@ import { View, Text, FlatList, StyleSheet, TextInput, Pressable, Image, Activity
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
+import { Collapsible } from '@/components/ui/Collapsible';
 
 // Load menus
 import mcdonaldsMenu from '@/assets/restaurants/mcdonalds.json';
@@ -158,42 +159,42 @@ export default function RestaurantScreen() {
         <Text style={{ color: Colors[colorScheme].tint, fontWeight: 'bold' }}>{'< Back to Restaurants'}</Text>
       </Pressable>
 
-      <Text style={[styles.title, { color: Colors[colorScheme].text }]}>{RESTAURANTS.find(r => r.id === selectedRestaurant)?.name} Menu Finder</Text>
+      <Text style={[styles.title, { color: Colors[colorScheme].text, marginLeft: 16 }]}>{RESTAURANTS.find(r => r.id === selectedRestaurant)?.name} Menu Finder</Text>
 
-      <View style={styles.filters}>
+      <View style={[styles.filters, { marginLeft: 16 }]}>
         <TextInput
-          style={[themedInput, styles.searchInput]}
+          style={[themedInput, styles.searchInput, { marginLeft: 0 }]}
           placeholder="Search by name"
           placeholderTextColor={Colors[colorScheme].text + '99'}
           value={filters.name}
           onChangeText={v => handleChange('name', v)}
         />
-        <View style={styles.row}>
+        <View style={[styles.row, { marginLeft: 0 }]}>
           <TextInput
-            style={[themedInput, styles.smallInput]}
+            style={[themedInput, styles.smallInput, { marginLeft: 0 }]}
             placeholder="Min Cal"
             keyboardType="numeric"
             value={filters.minCalories}
             onChangeText={v => handleChange('minCalories', v)}
           />
           <TextInput
-            style={[themedInput, styles.smallInput]}
+            style={[themedInput, styles.smallInput, { marginLeft: 0 }]}
             placeholder="Max Cal"
             keyboardType="numeric"
             value={filters.maxCalories}
             onChangeText={v => handleChange('maxCalories', v)}
           />
         </View>
-        <View style={styles.row}>
+        <View style={[styles.row, { marginLeft: 0 }]}>
           <TextInput
-            style={[themedInput, styles.smallInput]}
+            style={[themedInput, styles.smallInput, { marginLeft: 0 }]}
             placeholder="Min Protein"
             keyboardType="numeric"
             value={filters.minProtein}
             onChangeText={v => handleChange('minProtein', v)}
           />
           <TextInput
-            style={[themedInput, styles.smallInput]}
+            style={[themedInput, styles.smallInput, { marginLeft: 0 }]}
             placeholder="Max Protein"
             keyboardType="numeric"
             value={filters.maxProtein}
@@ -203,17 +204,16 @@ export default function RestaurantScreen() {
       </View>
 
       <FlatList
-        data={flattenedMenu}
-        keyExtractor={(item, index) =>
-          item.type === 'section' ? 'section-' + item.title + index : 'item-' + item.item.name + index
-        }
-        renderItem={({ item }) =>
-          item.type === 'section' ? (
-            <Text style={[styles.sectionTitle, { color: Colors[colorScheme].text }]}>{item.title}</Text>
-          ) : (
-            <MenuItem item={item.item} restaurantId={selectedRestaurant} />
-          )
-        }
+        style={{ marginLeft: 16 }}
+        data={menuSections}
+        keyExtractor={(section, index) => 'section-' + section.title + index}
+        renderItem={({ item: section }) => (
+          <Collapsible title={section.title ?? ''} defaultOpen={true}>
+            {section.data.map((foodItem, idx) => (
+              <MenuItem key={foodItem.name + idx} item={foodItem} restaurantId={selectedRestaurant} />
+            ))}
+          </Collapsible>
+        )}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
         ListFooterComponent={loading ? <ActivityIndicator color={Colors[colorScheme].tint} /> : null}
@@ -231,9 +231,9 @@ const styles = StyleSheet.create({
   restaurantSearchInput: { borderRadius: 8, padding: 12, height: 44, fontSize: 15 },
   input: { borderRadius: 8, padding: 12, height: 44, fontSize: 16, flex: 1 },
   smallInput: { flex: 1, marginRight: 8 },
-  item: { padding: 12, borderRadius: 10, marginBottom: 10, elevation: 2 },
+  item: { padding: 12, borderRadius: 10, marginBottom: 10, elevation: 2, marginLeft: 8, marginRight: 16 },
   itemName: { fontWeight: 'bold', fontSize: 16, marginBottom: 2 },
-  restaurantCard: { flexDirection: 'row', alignItems: 'center', padding: 16, borderRadius: 12, marginBottom: 16, elevation: 2 },
+  restaurantCard: { flexDirection: 'row', alignItems: 'center', padding: 16, borderRadius: 12, marginBottom: 16, elevation: 2, marginLeft: 8, marginRight: 16 },
   restaurantLogo: { width: 100, height: 60, marginRight: 16, borderRadius: 8 },
   restaurantName: { fontSize: 18, fontWeight: 'bold' },
   sectionTitle: { fontSize: 18, fontWeight: 'bold', marginTop: 18, marginBottom: 6 },
