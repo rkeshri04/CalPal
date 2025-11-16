@@ -16,6 +16,16 @@ interface FoodLogModalProps {
 
 export const FoodLogModal: React.FC<FoodLogModalProps> = ({ visible, onClose, onSubmit, form, setForm, isEdit, title }) => {
   const colorScheme = useColorScheme() ?? 'light';
+
+  // Required: name, cost, weight, calories, protein
+  const isFormValid = !!(
+    form.name &&
+    form.cost &&
+    form.weight &&
+    form.calories &&
+    form.protein
+  );
+
   return (
     <Modal
       visible={visible}
@@ -58,7 +68,7 @@ export const FoodLogModal: React.FC<FoodLogModalProps> = ({ visible, onClose, on
               <View style={{ flexDirection: 'row', alignItems: 'center', width: '95%', marginBottom: 4 }}>
                 <MaterialCommunityIcons name="food-drumstick" size={22} color={Colors[colorScheme].tint} style={{ marginLeft: 2 }} />
                 <TextInput style={{ flex: 1, borderWidth: 1, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 12, marginBottom: 10, fontSize: 16, marginLeft: 8, backgroundColor: Colors[colorScheme].card, color: Colors[colorScheme].text, borderColor: Colors[colorScheme].tint }}
-                  placeholder="Protein (g)" placeholderTextColor={Colors[colorScheme].icon} value={form.protein} onChangeText={(v: string) => setForm((f: any) => ({ ...f, protein: v }))} keyboardType="decimal-pad" />
+                  placeholder="Protein (g)*" placeholderTextColor={Colors[colorScheme].icon} value={form.protein} onChangeText={(v: string) => setForm((f: any) => ({ ...f, protein: v }))} keyboardType="decimal-pad" />
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center', width: '95%', marginBottom: 4 }}>
                 <MaterialCommunityIcons name="bread-slice" size={22} color={Colors[colorScheme].tint} style={{ marginLeft: 2 }} />
@@ -75,8 +85,23 @@ export const FoodLogModal: React.FC<FoodLogModalProps> = ({ visible, onClose, on
               <Pressable style={{ paddingVertical: 12, paddingHorizontal: 28, borderRadius: 10, alignItems: 'center', backgroundColor: Colors[colorScheme].tabIconDefault }} onPress={onClose}>
                 <Text style={{ color: Colors[colorScheme].text }}>Cancel</Text>
               </Pressable>
-              <Pressable style={{ paddingVertical: 12, paddingHorizontal: 28, borderRadius: 10, alignItems: 'center', backgroundColor: Colors[colorScheme].tint, marginLeft: 12 }} onPress={onSubmit}>
-                <Text style={{ color: Colors[colorScheme].background, fontWeight: 'bold' }}>{isEdit ? 'Save' : 'Add'}</Text>
+              <Pressable
+                disabled={!isFormValid}
+                style={{
+                  paddingVertical: 12,
+                  paddingHorizontal: 28,
+                  borderRadius: 10,
+                  alignItems: 'center',
+                  marginLeft: 12,
+                  backgroundColor: isFormValid
+                    ? Colors[colorScheme].tint
+                    : Colors[colorScheme].tabIconDefault,
+                }}
+                onPress={onSubmit}
+              >
+                <Text style={{ color: Colors[colorScheme].background, fontWeight: 'bold', opacity: isFormValid ? 1 : 0.6 }}>
+                  {isEdit ? 'Save' : 'Add'}
+                </Text>
               </Pressable>
             </View>
           </Animated.View>

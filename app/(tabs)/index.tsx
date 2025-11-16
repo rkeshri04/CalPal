@@ -24,6 +24,7 @@ import { Collapsible } from '@/components/ui/Collapsible';
 import { FoodLogModal } from '@/components/FoodLogModal';
 import { database, Log } from '../../db/database';
 import { getFoodEntryFromText } from '@/hooks/useAI';
+import AiInputModal from '@/components/AiInputModal';
 
 const timeFrames: TimeFrame[] = ['1D', '1W', '1M', 'All'];
 
@@ -183,6 +184,15 @@ export default function HomeScreen() {
   const totalCarbs = filteredLogs.reduce((sum: number, l: LogEntry) => sum + (l.carbs || 0), 0);
   const totalProtein = filteredLogs.reduce((sum: number, l: LogEntry) => sum + (l.protein || 0), 0);
 
+  // --- Estimated body-weight change from food only ---
+  // Simple heuristic: 3500 kcal ≈ 1 lb (0.45 kg)
+  const estimatedWeightChangeDisplay = (() => {
+    if (!totalCalories) return '--';
+    const lbs = totalCalories / 3500; // positive number: potential gain
+    const sign = lbs > 0 ? '' : '';
+    return `${lbs.toFixed(2)} lb`;
+  })();
+
   const handleScanned = async (product: any) => {
     setScannerVisible(false);
     setLoadingProduct(true);
@@ -334,11 +344,16 @@ export default function HomeScreen() {
 
   const logsByDate = useMemo(() => {
     const grouped = groupLogsByDay(logs);
-    return Object.entries(grouped).sort((a, b) => a[0].localeCompare(b[0]));
+    return Object.entries(grouped).sort((a, b) => a[0].localeCompare(b[0])); // oldest -> newest
   }, [logs]);
-  const [selectedLogDate, setSelectedLogDate] = useState<string | null>(logsByDate[0]?.[0] || null);
+
+  const [selectedLogDate, setSelectedLogDate] = useState<string | null>(null);
+
   useEffect(() => {
-    if (logsByDate.length > 0 && !selectedLogDate) setSelectedLogDate(logsByDate[0][0]);
+    if (logsByDate.length > 0) {
+      const newestDate = logsByDate[logsByDate.length - 1][0];
+      setSelectedLogDate(prev => prev ?? newestDate);
+    }
   }, [logsByDate]);
 
   const renderLogCard = ({ item }: { item: LogEntry }) => (
@@ -608,8 +623,8 @@ export default function HomeScreen() {
             <ThemedText style={styles.summaryAmount}>${totalSpent.toFixed(2)}</ThemedText>
           </View>
           <View style={styles.summaryItem}>
-            <ThemedText type="subtitle">Weight</ThemedText>
-            <ThemedText style={styles.summaryAmount}>{totalWeight.toFixed(1)}g</ThemedText>
+            <ThemedText type="subtitle">Weight Gained</ThemedText>
+            <ThemedText style={styles.summaryAmount}>{estimatedWeightChangeDisplay}</ThemedText>
           </View>
           <View style={styles.summaryItem}>
             <ThemedText type="subtitle">Calories</ThemedText>
@@ -651,8 +666,9 @@ export default function HomeScreen() {
               style={[styles.datePill, { backgroundColor: selectedLogDate === date ? Colors[colorScheme].tint : Colors[colorScheme].card, borderColor: Colors[colorScheme].tint }, selectedLogDate === date && { borderWidth: 2 }]}
               onPress={() => setSelectedLogDate(date)}
             >
-              <Text style={{ color: selectedLogDate === date ? Colors[colorScheme].background : Colors[colorScheme].text, fontWeight: 'bold' }}>{parseInt(date.slice(-2), 10)}</Text>
               <Text style={{ color: selectedLogDate === date ? Colors[colorScheme].background : Colors[colorScheme].text, fontSize: 10 }}>{date.slice(5, 7)}</Text>
+              <Text style={{ color: selectedLogDate === date ? Colors[colorScheme].background : Colors[colorScheme].text, fontWeight: 'bold' }}>{parseInt(date.slice(-2), 10)}</Text>
+
             </Pressable>
           ))}
         </ScrollView>
@@ -728,47 +744,17 @@ export default function HomeScreen() {
         title="Edit Food Log"
       />
 
-      {aiInputVisible && (
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-          keyboardVerticalOffset={80}
-          style={styles.aiInputWrapper}
-        >
-          <View
-            style={[
-              styles.aiInputContainer,
-              { borderColor: Colors[colorScheme].tint, backgroundColor: Colors[colorScheme].card },
-            ]}
-          >
-            <Text style={[styles.aiTitle, { color: Colors[colorScheme].tint }]}>Tell the AI what you ate</Text>
-            <TextInput
-              style={[styles.aiTextInput, { color: Colors[colorScheme].text }]}
-              placeholder="e.g. a chicken burrito bowl with rice and beans, plus a coke"
-              placeholderTextColor={Colors[colorScheme].icon}
-              value={aiInputText}
-              onChangeText={setAiInputText}
-              multiline
-            />
-            <View style={styles.aiButtonsRow}>
-              <Pressable onPress={() => { setAiInputVisible(false); setAiInputText(''); }} style={[styles.aiButton, { borderColor: Colors[colorScheme].icon }]}
-              >
-                <Text style={{ color: Colors[colorScheme].icon }}>Cancel</Text>
-              </Pressable>
-              <Pressable
-                onPress={handleAiSubmit}
-                disabled={aiLoading}
-                style={[styles.aiButton, { borderColor: Colors[colorScheme].tint, backgroundColor: Colors[colorScheme].tint }]}
-              >
-                {aiLoading ? (
-                  <ActivityIndicator color={Colors[colorScheme].background} />
-                ) : (
-                  <Text style={{ color: Colors[colorScheme].background, fontWeight: '600' }}>Create Log</Text>
-                )}
-              </Pressable>
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-      )}
+      <AiInputModal
+        visible={aiInputVisible}
+        text={aiInputText}
+        setText={setAiInputText}
+        loading={aiLoading}
+        onSubmit={handleAiSubmit}
+        onClose={() => {
+          setAiInputVisible(false);
+          setAiInputText('');
+        }}
+      />
     </View>
   );
 }
@@ -805,11 +791,4 @@ const styles = StyleSheet.create({
   summaryMacroItem: { alignItems: 'center', minWidth: 70 },
   macroLabel: { fontSize: 12, opacity: 0.7 },
   macroValue: { fontSize: 14, fontWeight: 'bold' },
-  // raise AI input above the bottom navbar & FAB
-  aiInputWrapper: { position: 'absolute', left: 0, right: 0, bottom: 120, paddingHorizontal: 12, paddingBottom: 0 },
-  aiInputContainer: { borderWidth: 2, borderRadius: 16, padding: 12, shadowColor: '#000', shadowOffset: { width: 0, height: -2 }, shadowOpacity: 0.25, shadowRadius: 6 },
-  aiTitle: { fontSize: 14, fontWeight: '700', marginBottom: 8 },
-  aiTextInput: { minHeight: 60, maxHeight: 140, borderRadius: 12, paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)', marginBottom: 8 },
-  aiButtonsRow: { flexDirection: 'row', justifyContent: 'flex-end', gap: 8 },
-  aiButton: { paddingVertical: 8, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
 });
