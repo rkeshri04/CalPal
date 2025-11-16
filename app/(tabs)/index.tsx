@@ -23,6 +23,7 @@ import { LineChart } from 'react-native-chart-kit';
 import { Collapsible } from '@/components/ui/Collapsible';
 import { FoodLogModal } from '@/components/FoodLogModal';
 import { database, Log } from '../../db/database';
+import { getFoodEntryFromText } from '@/hooks/useAI';
 
 const timeFrames: TimeFrame[] = ['1D', '1W', '1M', 'All'];
 
@@ -36,9 +37,13 @@ export default function HomeScreen() {
   const [selectedTip, setSelectedTip] = useState<Tip | null>(null);
   const [tipModalVisible, setTipModalVisible] = useState(false);
   const [fabMenuVisible, setFabMenuVisible] = useState(false);
+  const [aiInputVisible, setAiInputVisible] = useState(false);
+  const [aiInputText, setAiInputText] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
   const fabMenuOptions = [
     { label: 'Scan Barcode', action: () => { setFabMenuVisible(false); setScannerVisible(true); } },
     { label: 'Add Food Manually', action: () => { setFabMenuVisible(false); promptManual(''); } },
+    { label: 'Tell the AI', action: () => { setFabMenuVisible(false); setAiInputVisible(true); } },
   ];
   const router = useRouter();
   const userProfile = useSelector((state: RootState) => state.userProfile.profile);
@@ -438,6 +443,59 @@ export default function HomeScreen() {
     ]);
   };
 
+  const handleAiSubmit = async () => {
+    if (!aiInputText.trim()) return;
+    try {
+      setAiLoading(true);
+
+      // Call shared AI helper (which talks to the Cloudflare Worker)
+      const aiEntry = await getFoodEntryFromText(aiInputText);
+
+      const now = new Date();
+      const localDate = now.toLocaleDateString('en-CA');
+      const entry = {
+        id: Date.now().toString(),
+        name: aiEntry.name || 'AI Food',
+        barcode: aiEntry.barcode || '',
+        image: aiEntry.image || '',
+        cost: aiEntry.cost ?? 0,
+        weight: aiEntry.weight ?? 0,
+        calories: aiEntry.calories,
+        fat: aiEntry.fat,
+        carbs: aiEntry.carbs,
+        protein: aiEntry.protein,
+        date: now.toISOString(),
+        localDate,
+      };
+
+      await database.write(async () => {
+        await database.get<Log>('logs').create(log => {
+          log._raw.id = entry.id;
+          log.name = entry.name;
+          log.image = entry.image;
+          log.barcode = entry.barcode;
+          log.cost = entry.cost;
+          log.weight = entry.weight;
+          log.calories = entry.calories;
+          log.fat = entry.fat;
+          log.carbs = entry.carbs;
+          log.protein = entry.protein;
+          log.date = entry.date;
+          log.localDate = entry.localDate;
+        });
+      });
+      dispatch<any>(addLog(entry));
+
+      setAiInputText('');
+      setAiInputVisible(false);
+    } catch (error) {
+      console.error('AI submit failed', error);
+      Alert.alert('Error', 'Could not interpret your description. Please try again.');
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}>
       {/* Profile Modal */}
@@ -669,6 +727,48 @@ export default function HomeScreen() {
         isEdit={true}
         title="Edit Food Log"
       />
+
+      {aiInputVisible && (
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          keyboardVerticalOffset={80}
+          style={styles.aiInputWrapper}
+        >
+          <View
+            style={[
+              styles.aiInputContainer,
+              { borderColor: Colors[colorScheme].tint, backgroundColor: Colors[colorScheme].card },
+            ]}
+          >
+            <Text style={[styles.aiTitle, { color: Colors[colorScheme].tint }]}>Tell the AI what you ate</Text>
+            <TextInput
+              style={[styles.aiTextInput, { color: Colors[colorScheme].text }]}
+              placeholder="e.g. a chicken burrito bowl with rice and beans, plus a coke"
+              placeholderTextColor={Colors[colorScheme].icon}
+              value={aiInputText}
+              onChangeText={setAiInputText}
+              multiline
+            />
+            <View style={styles.aiButtonsRow}>
+              <Pressable onPress={() => { setAiInputVisible(false); setAiInputText(''); }} style={[styles.aiButton, { borderColor: Colors[colorScheme].icon }]}
+              >
+                <Text style={{ color: Colors[colorScheme].icon }}>Cancel</Text>
+              </Pressable>
+              <Pressable
+                onPress={handleAiSubmit}
+                disabled={aiLoading}
+                style={[styles.aiButton, { borderColor: Colors[colorScheme].tint, backgroundColor: Colors[colorScheme].tint }]}
+              >
+                {aiLoading ? (
+                  <ActivityIndicator color={Colors[colorScheme].background} />
+                ) : (
+                  <Text style={{ color: Colors[colorScheme].background, fontWeight: '600' }}>Create Log</Text>
+                )}
+              </Pressable>
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      )}
     </View>
   );
 }
@@ -705,4 +805,11 @@ const styles = StyleSheet.create({
   summaryMacroItem: { alignItems: 'center', minWidth: 70 },
   macroLabel: { fontSize: 12, opacity: 0.7 },
   macroValue: { fontSize: 14, fontWeight: 'bold' },
+  // raise AI input above the bottom navbar & FAB
+  aiInputWrapper: { position: 'absolute', left: 0, right: 0, bottom: 120, paddingHorizontal: 12, paddingBottom: 0 },
+  aiInputContainer: { borderWidth: 2, borderRadius: 16, padding: 12, shadowColor: '#000', shadowOffset: { width: 0, height: -2 }, shadowOpacity: 0.25, shadowRadius: 6 },
+  aiTitle: { fontSize: 14, fontWeight: '700', marginBottom: 8 },
+  aiTextInput: { minHeight: 60, maxHeight: 140, borderRadius: 12, paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)', marginBottom: 8 },
+  aiButtonsRow: { flexDirection: 'row', justifyContent: 'flex-end', gap: 8 },
+  aiButton: { paddingVertical: 8, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
 });
