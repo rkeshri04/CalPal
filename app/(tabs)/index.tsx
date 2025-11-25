@@ -24,7 +24,6 @@ import { Collapsible } from '@/components/ui/Collapsible';
 import { FoodLogModal } from '@/components/FoodLogModal';
 import { database, Log } from '../../db/database';
 import { getFoodEntryFromText } from '@/hooks/useAI';
-import AiInputModal from '@/components/AiInputModal';
 
 const timeFrames: TimeFrame[] = ['1D', '1W', '1M', 'All'];
 
@@ -185,11 +184,10 @@ export default function HomeScreen() {
   const totalProtein = filteredLogs.reduce((sum: number, l: LogEntry) => sum + (l.protein || 0), 0);
 
   // --- Estimated body-weight change from food only ---
-  // Simple heuristic: 3500 kcal ≈ 1 lb (0.45 kg)
+  // 3500 kcal ≈ 1 lb. This ignores profile/BMR so it always resets with logs.
   const estimatedWeightChangeDisplay = (() => {
     if (!totalCalories) return '--';
-    const lbs = totalCalories / 3500; // positive number: potential gain
-    const sign = lbs > 0 ? '' : '';
+    const lbs = totalCalories / 3500;
     return `${lbs.toFixed(2)} lb`;
   })();
 
@@ -343,18 +341,18 @@ export default function HomeScreen() {
   };
 
   const logsByDate = useMemo(() => {
-    const grouped = groupLogsByDay(logs);
-    return Object.entries(grouped).sort((a, b) => a[0].localeCompare(b[0])); // oldest -> newest
-  }, [logs]);
+  const grouped = groupLogsByDay(logs);
+  return Object.entries(grouped).sort((a, b) => a[0].localeCompare(b[0])); // oldest -> newest
+}, [logs]);
 
-  const [selectedLogDate, setSelectedLogDate] = useState<string | null>(null);
+const [selectedLogDate, setSelectedLogDate] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (logsByDate.length > 0) {
-      const newestDate = logsByDate[logsByDate.length - 1][0];
-      setSelectedLogDate(prev => prev ?? newestDate);
-    }
-  }, [logsByDate]);
+useEffect(() => {
+  if (logsByDate.length > 0) {
+    const newestDate = logsByDate[logsByDate.length - 1][0];
+    setSelectedLogDate(prev => prev ?? newestDate);
+  }
+}, [logsByDate]);
 
   const renderLogCard = ({ item }: { item: LogEntry }) => (
     <ThemedView style={[styles.logCard, { backgroundColor: Colors[colorScheme].card }]}>
@@ -623,7 +621,7 @@ export default function HomeScreen() {
             <ThemedText style={styles.summaryAmount}>${totalSpent.toFixed(2)}</ThemedText>
           </View>
           <View style={styles.summaryItem}>
-            <ThemedText type="subtitle">Weight Gained</ThemedText>
+            <ThemedText type="subtitle">Est. Weight Change</ThemedText>
             <ThemedText style={styles.summaryAmount}>{estimatedWeightChangeDisplay}</ThemedText>
           </View>
           <View style={styles.summaryItem}>
@@ -668,7 +666,6 @@ export default function HomeScreen() {
             >
               <Text style={{ color: selectedLogDate === date ? Colors[colorScheme].background : Colors[colorScheme].text, fontSize: 10 }}>{date.slice(5, 7)}</Text>
               <Text style={{ color: selectedLogDate === date ? Colors[colorScheme].background : Colors[colorScheme].text, fontWeight: 'bold' }}>{parseInt(date.slice(-2), 10)}</Text>
-
             </Pressable>
           ))}
         </ScrollView>
@@ -744,17 +741,47 @@ export default function HomeScreen() {
         title="Edit Food Log"
       />
 
-      <AiInputModal
-        visible={aiInputVisible}
-        text={aiInputText}
-        setText={setAiInputText}
-        loading={aiLoading}
-        onSubmit={handleAiSubmit}
-        onClose={() => {
-          setAiInputVisible(false);
-          setAiInputText('');
-        }}
-      />
+      {aiInputVisible && (
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          keyboardVerticalOffset={100}
+          style={styles.aiInputWrapper}
+        >
+          <View
+            style={[
+              styles.aiInputContainer,
+              { borderColor: Colors[colorScheme].tint, backgroundColor: Colors[colorScheme].card },
+            ]}
+          >
+            <Text style={[styles.aiTitle, { color: Colors[colorScheme].tint }]}>Tell the AI what you ate</Text>
+            <TextInput
+              style={[styles.aiTextInput, { color: Colors[colorScheme].text }]}
+              placeholder="e.g. a chicken burrito bowl with rice and beans, plus a coke"
+              placeholderTextColor={Colors[colorScheme].icon}
+              value={aiInputText}
+              onChangeText={setAiInputText}
+              multiline
+            />
+            <View style={styles.aiButtonsRow}>
+              <Pressable onPress={() => { setAiInputVisible(false); setAiInputText(''); }} style={[styles.aiButton, { borderColor: Colors[colorScheme].icon }]}
+              >
+                <Text style={{ color: Colors[colorScheme].icon }}>Cancel</Text>
+              </Pressable>
+              <Pressable
+                onPress={handleAiSubmit}
+                disabled={aiLoading}
+                style={[styles.aiButton, { borderColor: Colors[colorScheme].tint, backgroundColor: Colors[colorScheme].tint }]}
+              >
+                {aiLoading ? (
+                  <ActivityIndicator color={Colors[colorScheme].background} />
+                ) : (
+                  <Text style={{ color: Colors[colorScheme].background, fontWeight: '600' }}>Create Log</Text>
+                )}
+              </Pressable>
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      )}
     </View>
   );
 }
@@ -791,4 +818,11 @@ const styles = StyleSheet.create({
   summaryMacroItem: { alignItems: 'center', minWidth: 70 },
   macroLabel: { fontSize: 12, opacity: 0.7 },
   macroValue: { fontSize: 14, fontWeight: 'bold' },
+  // raise AI input above the bottom navbar & FAB
+  aiInputWrapper: { position: 'absolute', left: 0, right: 0, bottom: 120, paddingHorizontal: 12, paddingBottom: 0 },
+  aiInputContainer: { borderWidth: 2, borderRadius: 16, padding: 12, shadowColor: '#000', shadowOffset: { width: 0, height: -2 }, shadowOpacity: 0.25, shadowRadius: 6 },
+  aiTitle: { fontSize: 14, fontWeight: '700', marginBottom: 8 },
+  aiTextInput: { minHeight: 60, maxHeight: 140, borderRadius: 12, paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)', marginBottom: 8 },
+  aiButtonsRow: { flexDirection: 'row', justifyContent: 'flex-end', gap: 8 },
+  aiButton: { paddingVertical: 8, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
 });
