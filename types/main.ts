@@ -1,7 +1,7 @@
 export interface BarcodeScannerModalProps {
     visible: boolean;
     onClose: () => void;
-    onScanned: (barcode: string) => void;
+    onScanned: (product: SearchProduct) => void;
 }
 
 export interface Tip {
@@ -18,9 +18,10 @@ export interface NutritionInfo {
 }
 
 export type SearchProduct = {
-    code: string; // Open Food Facts barcode
-    product_name: string;
-    brands?: string;
+    fdcId: number;
+    description: string;
+    brandOwner?: string;
+    gtinUpc?: string;
     image_url?: string;
     nutriments?: NutritionInfo;
 };

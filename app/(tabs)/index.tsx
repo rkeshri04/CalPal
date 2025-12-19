@@ -177,7 +177,6 @@ export default function HomeScreen() {
 
   const filteredLogs = getFilteredLogs(selectedTimeFrame);
   const totalSpent = filteredLogs.reduce((sum: number, l: LogEntry) => sum + l.cost, 0);
-  const totalWeight = filteredLogs.reduce((sum: number, l: LogEntry) => sum + l.weight, 0);
   const totalCalories = filteredLogs.reduce((sum: number, l: LogEntry) => sum + (l.calories || 0), 0);
   const totalFat = filteredLogs.reduce((sum: number, l: LogEntry) => sum + (l.fat || 0), 0);
   const totalCarbs = filteredLogs.reduce((sum: number, l: LogEntry) => sum + (l.carbs || 0), 0);
@@ -195,14 +194,16 @@ export default function HomeScreen() {
     setScannerVisible(false);
     setLoadingProduct(true);
     try {
-      const name = product.product_name || 'Unknown Food';
-      const image = product.image_url || '';
-      const barcode = product.code || '';
+      // USDA SearchProduct shape
+      const name = product.description || product.product_name || 'Unknown Food';
+      const image = product.image_url || product.image || '';
+      const barcode = product.gtinUpc || product.code || '';
       const nutriments = product.nutriments || {};
-      const calories = nutriments['energy-kcal'] || nutriments['energy-kcal_100g'] || undefined;
-      const fat = nutriments['fat'] || nutriments['fat_100g'] || undefined;
-      const carbs = nutriments['carbohydrates'] || nutriments['carbohydrates_100g'] || undefined;
-      const protein = nutriments['proteins'] || nutriments['proteins_100g'] || undefined;
+      const calories = nutriments.calories ?? undefined;
+      const fat = nutriments.fat ?? undefined;
+      const carbs = nutriments.carbs ?? undefined;
+      const protein = nutriments.protein ?? undefined;
+
       setLoadingProduct(false);
       Alert.prompt('Enter Cost', `How much did "${name}" cost?`, [
         {
@@ -210,57 +211,45 @@ export default function HomeScreen() {
         },
         {
           text: 'Add',
-          onPress: (costValue?: string) => {
-            Alert.prompt('Enter Weight (g)', 'How much did it weigh?', [
-              {
-                text: 'Cancel', style: 'cancel',
-              },
-              {
-                text: 'Add',
-                onPress: async (weightValue?: string) => {
-                  const now = new Date();
-                  const localDate = now.toLocaleDateString('en-CA');
-                  const entry = {
-                    id: Date.now().toString(),
-                    name,
-                    image,
-                    barcode,
-                    cost: parseFloat(costValue ?? '') || 0,
-                    weight: parseFloat(weightValue ?? '') || 0,
-                    calories: calories ? Number(calories) : undefined,
-                    fat: fat ? Number(fat) : undefined,
-                    carbs: carbs ? Number(carbs) : undefined,
-                    protein: protein ? Number(protein) : undefined,
-                    date: now.toISOString(),
-                    localDate,
-                  };
-                  await database.write(async () => {
-                    await database.get<Log>('logs').create(log => {
-                      log._raw.id = entry.id;
-                      log.name = entry.name;
-                      log.image = entry.image;
-                      log.barcode = entry.barcode;
-                      log.cost = entry.cost;
-                      log.weight = entry.weight;
-                      log.calories = entry.calories;
-                      log.fat = entry.fat;
-                      log.carbs = entry.carbs;
-                      log.protein = entry.protein;
-                      log.date = entry.date;
-                      log.localDate = entry.localDate;
-                    });
-                  });
-                  dispatch<any>(addLog(entry));
-                },
-              },
-            ], 'plain-text');
+          onPress: async (costValue?: string) => {
+            const now = new Date();
+            const localDate = now.toLocaleDateString('en-CA');
+            const entry = {
+              id: Date.now().toString(),
+              name,
+              image,
+              barcode,
+              cost: parseFloat(costValue ?? '') || 0,
+              calories: calories ? Number(calories) : undefined,
+              fat: fat ? Number(fat) : undefined,
+              carbs: carbs ? Number(carbs) : undefined,
+              protein: protein ? Number(protein) : undefined,
+              date: now.toISOString(),
+              localDate,
+            };
+            await database.write(async () => {
+              await database.get<Log>('logs').create(log => {
+                log._raw.id = entry.id;
+                log.name = entry.name;
+                log.image = entry.image;
+                log.barcode = entry.barcode;
+                log.cost = entry.cost;
+                log.calories = entry.calories;
+                log.fat = entry.fat;
+                log.carbs = entry.carbs;
+                log.protein = entry.protein;
+                log.date = entry.date;
+                log.localDate = entry.localDate;
+              });
+            });
+            dispatch<any>(addLog(entry));
           },
         },
       ], 'plain-text', '');
     } catch (e) {
       setLoadingProduct(false);
       Alert.alert('Error', 'Could not fetch product info. Please enter details manually.');
-      promptManual(product.code || '');
+      promptManual(product.gtinUpc || product.code || '');
     }
   };
 
@@ -270,7 +259,6 @@ export default function HomeScreen() {
     barcode: '',
     image: '',
     cost: '',
-    weight: '',
     calories: '',
     fat: '',
     carbs: '',
@@ -291,7 +279,6 @@ export default function HomeScreen() {
       barcode: manualForm.barcode || '',
       image: manualForm.image || '',
       cost: parseFloat(manualForm.cost) || 0,
-      weight: parseFloat(manualForm.weight) || 0,
       calories: parseFloat(manualForm.calories) || 0,
       fat: parseFloat(manualForm.fat) || 0,
       carbs: parseFloat(manualForm.carbs) || 0,
@@ -306,7 +293,6 @@ export default function HomeScreen() {
         log.image = entry.image;
         log.barcode = entry.barcode;
         log.cost = entry.cost;
-        log.weight = entry.weight;
         log.calories = entry.calories;
         log.fat = entry.fat;
         log.carbs = entry.carbs;
@@ -322,7 +308,6 @@ export default function HomeScreen() {
       barcode: '',
       image: '',
       cost: '',
-      weight: '',
       calories: '',
       fat: '',
       carbs: '',
@@ -367,14 +352,13 @@ useEffect(() => {
           </MenuOptions>
         </Menu>
       </View>
-      {item.image ? (
+      {/* {item.image ? (
         <Image source={{ uri: item.image }} resizeMode="contain" style={styles.cardImage} />
       ) : (
         <View style={styles.cardImagePlaceholder} />
-      )}
+      )} */}
       <ThemedText style={styles.cardTitle} numberOfLines={1}>{item.name}</ThemedText>
       <ThemedText style={styles.cardText}>Cost: ${item.cost.toFixed(2)}</ThemedText>
-      <ThemedText style={styles.cardText}>Weight: {item.weight}g</ThemedText>
       <ThemedText style={styles.cardText}>Calories: {item.calories ? item.calories.toFixed(0) : '--'}</ThemedText>
       <ThemedText style={styles.cardText}>Fat: {item.fat ? item.fat.toFixed(1) : '--'}g | Carbs: {item.carbs ? item.carbs.toFixed(1) : '--'}g | Protein: {item.protein ? item.protein.toFixed(1) : '--'}g</ThemedText>
     </ThemedView>
@@ -390,7 +374,6 @@ useEffect(() => {
       barcode: log.barcode,
       image: log.image || '',
       cost: log.cost.toString(),
-      weight: log.weight.toString(),
       calories: log.calories?.toString() || '',
       fat: log.fat?.toString() || '',
       carbs: log.carbs?.toString() || '',
@@ -408,7 +391,6 @@ useEffect(() => {
       barcode: editForm.barcode,
       image: editForm.image,
       cost: parseFloat(editForm.cost) || 0,
-      weight: parseFloat(editForm.weight) || 0,
       calories: parseFloat(editForm.calories) || 0,
       fat: parseFloat(editForm.fat) || 0,
       carbs: parseFloat(editForm.carbs) || 0,
@@ -424,7 +406,6 @@ useEffect(() => {
         entry.image = updated.image;
         entry.barcode = updated.barcode;
         entry.cost = updated.cost;
-        entry.weight = updated.weight;
         entry.calories = updated.calories;
         entry.fat = updated.fat;
         entry.carbs = updated.carbs;

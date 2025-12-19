@@ -7,7 +7,6 @@ export type LogEntry = {
   image?: string;
   barcode: string;
   cost: number;
-  weight: number;
   calories?: number;
   fat?: number;
   carbs?: number;
@@ -52,7 +51,6 @@ export const loadLogsFromStorage = () => async (dispatch: any) => {
       image: log.image,
       barcode: log.barcode,
       cost: log.cost,
-      weight: log.weight,
       calories: log.calories,
       fat: log.fat,
       carbs: log.carbs,
@@ -83,7 +81,6 @@ export const saveLogsToStorage = async (logs: LogEntry[]) => {
           entry.image = log.image;
           entry.barcode = log.barcode;
           entry.cost = log.cost;
-          entry.weight = log.weight;
           entry.calories = log.calories;
           entry.fat = log.fat;
           entry.carbs = log.carbs;

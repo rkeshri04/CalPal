@@ -12,6 +12,78 @@ type BarcodeScannerModalPropsFixed = Omit<BarcodeScannerModalProps, 'onScanned'>
   onScanned: (product: SearchProduct) => void;
 };
 
+const FDC_BASE_URL = 'https://api.nal.usda.gov/fdc/v1';
+const USDA_API_KEY = process.env.EXPO_PUBLIC_USDA_API_KEY as string;
+
+// Helper to map USDA food nutrients to our NutritionInfo type
+const mapFdcNutrientsToNutritionInfo = (food: any): NutritionInfo => {
+  const nutrition: NutritionInfo = {};
+  if (!food || !Array.isArray(food.foodNutrients)) {
+    console.log('No foodNutrients array found');
+    return nutrition;
+  }
+
+  console.log(`Processing ${food.foodNutrients.length} nutrients for ${food.description}`);
+
+  for (const n of food.foodNutrients) {
+    // Handle both response formats: direct properties and nested nutrient object
+    const name = (n.nutrientName || n.nutrient?.name || '').toLowerCase();
+    const nutrientNumber = n.nutrientNumber || n.nutrient?.number;
+    const value = n.value || n.amount;
+    const unit = (n.unitName || n.nutrient?.unitName || '').toLowerCase();
+
+    // Energy/Calories (nutrient 208)
+    if ((name.includes('energy') || nutrientNumber === '208' || nutrientNumber === 208) && (unit === 'kcal' || unit === 'KCAL')) {
+      nutrition.calories = value;
+      console.log('Found calories:', value);
+    }
+    // Protein (nutrient 203)
+    if ((name.includes('protein') || nutrientNumber === '203' || nutrientNumber === 203) && unit === 'g') {
+      nutrition.protein = value;
+      console.log('Found protein:', value);
+    }
+    // Fat (nutrient 204)
+    if ((name === 'total lipid (fat)' || name.includes('fat') || nutrientNumber === '204' || nutrientNumber === 204) && unit === 'g') {
+      nutrition.fat = value;
+      console.log('Found fat:', value);
+    }
+    // Carbs (nutrient 205)
+    if ((name.includes('carbohydrate') || name === 'carbohydrate, by difference' || nutrientNumber === '205' || nutrientNumber === 205) && unit === 'g') {
+      nutrition.carbs = value;
+      console.log('Found carbs:', value);
+    }
+  }
+
+  console.log('Final nutrition:', nutrition);
+  return nutrition;
+};
+
+// Helper to map USDA food to SearchProduct
+const mapFdcFoodToSearchProduct = (food: any): SearchProduct => {
+  return {
+    fdcId: food.fdcId,
+    description: food.description,
+    brandOwner: food.brandOwner,
+    gtinUpc: food.gtinUpc,
+    image_url: undefined,
+    nutriments: mapFdcNutrientsToNutritionInfo(food),
+  };
+};
+
+const fetchFdcFoodDetails = async (fdcId: number): Promise<SearchProduct | null> => {
+  try {
+    const url = `${FDC_BASE_URL}/food/${fdcId}?api_key=${USDA_API_KEY}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Network response was not ok');
+    const fullFood = await response.json();
+    console.log(`USDA detail for fdcId ${fdcId} nutrients:`, fullFood.foodNutrients?.slice(0, 10));
+    return mapFdcFoodToSearchProduct(fullFood);
+  } catch (e) {
+    console.error('USDA detail fetch error', e);
+    return null;
+  }
+};
+
 export const BarcodeScannerModal: React.FC<BarcodeScannerModalPropsFixed> = ({ visible, onClose, onScanned }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
@@ -23,7 +95,6 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalPropsFixed> = ({ v
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
-  const OPENFOODFACTS_API_URL = 'https://world.openfoodfacts.org';
 
   useEffect(() => {
     if (visible && !permission?.granted) {
@@ -37,7 +108,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalPropsFixed> = ({ v
     }
   }, [visible, permission, requestPermission]);
 
-  // Debounced search with Open Food Facts API
+  // Debounced search with USDA FoodData Central API (using /foods/search)
   useEffect(() => {
     if (!search.trim()) {
       setSearchResults([]);
@@ -52,17 +123,28 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalPropsFixed> = ({ v
     }
     searchTimeout.current = setTimeout(async () => {
       try {
-        const url = `${OPENFOODFACTS_API_URL}/cgi/search.pl?search_terms=${encodeURIComponent(search)}&search_simple=1&action=process&json=1&page_size=10`;
+        const url = `${FDC_BASE_URL}/foods/search?query=${encodeURIComponent(search)}&pageSize=10&dataType=Branded,Survey (FNDDS)&api_key=${USDA_API_KEY}`;
         const response = await fetch(url);
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
-        if (data.products && Array.isArray(data.products)) {
-          setSearchResults(data.products);
+        console.log('USDA search result (first item)', JSON.stringify(data.foods?.[0], null, 2));
+        if (data.foods && Array.isArray(data.foods)) {
+          // Fetch detailed info for each result
+          const detailedPromises = data.foods.slice(0, 10).map(async (food: any) => {
+            if (food.fdcId) {
+              const detailed = await fetchFdcFoodDetails(food.fdcId);
+              return detailed || mapFdcFoodToSearchProduct(food);
+            }
+            return mapFdcFoodToSearchProduct(food);
+          });
+          const mapped = await Promise.all(detailedPromises);
+          setSearchResults(mapped.filter(Boolean) as SearchProduct[]);
         } else {
           setSearchResults([]);
         }
         setSearchLoading(false);
       } catch (error) {
+        console.error('USDA search error', error);
         setSearchError('Failed to fetch products. Please try again.');
         setSearchLoading(false);
       }
@@ -74,30 +156,66 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalPropsFixed> = ({ v
     };
   }, [search]);
 
-  // Barcode scan handler using Open Food Facts
+  // Barcode scan handler using USDA FoodData Central
   const handleBarcodeScanned = async (result: BarcodeScanningResult) => {
     setScanned(true);
+    const barcode = String(result.data);
     try {
-      const url = `${OPENFOODFACTS_API_URL}/api/v0/product/${result.data}.json`;
+      const url = `${FDC_BASE_URL}/foods/search?query=${encodeURIComponent(barcode)}&pageSize=1&dataType=Branded&api_key=${USDA_API_KEY}`;
       const response = await fetch(url);
+      if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
-      if (data.status === 1 && data.product) {
-        onScanned(data.product);
+      console.log('USDA barcode search result', JSON.stringify(data.foods?.[0], null, 2));
+      if (data.foods && data.foods.length > 0) {
+        const basicFood = data.foods[0];
+        console.log('basicFood.fdcId:', basicFood.fdcId);
+        let product = mapFdcFoodToSearchProduct(basicFood);
+        console.log('product before detail fetch:', product);
+        if (basicFood.fdcId) {
+          const detailed = await fetchFdcFoodDetails(basicFood.fdcId);
+          console.log('detailed product:', detailed);
+          if (detailed) product = detailed;
+        }
+        console.log('final product sent to onScanned:', product);
+        onScanned(product);
       } else {
-        onScanned({ code: result.data, product_name: '', brands: '', image_url: '' }); // fallback
+        // Fallback: minimal product with barcode only
+        onScanned({
+          fdcId: 0,
+          description: '',
+          brandOwner: '',
+          gtinUpc: barcode,
+          image_url: undefined,
+          nutriments: {},
+        });
       }
-    } catch {
-      onScanned({ code: result.data, product_name: '', brands: '', image_url: '' });
+    } catch (e) {
+      console.error('USDA barcode search error', e);
+      onScanned({
+        fdcId: 0,
+        description: '',
+        brandOwner: '',
+        gtinUpc: barcode,
+        image_url: undefined,
+        nutriments: {},
+      });
     }
   };
 
   // Product select handler
-  const handleProductSelect = (product: SearchProduct) => {
+  const handleProductSelect = async (product: SearchProduct) => {
     setScanned(true);
     setSearch('');
     setSearchResults([]);
     Keyboard.dismiss();
-    onScanned(product);
+
+    let finalProduct = product;
+    if (product.fdcId) {
+      const detailed = await fetchFdcFoodDetails(product.fdcId);
+      if (detailed) finalProduct = detailed;
+    }
+
+    onScanned(finalProduct);
   };
 
   if (!permission) {
@@ -192,7 +310,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalPropsFixed> = ({ v
             )}
             <FlatList
               data={searchResults}
-              keyExtractor={(item) => String(item.code)}
+              keyExtractor={(item) => String(item.fdcId || item.gtinUpc || Math.random())}
               renderItem={({ item }) => (
                 <Pressable
                   style={[styles.resultRow, { backgroundColor: Colors[colorScheme].background }]}
@@ -210,10 +328,10 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalPropsFixed> = ({ v
                   )}
                   <View style={{ flex: 1 }}>
                     <ThemedText style={styles.resultTitle} numberOfLines={1}>
-                      {item.product_name}
+                      {item.description}
                     </ThemedText>
                     <ThemedText style={styles.resultBrand} numberOfLines={1}>
-                      {item.brands}
+                      {item.brandOwner}
                     </ThemedText>
                   </View>
                 </Pressable>
